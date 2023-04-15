@@ -1,17 +1,30 @@
 import axios, { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
-const VenueEntryForm = () => {
-  const [venues, setVenues] = useState([])
+interface Props {
+  handleSelect: (event: any) => void,
+  value: number | string;
+}
+
+const VenueEntryForm = (props: Props) => {
+  const [venuesSelectOptions, setVenuesSelectOptions] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [err, setErr] = useState<any>({})
 
   const getVenues = () => {
     axios.get('http://localhost:3345/venues')
       .then(function (response) {
         if (response.data.length) {
-          setVenues(response.data)
+          const options = response.data.map((venue: Record<string, any>) => (
+          <option key={venue.venue_id} value={venue.venue_id}>
+            {venue.venue_name}
+          </option>)
+          )
+
+          setVenuesSelectOptions(options)
         }
       })
       .catch(function (err) {
@@ -20,19 +33,9 @@ const VenueEntryForm = () => {
       })
   }
 
-  useEffect(() => getVenues(), [])
+  getVenues()
 
-  const venuesList = venues.map((venue: Record<string, any>) => (
-    <option key={venue.venue_id} value={venue.venue_id}>
-      {venue.venue_name}
-    </option>)
-  )
-
-  const [show, setShow] = useState(false)
-
-  const handleShow = () => setShow(true)
-
-  const [venueInfo, setVenueInfo] = useState({
+  const [newVenueInfo, setNewVenueInfo] = useState({
     venueName: '',
     venueCapacity: 0,
     venueCity: '',
@@ -40,26 +43,24 @@ const VenueEntryForm = () => {
   })
 
   const handleChange = (event: any) => {
-    setVenueInfo(prevVenueInfo => {
+    setNewVenueInfo(prevNewVenueInfo => {
       return {
-        ...prevVenueInfo,
+        ...prevNewVenueInfo,
         [event.target.name]: event.target.value
       }
     })
   }
 
-  const [err, setErr] = useState<any>({})
-
-  const handleClose = () => {
-    setShow(false)
+  const handleCloseModal = () => {
+    setShowModal(false)
     setErr({})
   }
 
-  const handleClick = (event: any) => {
+  const handleAddNewVenue = (event: any) => {
     event.preventDefault()
-    axios.post('http://localhost:3345/venues', { ...venueInfo })
+    axios.post('http://localhost:3345/venues', { ...newVenueInfo })
       .then(data => {
-        setShow(false)
+        setShowModal(false)
         getVenues()
       })
       .catch((err: AxiosError) => setErr(err))
@@ -67,22 +68,22 @@ const VenueEntryForm = () => {
 
   return (
       <>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" value={props.value} onChange={props.handleSelect}>
           <option>Choose a venue</option>
-            {venuesList.length ? venuesList : null}
+            {venuesSelectOptions}
         </Form.Select>
 
-        <Button variant="primary" onClick={handleShow}>
+        <Button variant="primary" onClick={() => setShowModal(true)}>
         Add new Venue
         </Button>
 
       <Modal
-        show={show}
-        onHide={handleClose}
+        show={showModal}
+        onHide={handleCloseModal}
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton onHide={handleClose}>
+        <Modal.Header closeButton onHide={handleCloseModal}>
           <Modal.Title>Add new Venue</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -104,15 +105,13 @@ const VenueEntryForm = () => {
             <Form.Label>Venue state</Form.Label>
                 <Form.Control type="text" name="venueState" onChange={handleChange} placeholder="Enter venue state" />
             </Form.Group>
-                <Button variant="primary" type="submit" onClick={handleClick}>
+                <Button variant="primary" type="submit" onClick={handleAddNewVenue}>
                   Add new venue
                 </Button>
           </Form>
         </Modal.Body>
       </Modal>
-
       </>
-
   )
 }
 

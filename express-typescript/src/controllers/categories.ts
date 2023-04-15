@@ -15,12 +15,12 @@ export function getCategories (req: Request, res: Response) {
 export function addCategory (req: Request, res: Response) {
   const addCategoryQuery = 'INSERT INTO categories (`category_name`) VALUES (?)'
 
-  if (!req.body.category_name) {
+  if (!req.body.categoryName) {
     return res.status(400).send('Enter a valid category name.')
   }
 
-  database.query(addCategoryQuery, [req.body.category_name], (err, data) => {
-    console.log(req.body.category_name)
+  database.query(addCategoryQuery, [req.body.categoryName], (err, data) => {
+    console.log(req.body.categoryName)
     if (err?.errno === 1062) {
       return res.status(409).send('This category has already been added.')
     }
