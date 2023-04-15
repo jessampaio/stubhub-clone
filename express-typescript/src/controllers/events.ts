@@ -28,9 +28,9 @@ export function addEvent (req: Request, res: Response) {
     req.body.eventName,
     req.body.eventDate,
     req.body.eventTime,
-    req.body.venue_id,
-    req.body.category_id,
-    req.body.ticket_amount
+    req.body.venueId,
+    req.body.categoryId,
+    req.body.ticketAmount
   ]
 
   database.query(addEventQuery, [values], (err, data) => {

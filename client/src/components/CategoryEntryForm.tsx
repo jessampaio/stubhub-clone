@@ -1,17 +1,30 @@
 import axios, { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
-const CategoryEntryForm = (props: any) => {
-  const [categories, setCategories] = useState([])
+interface Props {
+  handleSelect: (event: any) => void;
+  value: number | string;
+}
+
+const CategoryEntryForm = (props: Props) => {
+  const [categoriesSelectOptions, setCategoriesSelectOptions] = useState([])
+  const [categoryName, setCategoryName] = useState('')
+  const [showModal, setShowModal] = useState(false)
+  const [err, setErr] = useState<any>({})
 
   const getCategories = () => {
     axios.get('http://localhost:3345/categories')
       .then(function (response) {
         if (response.data.length) {
-          setCategories(response.data)
+          const options = response.data.map((category: Record<string, any>) => (
+          <option key={category.category_id} value={category.category_id}>
+            {category.category_name}
+          </option>)
+          )
+          setCategoriesSelectOptions(options)
         }
       })
       .catch(function (err) {
@@ -20,63 +33,46 @@ const CategoryEntryForm = (props: any) => {
       })
   }
 
-  useEffect(() => getCategories(), [])
-
-  const defaultCategory = { category_id: null, category_name: 'Select a category' }
-  const dropdownItem = [defaultCategory, ...categories].map((category: Record<string, any>) => (
-
-    <option key={category.category_id} value={category.category_id}>
-      {category.category_name}
-    </option>)
-  )
-
-  const [show, setShow] = useState(false)
-
-  const handleShow = () => setShow(true)
-
-  const [categoryName, setCategoryName] = useState('')
+  getCategories()
 
   const handleChange = (event: any) => {
     setCategoryName(event.target.value)
     console.log(event.target.value)
   }
 
-  const [err, setErr] = useState<any>({})
-
-  const handleClose = () => {
-    setShow(false)
+  const handleCloseModal = () => {
+    setShowModal(false)
     setErr({})
   }
 
-  const handleClick = (event: any) => {
+  const handleAddNewCategory = (event: any) => {
     event.preventDefault()
-    axios.post('http://localhost:3345/categories', { category_name: categoryName })
+    axios.post('http://localhost:3345/categories', { categoryName })
       .then(data => {
-        setShow(false)
+        setShowModal(false)
         getCategories()
       })
       .catch((err: AxiosError) => setErr(err))
   }
 
-  console.log('DROP: ', dropdownItem, categories)
-
   return (
       <>
-        <Form.Select aria-label="Select a category" onChange={props.handleSelect}>
-            {dropdownItem.length ? dropdownItem : null}
+        <Form.Select aria-label="Select a category" value={props.value} onChange={props.handleSelect}>
+            <option>Choose a category</option>
+            {categoriesSelectOptions}
         </Form.Select>
 
-        <Button variant="primary" onClick={handleShow}>
+        <Button variant="primary" onClick={() => setShowModal(true)}>
         Add new Category
         </Button>
 
       <Modal
-        show={show}
-        onHide={handleClose}
+        show={showModal}
+        onHide={handleCloseModal}
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton onHide={handleClose}>
+        <Modal.Header closeButton onHide={handleCloseModal}>
           <Modal.Title>Add new category</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -86,15 +82,13 @@ const CategoryEntryForm = (props: any) => {
                 <Form.Control type="text" name="newCategory" onChange={handleChange} placeholder="Enter category name" />
                   {err.response && <span>{err.response.data}</span>}
             </Form.Group>
-                <Button variant="primary" type="submit" onClick={handleClick}>
+                <Button variant="primary" type="submit" onClick={handleAddNewCategory}>
                   Add new category
                 </Button>
           </Form>
         </Modal.Body>
       </Modal>
-
       </>
-
   )
 }
 
