@@ -20,7 +20,13 @@ export function addVenue (req: Request, res: Response) {
     venueState: state
   } = req.body
 
-  const checkDuplicateQuery = 'SELECT `venue_name`, `venue_city`, `venue_state` FROM venues WHERE `venue_name` = ? AND `venue_city` = ? AND `venue_state` = ?'
+  const checkDuplicateQuery = `SELECT venue_name, 
+    venue_city, 
+    venue_state 
+    FROM venues 
+    WHERE venue_name = ? 
+    AND venue_city = ? 
+    AND venue_state = ?`
 
   // CREATE A COMPOSITE INDEX IN THE DATABASE
 
