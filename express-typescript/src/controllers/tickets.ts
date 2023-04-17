@@ -7,13 +7,13 @@ export function getTicketsRemaining(req: Request, res: Response) {
   FROM tickets t
   JOIN events e
   ON t.event_id = e.event_id 
-  WHERE t.event_id = ? AND e.event_id = ?
+  WHERE t.event_id = ?
   HAVING tickets_remaining > 0`
 
-  database.query(getTicketsRemainingQuery, [req.body.eventId, req.body.eventId], (err, data: any) => {
+  database.query(getTicketsRemainingQuery, [req.body.eventId], (err, data: any) => {
     if (data) {
       console.log(data[0].tickets_remaining)
-      return res.send(data)
+      return res.send(data[0].tickets_remaining)
     }
     if (err) {
       console.log(err)
