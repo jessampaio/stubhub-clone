@@ -16,31 +16,41 @@ export function getPricedTickets(req: Request, res: Response) {
 
 export function createTicket (req: Request, res: Response) {
 
-    // Need to write a query to first check if amount of tickets have already been priced.
-    
-    
-  const createTicketQuery = `INSERT INTO tickets (
-      ticket_price, 
-      event_id, 
-      ticket_tier,
-      ticket_quantity
-    ) VALUES (?)`
+    const selectTicketAmountQuery = `SELECT ticket_amount, 
+    FROM events e, tickets t
+    WHERE e.event_id = t.event_id`
 
-  const values = [
-    req.body.ticket_price,
-    req.body.event_id,
-    req.body.ticket_tier,
-    req.body.ticket_quantity,
-  ]
-
-  database.query(createTicketQuery, [values], (err, data) => {
-    if (err != null) {
-      console.log(err)
-      return res.status(500).json(err)
-    }
-    return res.status(200).send('Ticket has been added successfully.')
-  })
+    database.query(selectTicketAmountQuery, [req.body.eventId, req.body.eventId], (err, data) => {
+        if (err) {
+            console.log(err)
+        }
+        if (data) {
+            res.send(data)
+        }
+    })
 }
+//   const createTicketQuery = `INSERT INTO tickets (
+//       ticket_price, 
+//       event_id, 
+//       ticket_tier,
+//       ticket_quantity
+//     ) VALUES (?)`
+
+//   const values = [
+//     req.body.ticket_price,
+//     req.body.event_id,
+//     req.body.ticket_tier,
+//     req.body.ticket_quantity,
+//   ]
+
+//   database.query(createTicketQuery, [values], (err, data) => {
+//     if (err != null) {
+//       console.log(err)
+//       return res.status(500).json(err)
+//     }
+//     return res.status(200).send('Ticket has been added successfully.')
+//   })
+// }
 
 export function getTicket (req: Request, res: Response) {
   const getTicketQuery = `SELECT * FROM events WHERE event_id = ?`
