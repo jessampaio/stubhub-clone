@@ -4,8 +4,10 @@ import { type Request, type Response } from 'express'
 export function getTicketsRemaining(req: Request, res: Response) {
 
   const getTicketsRemainingQuery = `SELECT MAX(ticket_amount) - SUM(ticket_quantity) as tickets_remaining
-  FROM tickets t, events e
-  WHERE t.event_id = e.event_id
+  FROM tickets t
+  JOIN events e
+  ON t.event_id = e.event_id 
+  WHERE t.event_id = ? AND e.event_id = ?
   HAVING tickets_remaining > 0`
 
   database.query(getTicketsRemainingQuery, [req.body.eventId, req.body.eventId], (err, data: any) => {
