@@ -1,39 +1,44 @@
 import database from '../database'
 import { type Request, type Response } from 'express'
 
-export function getPricedTickets(req: Request, res: Response) {
-  const getPricedTicketsQuery = `SELECT * FROM tickets`
+export function getTicketsRemaining(req: Request, res: Response) {
 
-  database.query(getPricedTicketsQuery, (err, data: any) => {
-    if (err != null) {
-      return res.status(500).json(err)
-    }
+  const getTicketsRemainingQuery = `SELECT MAX(ticket_amount) - SUM(ticket_quantity) as tickets_remaining
+  FROM tickets t
+  JOIN events e
+  ON t.event_id = e.event_id 
+  WHERE t.event_id = ?
+  HAVING tickets_remaining > 0`
+
+  database.query(getTicketsRemainingQuery, [req.body.eventId], (err, data: any) => {
     if (data) {
-      return res.send(data)
+      console.log(data[0].tickets_remaining)
+      return res.send(data[0].tickets_remaining)
+    }
+    if (err) {
+      console.log(err)
+      return res.send(err)
     }
   })
 }
 
 export function createTicket (req: Request, res: Response) {
 
-    // Need to write a query to first check if amount of tickets have already been priced.
-    
-    
   const createTicketQuery = `INSERT INTO tickets (
       ticket_price, 
       event_id, 
       ticket_tier,
       ticket_quantity
-    ) VALUES (?)`
+      ) VALUES (?)`
 
   const values = [
-    req.body.ticket_price,
-    req.body.event_id,
-    req.body.ticket_tier,
-    req.body.ticket_quantity,
+    req.body.ticketPrice,
+    req.body.eventId,
+    req.body.ticketTier,
+    req.body.ticketQuantity,
   ]
-
-  database.query(createTicketQuery, [values], (err, data) => {
+  
+  database.query(createTicketQuery, [values], (err: any, data: any) => {
     if (err != null) {
       console.log(err)
       return res.status(500).json(err)
@@ -42,10 +47,13 @@ export function createTicket (req: Request, res: Response) {
   })
 }
 
-export function getTicket (req: Request, res: Response) {
-  const getTicketQuery = `SELECT * FROM events WHERE event_id = ?`
+export function getTieredTickets (req: Request, res: Response) {
+  const getTieredTicketQuery = `SELECT * FROM tickets WHERE ticket_tier = ?`
 
-  database.query(getTicketQuery, (err, data: any) => {
+  database.query(getTieredTicketQuery, req.body.ticketTier, (err, data: any) => {
+    if (data) {
+      res.send(data)
+    }
     if (data.length === 0) {
       return res.status(200).send('No ticket has been added yet.')
     }
@@ -57,24 +65,19 @@ export function getTicket (req: Request, res: Response) {
 
 export function updateTicket (req: Request, res: Response) {
   const updateTicketQuery = `UPDATE tickets
-    SET event_name = ?, 
-    event_date = ?, 
-    event_time = ?, 
-    venue_id = ?, 
-    category_id = ? 
-    ticket_amount = ? 
-    WHERE event_id = ?`
+    SET ticket_quantity = ?, 
+    ticket_tier = ?,
+    ticket_price = ?
+    WHERE ticket_id = ?`
 
-  const values = [
-    req.body.event_name,
-    req.body.event_date,
-    req.body.event_time,
-    req.body.venue_id,
-    req.body.category_id,
-    req.body.ticket_amount
-  ]
+    const values = [
+      req.body.ticketQuantity,
+      req.body.ticketTier,
+      req.body.ticketPrice,
+      req.body.ticketId
+    ]
 
-  database.query(updateTicketQuery, [values], (err, data: any) => {
+  database.query(updateTicketQuery, values, (err, data: any) => {
     if (err != null) {
       return res.json(err)
     }
@@ -89,7 +92,9 @@ export function updateTicket (req: Request, res: Response) {
 export function deleteTicket (req: Request, res: Response) {
   const deleteTicketQuery = `DELETE FROM tickets WHERE ticket_id = ?`
 
+  console.log([req.params.id])
   database.query(deleteTicketQuery, [req.params.id], (err, data) => {
+    console.log(data)
     if (err != null) {
       console.log(err)
       return res.json(err)
