@@ -1,28 +1,20 @@
 import axios, { AxiosError } from 'axios'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import CategoryEntryForm from './CategoryEntryForm'
 import VenueEntryForm from './VenueEntryForm'
 import Col from 'react-bootstrap/Col'
 import Toast from 'react-bootstrap/Toast'
-
-const INITIAL_STATE = {
-  eventName: '',
-  eventDate: '',
-  eventTime: '',
-  ticketAmount: 0,
-  categoryId: '',
-  venueId: ''
-}
+import EventContext from '../contexts/eventContext'
 
 const AddEventForm = () => {
   const [showA, setShowA] = useState<boolean>(false)
-  const [eventInfo, setEventInfo] = useState<Record<string, any>>(INITIAL_STATE)
   const [err, setErr] = useState<any>({})
+  const { eventInfo, setEventInfo, resetEventInfo } = useContext(EventContext)
 
   const handleChange = (event: any) => {
-    setEventInfo(prevEventInfo => {
+    setEventInfo((prevEventInfo: any) => {
       return {
         ...prevEventInfo,
         [event.target.name]: event.target.value
@@ -36,14 +28,14 @@ const AddEventForm = () => {
       .then(data => {
         if (data) {
           setShowA(true)
-          setEventInfo({ ...INITIAL_STATE })
+          resetEventInfo()
         }
       })
       .catch((err: AxiosError) => setErr(err))
   }
 
   const handleSelect = (event: any, stateKey: string) => {
-    setEventInfo((prevEvent) => ({
+    setEventInfo((prevEvent: any) => ({
       ...prevEvent,
       [stateKey]: event.target.value
     }))

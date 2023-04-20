@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -33,7 +33,9 @@ const CategoryEntryForm = (props: Props) => {
       })
   }
 
-  getCategories()
+  useEffect(() => {
+    getCategories()
+  })
 
   const handleChange = (event: any) => {
     setCategoryName(event.target.value)
