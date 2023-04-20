@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 interface EventContextType {
     eventInfo: Record<string, any>;
@@ -8,4 +8,4 @@ interface EventContextType {
 
 const EventContext = React.createContext<EventContextType>({} as EventContextType)
 
-export default EventContext;
+export default EventContext

@@ -1,6 +1,8 @@
+import { useState } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import CreateEventPage from './pages/CreateEventPage'
 import EventContext from './contexts/eventContext'
-import { useState } from 'react'
+import CreateTicketPage from './pages/CreateTicketPage'
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -19,8 +21,13 @@ export default function App (): any {
   }
 
   return (
-    <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
-      <CreateEventPage />
-    </EventContext.Provider>
+        <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
+    <BrowserRouter>
+    <Routes>
+          <Route path="/createEvent" element={<CreateEventPage />} />
+          <Route path="/createTicket" element={<CreateTicketPage />} />
+    </Routes>
+    </BrowserRouter>
+        </EventContext.Provider>
   )
 }

@@ -1,9 +1,11 @@
-// import CreateTicketForm from '../components/CreateTicketForm'
+import CreateTicketForm from '../components/CreateTicketForm'
 
-// const CreateTicketPage = () => {
-//   return (
-//         <>
-//             <CreateTicketForm />
-//         </>
-//   )
-// }
+const CreateTicketPage = () => {
+  return (
+        <>
+            <CreateTicketForm />
+        </>
+  )
+}
+
+export default CreateTicketPage
