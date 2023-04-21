@@ -1,19 +1,14 @@
 import database from '../database'
 import { type Request, type Response } from 'express'
 
-export function getTicketsRemaining(req: Request, res: Response) {
+export function getTickets(req: Request, res: Response) {
 
-  const getTicketsRemainingQuery = `SELECT MAX(ticket_amount) - SUM(ticket_quantity) as tickets_remaining
-  FROM tickets t
-  JOIN events e
-  ON t.event_id = e.event_id 
-  WHERE t.event_id = ?
-  HAVING tickets_remaining > 0`
+  const getTicketsQuery = `SELECT * FROM tickets`
 
-  database.query(getTicketsRemainingQuery, [req.body.eventId], (err, data: any) => {
+  database.query(getTicketsQuery, (err, data: any) => {
     if (data) {
-      console.log(data[0].tickets_remaining)
-      return res.send(data[0].tickets_remaining)
+      console.log(data)
+      return res.send(data)
     }
     if (err) {
       console.log(err)
@@ -33,7 +28,7 @@ export function createTicket (req: Request, res: Response) {
 
   const values = [
     req.body.ticketPrice,
-    req.body.eventId,
+    req.body.eventSelected,
     req.body.ticketTier,
     req.body.ticketQuantity,
   ]

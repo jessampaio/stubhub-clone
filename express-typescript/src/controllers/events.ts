@@ -43,11 +43,23 @@ export function addEvent (req: Request, res: Response) {
 }
 
 export function getEvent (req: Request, res: Response) {
-  const getEventQuery = `SELECT * FROM events WHERE event_id = ?`
+  const getEventQuery = `SELECT *,
+	(	SELECT MAX(ticket_amount) - SUM(ticket_quantity) as tickets_remaining
+	  FROM tickets
+	  JOIN events
+		USING (event_id) 
+	  HAVING tickets_remaining > 0) as tickets_remaining
+  FROM events
+  WHERE event_id = ?`
 
-  database.query(getEventQuery, (err, data: any) => {
+  database.query(getEventQuery, [req.params.id], (err, data: any) => {
+    
     if (data.length === 0) {
       return res.status(200).send('No event has been added yet.')
+    }
+    if (data) {
+      console.log(data)
+      return res.send(data)
     }
     if (err != null) {
       return res.status(500).json(err)
