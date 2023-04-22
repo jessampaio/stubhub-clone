@@ -3,8 +3,6 @@ import { getCategories, getCategory, addCategory, updateCategory, deleteCategory
 
 const router = Router()
 
-// add is admin middleware before routes
-
 router.get('/categories', getCategories)
 router.post('/categories', addCategory)
 router.get('/category/:id', getCategory)

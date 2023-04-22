@@ -34,7 +34,7 @@ const AddEventForm = () => {
       .catch((err: AxiosError) => setErr(err))
   }
 
-  const handleSelect = (event: any, stateKey: string) => {
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>, stateKey: string) => {
     setEventInfo((prevEvent: any) => ({
       ...prevEvent,
       [stateKey]: event.target.value
@@ -43,20 +43,20 @@ const AddEventForm = () => {
 
   return (
       <>
-            <Col md={6} className="mb-2">
-              <Toast show={showA} onClose={() => setShowA(false)}>
-                <Toast.Header>
-                <img
-                src="holder.js/20x20?text=%20"
-                className="rounded me-2"
-                alt=""
-                />
-                <strong className="me-auto">Success!</strong>
-                </Toast.Header>
-                <Toast.Body>Event has been added succesfully.</Toast.Body>
-              </Toast>
-            </Col>
-        <CategoryEntryForm value={eventInfo.categoryId} handleSelect={(e: any) => handleSelect(e, 'categoryId')}/>
+        <Col md={6} className="mb-2">
+          <Toast show={showA} onClose={() => setShowA(false)}>
+            <Toast.Header>
+            <img
+            src="holder.js/20x20?text=%20"
+            className="rounded me-2"
+            alt=""
+            />
+            <strong className="me-auto">Success!</strong>
+            </Toast.Header>
+            <Toast.Body>Event has been added succesfully.</Toast.Body>
+          </Toast>
+        </Col>
+        <CategoryEntryForm value={eventInfo.categoryId} handleSelect={(e: React.ChangeEvent<HTMLSelectElement>) => handleSelect(e, 'categoryId')}/>
         <VenueEntryForm value={eventInfo.venueId} handleSelect={(e: any) => handleSelect(e, 'venueId')} />
           <Form>
             <Form.Group className="mb-3" controlId="eventName">

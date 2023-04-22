@@ -2,7 +2,7 @@ import database from '../database'
 import { type Request, type Response } from 'express'
 
 export function getVenues (req: Request, res: Response) {
-  const getVenuesQuery = 'SELECT * FROM venues'
+  const getVenuesQuery = `SELECT * FROM venues`
 
   database.query(getVenuesQuery, (err, data: any) => {
     if (err != null) {
@@ -28,20 +28,17 @@ export function addVenue (req: Request, res: Response) {
     AND venue_city = ? 
     AND venue_state = ?`
 
-  // CREATE A COMPOSITE INDEX IN THE DATABASE
-
   database.query(checkDuplicateQuery, [name, city, state], (err, data: any) => {
     if (data.length) {
       return res.status(409).send('This venue has already been added.')
     }
 
-    const addVenueQuery = 'INSERT INTO venues (`venue_name`, `venue_capacity`, `venue_city`, `venue_state`) VALUES (?)'
+    const addVenueQuery = `INSERT INTO venues (venue_name, venue_capacity, venue_city, venue_state) VALUES (?)`
 
     const values = [name, capacity, city, state]
 
     database.query(addVenueQuery, [values], (err, data) => {
       if (err != null) {
-        console.log(err)
         return res.status(500).json(err)
       }
       return res.status(200).send('Venue has been added successfully.')
@@ -50,7 +47,7 @@ export function addVenue (req: Request, res: Response) {
 }
 
 export function getVenue (req: Request, res: Response) {
-  const getVenueQuery = 'SELECT * FROM venues WHERE venue_id = ?'
+  const getVenueQuery = `SELECT * FROM venues WHERE venue_id = ?`
 
   database.query(getVenueQuery, [req.params.id], (err, data: any) => {
     if (data.length === 0) {
@@ -64,7 +61,7 @@ export function getVenue (req: Request, res: Response) {
 }
 
 export function updateVenue (req: Request, res: Response) {
-  const updateVenueQuery = 'UPDATE venues SET `venue_name` = ?, `vanue_capacity` = ?, `venue_city` = ?, `venue_state` = ? WHERE venue_id = ?'
+  const updateVenueQuery = `UPDATE venues SET venue_name = ?, venue_capacity = ?, venue_city = ?, venue_state = ? WHERE venue_id = ?`
 
   const values = [
     req.body.venue_name,
@@ -78,7 +75,6 @@ export function updateVenue (req: Request, res: Response) {
       return res.json(err)
     }
     if (data.affectedRows === 0) {
-      console.log(data)
       return res.status(404).send("This venue doesn't exist.")
     }
     return res.send('Venue has been updated succesfully.')
@@ -86,11 +82,10 @@ export function updateVenue (req: Request, res: Response) {
 }
 
 export function deleteVenue (req: Request, res: Response) {
-  const deleteVenueQuery = 'DELETE FROM venues WHERE venue_id = ?'
+  const deleteVenueQuery = `DELETE FROM venues WHERE venue_id = ?`
 
   database.query(deleteVenueQuery, [req.params.id], (err, data) => {
     if (err != null) {
-      console.log(err)
       return res.json(err)
     }
     return res.send('Venue has been deleted successfully.')
