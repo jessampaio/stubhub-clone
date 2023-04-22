@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config() // eslint-disable-line
 import cors from 'cors'
-import express, { type Request, type Response, NextFunction } from 'express'
+import express, { type Request, type Response } from 'express'
 import userRoutes from './routes/user'
 import eventRoutes from './routes/event'
 import categoryRoutes from './routes/category'

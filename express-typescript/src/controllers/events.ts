@@ -34,8 +34,7 @@ export function addEvent (req: Request, res: Response) {
   ]
 
   database.query(addEventQuery, [values], (err, data) => {
-    if (err != null) {
-      console.log(err)
+    if (err != null) { 
       return res.status(500).json(err)
     }
     return res.status(200).send('Event has been added successfully.')
@@ -58,7 +57,6 @@ export function getEvent (req: Request, res: Response) {
       return res.status(200).send('No event has been added yet.')
     }
     if (data) {
-      console.log(data)
       return res.send(data)
     }
     if (err != null) {
@@ -91,7 +89,6 @@ export function updateEvent (req: Request, res: Response) {
       return res.json(err)
     }
     if (data.affectedRows === 0) {
-      console.log(data)
       return res.status(404).send("This event doesn't exist.")
     }
     return res.send('Event has been updated succesfully.')
@@ -103,7 +100,6 @@ export function deleteEvent (req: Request, res: Response) {
 
   database.query(deleteEventQuery, [req.params.id], (err, data) => {
     if (err != null) {
-      console.log(err)
       return res.json(err)
     }
     return res.send('Event has been deleted successfully.')

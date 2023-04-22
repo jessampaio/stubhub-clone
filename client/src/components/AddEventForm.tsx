@@ -34,7 +34,7 @@ const AddEventForm = () => {
       .catch((err: AxiosError) => setErr(err))
   }
 
-  const handleSelect = (event: any, stateKey: string) => {
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>, stateKey: string) => {
     setEventInfo((prevEvent: any) => ({
       ...prevEvent,
       [stateKey]: event.target.value
@@ -56,7 +56,7 @@ const AddEventForm = () => {
             <Toast.Body>Event has been added succesfully.</Toast.Body>
           </Toast>
         </Col>
-        <CategoryEntryForm value={eventInfo.categoryId} handleSelect={(e: any) => handleSelect(e, 'categoryId')}/>
+        <CategoryEntryForm value={eventInfo.categoryId} handleSelect={(e: React.ChangeEvent<HTMLSelectElement>) => handleSelect(e, 'categoryId')}/>
         <VenueEntryForm value={eventInfo.venueId} handleSelect={(e: any) => handleSelect(e, 'venueId')} />
           <Form>
             <Form.Group className="mb-3" controlId="eventName">

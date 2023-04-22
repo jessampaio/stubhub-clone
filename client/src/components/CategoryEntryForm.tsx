@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
 interface Props {
-  handleSelect: (event: any) => void;
+  handleSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   value: number | string;
 }
 

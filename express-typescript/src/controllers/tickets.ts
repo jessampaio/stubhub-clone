@@ -7,11 +7,9 @@ export function getTickets(req: Request, res: Response) {
 
   database.query(getTicketsQuery, (err, data: any) => {
     if (data) {
-      console.log(data)
       return res.send(data)
     }
     if (err) {
-      console.log(err)
       return res.send(err)
     }
   })
@@ -35,7 +33,6 @@ export function createTicket (req: Request, res: Response) {
   
   database.query(createTicketQuery, [values], (err: any, data: any) => {
     if (err != null) {
-      console.log(err)
       return res.status(500).json(err)
     }
     return res.status(200).send('Ticket has been added successfully.')
@@ -72,12 +69,11 @@ export function updateTicket (req: Request, res: Response) {
       req.body.ticketId
     ]
 
-  database.query(updateTicketQuery, values, (err, data: any) => {
+  database.query(updateTicketQuery, [values], (err, data: any) => {
     if (err != null) {
       return res.json(err)
     }
     if (data.affectedRows === 0) {
-      console.log(data)
       return res.status(404).send("This ticket doesn't exist.")
     }
     return res.send('Ticket has been updated succesfully.')
@@ -87,11 +83,8 @@ export function updateTicket (req: Request, res: Response) {
 export function deleteTicket (req: Request, res: Response) {
   const deleteTicketQuery = `DELETE FROM tickets WHERE ticket_id = ?`
 
-  console.log([req.params.id])
   database.query(deleteTicketQuery, [req.params.id], (err, data) => {
-    console.log(data)
     if (err != null) {
-      console.log(err)
       return res.json(err)
     }
     return res.send('Ticket has been deleted successfully.')

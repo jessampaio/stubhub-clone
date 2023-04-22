@@ -47,7 +47,7 @@ const CreateTicketForm = () => {
         }
       })
       .catch(function (err) {
-        console.log('ERROR: ', err)
+        console.log('ERROR getting events: ', err)
         throw err
       })
   }
@@ -78,7 +78,7 @@ const CreateTicketForm = () => {
   }
 
   const handleTicketChange = (event: any) => {
-    setTicket((prevTicket: any) => ({
+    setTicket((prevTicket: Ticket) => ({
       ...prevTicket,
       [event.target.name]: event.target.value
     }))
