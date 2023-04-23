@@ -1,8 +1,9 @@
 import axios, { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
-import Form from 'react-bootstrap/Form'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import React, { useEffect, useState } from 'react'
+import { Select } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 
 interface Props {
   handleSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -59,37 +60,30 @@ const CategoryEntryForm = (props: Props) => {
 
   return (
       <>
-        <Form.Select aria-label="Select a category" value={props.value} onChange={props.handleSelect}>
+        <Select aria-label="Select a category" value={props.value} onChange={props.handleSelect}>
             <option>Choose a category</option>
             {categoriesSelectOptions}
-        </Form.Select>
+        </Select>
+        <Button onClick={() => setShowModal(true)}>Add Category</Button>
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add new category</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl>
+                <FormLabel>Category Name</FormLabel>
+                  <Input type="text" name="newCategory" onChange={handleChange} placeholder="Enter category name" />
+                    {err.response && <span>{err.response.data}</span>}
+                  <Button type="submit" onClick={handleAddNewCategory}>
+                    Add new category
+                  </Button>
+            </FormControl>
+          </ModalBody>
+          </ModalContent>
+          </Modal>
 
-        <Button variant="primary" onClick={() => setShowModal(true)}>
-        Add new Category
-        </Button>
 
-      <Modal
-        show={showModal}
-        onHide={handleCloseModal}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton onHide={handleCloseModal}>
-          <Modal.Title>Add new category</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="categoryName">
-              <Form.Label>Category Name</Form.Label>
-                <Form.Control type="text" name="newCategory" onChange={handleChange} placeholder="Enter category name" />
-                  {err.response && <span>{err.response.data}</span>}
-            </Form.Group>
-                <Button variant="primary" type="submit" onClick={handleAddNewCategory}>
-                  Add new category
-                </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
       </>
   )
 }
