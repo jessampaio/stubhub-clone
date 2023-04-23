@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import CreateEventPage from './pages/CreateEventPage'
 import EventContext from './contexts/eventContext'
 import CreateTicketPage from './pages/CreateTicketPage'
+import { Grid, GridItem } from '@chakra-ui/react'
+
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -23,10 +25,18 @@ export default function App (): any {
   return (
         <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
     <BrowserRouter>
-    <Routes>
-          <Route path="/createEvent" element={<CreateEventPage />} />
-          <Route path="/createTicket" element={<CreateTicketPage />} />
-    </Routes>
+      <Grid templateAreas={{
+        base: `"nav"
+              "main"`
+        }}>
+        <GridItem area="nav" style={{height:'100px'}}>Hello, admin. </GridItem>
+        <GridItem area="main">
+          <Routes>
+            <Route path="/createEvent" element={<CreateEventPage />} />
+            <Route path="/createTicket" element={<CreateTicketPage />} />
+          </Routes>
+        </GridItem>
+      </Grid>
     </BrowserRouter>
         </EventContext.Provider>
   )

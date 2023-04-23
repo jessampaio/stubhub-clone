@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Col from 'react-bootstrap/Col'
-import Toast from 'react-bootstrap/Toast'
+import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
+import { Select } from '@chakra-ui/react'
 
 interface Event {
   event_date: string;
@@ -27,7 +27,7 @@ const INITIAL_TICKET_STATE = {
 }
 
 const CreateTicketForm = () => {
-  const [showToast, setShowToast] = useState<boolean>(false)
+  const toast = useToast()
   const [eventSelectOptions, setEventSelectOptions] = useState<any>([])
   const [eventSelected, setEventSelected] = useState('')
   const [ticket, setTicket] = useState<Ticket>(INITIAL_TICKET_STATE)
@@ -84,12 +84,22 @@ const CreateTicketForm = () => {
     }))
   }
 
+  const showToast = () => {
+    toast({
+      title: 'Ticket created.',
+      description: "Ticket has been created succesfully",
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
+  }
+
   const handleCreateTicket = (event: any) => {
     event.preventDefault()
     axios.post('http://localhost:3345/tickets', { eventSelected, ...ticket })
       .then(function (response) {
         if (response.data) {
-          setShowToast(true)
+          showToast()
           setEventSelected('')
           setTicket(INITIAL_TICKET_STATE)
           setTicketsRemaining('')
@@ -105,41 +115,22 @@ const CreateTicketForm = () => {
 
   return (
         <>
-          <Col md={6} className="mb-2">
-            <Toast show={showToast} onClose={() => setShowToast(false)}>
-              <Toast.Header>
-              <img
-              src="holder.js/20x20?text=%20"
-              className="rounded me-2"
-              alt=""
-              />
-              <strong className="me-auto">Success!</strong>
-              </Toast.Header>
-                  <Toast.Body>Ticket has been priced succesfully.</Toast.Body>
-            </Toast>
-          </Col>
-          <Form.Select aria-label="Select Event" value={eventSelected} onChange={handleSelectEvent}>
+          <Select aria-label="Select Event" value={eventSelected} onChange={handleSelectEvent}>
             <option>Choose an event</option>
                   {eventSelectOptions}
-          </Form.Select>
+          </Select>
           {ticketsRemaining && <span>Number of tickets to be priced: {ticketsRemaining}</span>}
-          <Form>
-            <Form.Group className="mb-3" controlId="ticketTier">
-              <Form.Label>Ticket Tier</Form.Label>
-                <Form.Control type="text" name="ticketTier" value={ticket.ticketTier} onChange={handleTicketChange} placeholder="Enter ticket tier" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="ticketPrice">
-            <Form.Label>Ticket Price</Form.Label>
-                <Form.Control type="text" name="ticketPrice" value={ticket.ticketPrice} onChange={handleTicketChange} placeholder="Enter ticket price" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="ticketQuantity">
-            <Form.Label>Ticket Quantity</Form.Label>
-                <Form.Control type="text" name="ticketQuantity" value={ticket.ticketQuantity} onChange={handleTicketChange} placeholder="Enter ticket quantity" />
-            </Form.Group>
-                <Button variant="primary" type="submit" onClick={handleCreateTicket}>
+          <FormControl>
+              <FormLabel>Ticket Tier</FormLabel>
+                <Input type="text" name="ticketTier" value={ticket.ticketTier} onChange={handleTicketChange} placeholder="Enter ticket tier" />
+            <FormLabel>Ticket Price</FormLabel>
+                <Input type="text" name="ticketPrice" value={ticket.ticketPrice} onChange={handleTicketChange} placeholder="Enter ticket price" />
+            <FormLabel>Ticket Quantity</FormLabel>
+                <Input type="text" name="ticketQuantity" value={ticket.ticketQuantity} onChange={handleTicketChange} placeholder="Enter ticket quantity" />  
+                <Button type="submit" onClick={handleCreateTicket}>
                   Add tickets
                 </Button>
-          </Form>
+          </FormControl>
         </>
   )
 }

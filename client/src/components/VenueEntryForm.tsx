@@ -1,8 +1,9 @@
 import axios, { AxiosError } from 'axios'
 import { useState } from 'react'
-import Form from 'react-bootstrap/Form'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import { Select } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 
 interface Props {
   handleSelect: (event: any) => void,
@@ -23,7 +24,6 @@ const VenueEntryForm = (props: Props) => {
             {venue.venue_name}
           </option>)
           )
-
           setVenuesSelectOptions(options)
         }
       })
@@ -68,48 +68,37 @@ const VenueEntryForm = (props: Props) => {
 
   return (
       <>
-        <Form.Select aria-label="Default select example" value={props.value} onChange={props.handleSelect}>
+        <Select aria-label="Default select example" value={props.value} onChange={props.handleSelect}>
           <option>Choose a venue</option>
             {venuesSelectOptions}
-        </Form.Select>
+        </Select>
 
-        <Button variant="primary" onClick={() => setShowModal(true)}>
+        <Button onClick={() => setShowModal(true)}>
         Add new Venue
         </Button>
 
-      <Modal
-        show={showModal}
-        onHide={handleCloseModal}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton onHide={handleCloseModal}>
-          <Modal.Title>Add new Venue</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="venueName">
-              <Form.Label>Venue Name</Form.Label>
-                <Form.Control type="text" name="venueName" onChange={handleChange} placeholder="Enter venue name" />
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add new venue</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+          <FormControl>
+              <FormLabel>Venue Name</FormLabel>
+                <Input type="text" name="venueName" onChange={handleChange} placeholder="Enter venue name" />
                   {err.response && <span>{err.response.data}</span>}
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="venueCapacity">
-            <Form.Label>Venue capacity</Form.Label>
-                <Form.Control type="text" name="venueCapacity" onChange={handleChange} placeholder="Enter venue capacity" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="venueCity">
-            <Form.Label>Venue city</Form.Label>
-                <Form.Control type="text" name="venueCity" onChange={handleChange} placeholder="Enter venue city" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="venueState">
-            <Form.Label>Venue state</Form.Label>
-                <Form.Control type="text" name="venueState" onChange={handleChange} placeholder="Enter venue state" />
-            </Form.Group>
-                <Button variant="primary" type="submit" onClick={handleAddNewVenue}>
+            <FormLabel>Venue capacity</FormLabel>
+                <Input type="text" name="venueCapacity" onChange={handleChange} placeholder="Enter venue capacity" />
+            <FormLabel>Venue city</FormLabel>
+                <Input type="text" name="venueCity" onChange={handleChange} placeholder="Enter venue city" />
+            <FormLabel>Venue state</FormLabel>
+                <Input type="text" name="venueState" onChange={handleChange} placeholder="Enter venue state" />
+                <Button type="submit" onClick={handleAddNewVenue}>
                   Add new venue
                 </Button>
-          </Form>
-        </Modal.Body>
+          </FormControl>
+        </ModalBody>
+        </ModalContent>
       </Modal>
       </>
   )
