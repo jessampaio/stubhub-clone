@@ -4,7 +4,7 @@ import CreateEventPage from './pages/CreateEventPage'
 import EventContext from './contexts/eventContext'
 import CreateTicketPage from './pages/CreateTicketPage'
 import { Grid, GridItem } from '@chakra-ui/react'
-
+import NavBar from './components/NavBar'
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -28,8 +28,10 @@ export default function App (): any {
       <Grid templateAreas={{
         base: `"nav"
               "main"`
-        }}>
-        <GridItem area="nav" style={{height:'100px'}}>Hello, admin. </GridItem>
+      }}>
+        <GridItem area="nav" style={{ height: '100px' }}>
+          <NavBar />
+        </GridItem>
         <GridItem area="main">
           <Routes>
             <Route path="/createEvent" element={<CreateEventPage />} />

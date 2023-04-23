@@ -1,9 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { FormControl, FormLabel, Input } from '@chakra-ui/react'
-import { Button } from '@chakra-ui/react'
-import { useToast } from '@chakra-ui/react'
-import { Select } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, Button, useToast, Select } from '@chakra-ui/react'
 
 interface Event {
   event_date: string;
@@ -87,10 +84,10 @@ const CreateTicketForm = () => {
   const showToast = () => {
     toast({
       title: 'Ticket created.',
-      description: "Ticket has been created succesfully",
+      description: 'Ticket has been created succesfully',
       status: 'success',
       duration: 9000,
-      isClosable: true,
+      isClosable: true
     })
   }
 
@@ -126,7 +123,7 @@ const CreateTicketForm = () => {
             <FormLabel>Ticket Price</FormLabel>
                 <Input type="text" name="ticketPrice" value={ticket.ticketPrice} onChange={handleTicketChange} placeholder="Enter ticket price" />
             <FormLabel>Ticket Quantity</FormLabel>
-                <Input type="text" name="ticketQuantity" value={ticket.ticketQuantity} onChange={handleTicketChange} placeholder="Enter ticket quantity" />  
+                <Input type="text" name="ticketQuantity" value={ticket.ticketQuantity} onChange={handleTicketChange} placeholder="Enter ticket quantity" />
                 <Button type="submit" onClick={handleCreateTicket}>
                   Add tickets
                 </Button>

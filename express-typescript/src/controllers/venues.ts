@@ -41,7 +41,13 @@ export function addVenue (req: Request, res: Response) {
       if (err != null) {
         return res.status(500).json(err)
       }
-      return res.status(200).send('Venue has been added successfully.')
+   
+      database.query(`SELECT * FROM venues WHERE venue_name = ?`, req.body.venueName, (err, data: any) => {
+        if (err != null) {
+          return res.status(500).json(err)
+        }
+        return res.status(200).json(data[0])
+      })
     })
   })
 }
