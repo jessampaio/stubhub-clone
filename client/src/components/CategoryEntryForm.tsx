@@ -1,26 +1,28 @@
 import axios, { AxiosError } from 'axios'
-import React, { useEffect, useState } from 'react'
-import { Select } from '@chakra-ui/react'
-import { FormControl, FormLabel, Input } from '@chakra-ui/react'
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react'
-import { Button } from '@chakra-ui/react'
+import React, { ReactNode, useEffect, useState } from 'react'
+import { Select, FormControl, FormLabel, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, FormErrorMessage, HStack } from '@chakra-ui/react'
 
 interface Props {
-  handleSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleStateChange: (key: string, value: string) => void;
   value: number | string;
 }
 
+interface CategoryData {
+  category_id: number;
+  category_name: string;
+}
+
 const CategoryEntryForm = (props: Props) => {
-  const [categoriesSelectOptions, setCategoriesSelectOptions] = useState([])
-  const [categoryName, setCategoryName] = useState('')
-  const [showModal, setShowModal] = useState(false)
-  const [err, setErr] = useState<any>({})
+  const [categoriesSelectOptions, setCategoriesSelectOptions] = useState<ReactNode[]>([])
+  const [categoryName, setCategoryName] = useState<string>('')
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const getCategories = () => {
     axios.get('http://localhost:3345/categories')
       .then(function (response) {
         if (response.data.length) {
-          const options = response.data.map((category: Record<string, any>) => (
+          const options = response.data.map((category: CategoryData) => (
           <option key={category.category_id} value={category.category_id}>
             {category.category_name}
           </option>)
@@ -29,7 +31,7 @@ const CategoryEntryForm = (props: Props) => {
         }
       })
       .catch(function (err) {
-        console.log('There was an error.')
+        console.log('There was an error getting Categories.')
         throw err
       })
   }
@@ -38,52 +40,55 @@ const CategoryEntryForm = (props: Props) => {
     getCategories()
   })
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value)
-    console.log(event.target.value)
+    console.log(categoryName)
   }
 
-  const handleCloseModal = () => {
-    setShowModal(false)
-    setErr({})
-  }
-
-  const handleAddNewCategory = (event: any) => {
+  const handleAddNewCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     axios.post('http://localhost:3345/categories', { categoryName })
-      .then(data => {
+      .then(response => {
         setShowModal(false)
+        props.handleStateChange('categoryId', response.data.category_id)
         getCategories()
       })
-      .catch((err: AxiosError) => setErr(err))
+      .catch((err: AxiosError) => setErrorMessage(err?.response?.data as string || 'Unknown error.'))
+  }
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    props.handleStateChange('categoryId', event.target.value)
   }
 
   return (
       <>
-        <Select aria-label="Select a category" value={props.value} onChange={props.handleSelect}>
-            <option>Choose a category</option>
-            {categoriesSelectOptions}
-        </Select>
-        <Button onClick={() => setShowModal(true)}>Add Category</Button>
+        <HStack spacing={'20px'} mb={'10px'}>
+          <Select aria-label="Select a category" value={props.value} onChange={handleSelect}>
+              <option>Choose a category</option>
+              {categoriesSelectOptions}
+          </Select>
+          <Button onClick={() => setShowModal(true)}>Add Category</Button>
+        </HStack>
+
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add new category</ModalHeader>
+          <ModalHeader>New Category</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl>
+            <FormControl isInvalid={Boolean(errorMessage)}>
                 <FormLabel>Category Name</FormLabel>
-                  <Input type="text" name="newCategory" onChange={handleChange} placeholder="Enter category name" />
-                    {err.response && <span>{err.response.data}</span>}
-                  <Button type="submit" onClick={handleAddNewCategory}>
+                  <Input width={'250px'} type="text" name="newCategory" onChange={handleChange} placeholder="Enter category name" />
+                    {
+                      errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>
+                    }
+                  <Button mt={'10px'} type="submit" onClick={handleAddNewCategory}>
                     Add new category
                   </Button>
             </FormControl>
           </ModalBody>
           </ModalContent>
           </Modal>
-
-
       </>
   )
 }

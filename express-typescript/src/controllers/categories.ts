@@ -13,7 +13,7 @@ export function getCategories (req: Request, res: Response) {
 }
 
 export function addCategory (req: Request, res: Response) {
-  const addCategoryQuery = `INSERT INTO categories (category_name) VALUES (?)`
+  const addCategoryQuery = `INSERT INTO categories (category_name) VALUES (?);`
 
   if (!req.body.categoryName) {
     return res.status(400).send('Enter a valid category name.')
@@ -26,7 +26,13 @@ export function addCategory (req: Request, res: Response) {
     if (err != null) {
       return res.status(500).json(err)
     }
-    return res.status(200).send('Category has been added successfully.')
+
+    database.query(`SELECT * FROM categories WHERE category_name = ?`, req.body.categoryName, (err, data: any) => {
+      if (err != null) {
+        return res.status(500).json(err)
+      }
+      return res.status(200).json(data[0])
+    })
   })
 }
 

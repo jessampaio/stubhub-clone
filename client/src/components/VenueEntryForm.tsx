@@ -1,25 +1,38 @@
 import axios, { AxiosError } from 'axios'
-import { useState } from 'react'
-import { Select } from '@chakra-ui/react'
-import { FormControl, FormLabel, Input } from '@chakra-ui/react'
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react'
-import { Button } from '@chakra-ui/react'
+import { ReactNode, useState } from 'react'
+import { Select, FormControl, FormLabel, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, FormErrorMessage, HStack } from '@chakra-ui/react'
 
 interface Props {
-  handleSelect: (event: any) => void,
+  handleStateChange: (key: string, value: string) => void;
   value: number | string;
 }
 
+interface VenueData {
+  venue_id: number;
+  venue_name: string;
+  venue_capacity: number;
+  venue_city: string;
+  venue_state: string;
+}
+
 const VenueEntryForm = (props: Props) => {
-  const [venuesSelectOptions, setVenuesSelectOptions] = useState([])
-  const [showModal, setShowModal] = useState(false)
-  const [err, setErr] = useState<any>({})
+  const [venuesSelectOptions, setVenuesSelectOptions] = useState<ReactNode[]>([])
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [newVenueInfo, setNewVenueInfo] = useState({
+    venueName: '',
+    venueCapacity: 0,
+    venueCity: '',
+    venueState: '',
+    sections: 0,
+    seats: 0
+  })
 
   const getVenues = () => {
     axios.get('http://localhost:3345/venues')
       .then(function (response) {
         if (response.data.length) {
-          const options = response.data.map((venue: Record<string, any>) => (
+          const options = response.data.map((venue: VenueData) => (
           <option key={venue.venue_id} value={venue.venue_id}>
             {venue.venue_name}
           </option>)
@@ -35,14 +48,8 @@ const VenueEntryForm = (props: Props) => {
 
   getVenues()
 
-  const [newVenueInfo, setNewVenueInfo] = useState({
-    venueName: '',
-    venueCapacity: 0,
-    venueCity: '',
-    venueState: ''
-  })
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewVenueInfo(prevNewVenueInfo => {
       return {
         ...prevNewVenueInfo,
@@ -51,48 +58,56 @@ const VenueEntryForm = (props: Props) => {
     })
   }
 
-  const handleCloseModal = () => {
-    setShowModal(false)
-    setErr({})
-  }
-
-  const handleAddNewVenue = (event: any) => {
+  const handleAddNewVenue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     axios.post('http://localhost:3345/venues', { ...newVenueInfo })
-      .then(data => {
+      .then(response => {
         setShowModal(false)
+        props.handleStateChange('venueId', response.data.venue_id)
         getVenues()
       })
-      .catch((err: AxiosError) => setErr(err))
+      .catch((err: AxiosError) => setErrorMessage(err?.response?.data as string || 'Unknown error.'))
+  }
+
+  console.log(newVenueInfo)
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    props.handleStateChange('venueId', event.target.value)
   }
 
   return (
       <>
-        <Select aria-label="Default select example" value={props.value} onChange={props.handleSelect}>
+        <HStack spacing={'20px'} mb={'10px'}>
+        <Select aria-label="Select a venue" value={props.value} onChange={handleSelect}>
           <option>Choose a venue</option>
             {venuesSelectOptions}
         </Select>
-
         <Button onClick={() => setShowModal(true)}>
         Add new Venue
         </Button>
-
+        </HStack>
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add new venue</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          <FormControl>
+          <FormControl isInvalid={Boolean(errorMessage)}>
               <FormLabel>Venue Name</FormLabel>
                 <Input type="text" name="venueName" onChange={handleChange} placeholder="Enter venue name" />
-                  {err.response && <span>{err.response.data}</span>}
+                  {
+                    errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>
+                  }
             <FormLabel>Venue capacity</FormLabel>
-                <Input type="text" name="venueCapacity" onChange={handleChange} placeholder="Enter venue capacity" />
+                <Input type="number" name="venueCapacity" onChange={handleChange} placeholder="Enter venue capacity" />
             <FormLabel>Venue city</FormLabel>
                 <Input type="text" name="venueCity" onChange={handleChange} placeholder="Enter venue city" />
             <FormLabel>Venue state</FormLabel>
                 <Input type="text" name="venueState" onChange={handleChange} placeholder="Enter venue state" />
+                <FormLabel>Number of sections</FormLabel>
+                <Input type="number" name="sections" onChange={handleChange} placeholder="Enter number of sections" />
+            <FormLabel>Number of seats per section</FormLabel>
+                <Input type="number" name="seats" onChange={handleChange} placeholder="Enter number of seats per section" />
                 <Button type="submit" onClick={handleAddNewVenue}>
                   Add new venue
                 </Button>
