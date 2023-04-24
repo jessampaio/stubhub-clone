@@ -1,6 +1,20 @@
 import axios, { AxiosError } from 'axios'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { Select, FormControl, FormLabel, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, FormErrorMessage, HStack } from '@chakra-ui/react'
+import {
+  Select,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  FormErrorMessage,
+  HStack
+} from '@chakra-ui/react'
 
 interface Props {
   handleStateChange: (key: string, value: string) => void;
@@ -62,14 +76,13 @@ const CategoryEntryForm = (props: Props) => {
 
   return (
       <>
-        <HStack spacing={'20px'} mb={'10px'}>
+        <HStack justifyContent={'space-between'} mb={'10px'}>
           <Select aria-label="Select a category" value={props.value} onChange={handleSelect}>
               <option>Choose a category</option>
               {categoriesSelectOptions}
           </Select>
           <Button onClick={() => setShowModal(true)}>Add Category</Button>
         </HStack>
-
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <ModalOverlay />
         <ModalContent>

@@ -17,19 +17,30 @@ export function getSeats (req: Request, res: Response) {
 
 export function createSeat (req: Request, res: Response) {
 
+  function generateSeats(sectionNum: number, venueId: number, seatNum: number) {
+    let array = [];
+
+    for (let i = 1; i <= sectionNum; i++) {
+        for (let j = 1; j <= seatNum; j++) {
+            array.push([i, venueId, j])
+        }
+    }
+    return array
+  }
+
+  const values = generateSeats(
+    req.body.section,
+    req.body.venueId,
+    req.body.seatNumber,
+  )
+
   const createSeatQuery = `INSERT INTO seats (
     section, 
     venue_id, 
     seat_number
     ) VALUES (?)`
 
-  const values = [
-    req.body.section,
-    req.body.venueId,
-    req.body.seatNumber,
-  ]
-  
-  database.query(createSeatQuery, [values], (err: any, data: any) => {
+  database.query(createSeatQuery, values, (err: any, data: any) => {
     if (err != null) {
       return res.status(500).json(err)
     }

@@ -55,7 +55,7 @@ const AddEventForm = () => {
           value={eventInfo.categoryId}
           handleStateChange={setStateValue}
         />
-        <VenueEntryForm value={eventInfo.venueId} 
+        <VenueEntryForm value={eventInfo.venueId}
         handleStateChange={setStateValue} />
           <FormControl>
               <FormLabel>Event Name</FormLabel>
@@ -67,7 +67,7 @@ const AddEventForm = () => {
                 <Input type="text" value={eventInfo.eventTime} name="eventTime" onChange={handleChange} placeholder="Enter event time" />
             <FormLabel>Ticket Amount</FormLabel>
                 <Input type="text" value={eventInfo.ticketAmount} name="ticketAmount" onChange={handleChange} placeholder="Enter ticket amount" />
-                <Button type="submit" onClick={handleCreateEvent}>
+                <Button type="submit" onClick={handleCreateEvent} mt={'10px'}>
                   Add new Event
                 </Button>
           </FormControl>

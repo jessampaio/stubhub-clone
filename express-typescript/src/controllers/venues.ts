@@ -1,6 +1,7 @@
 import database from '../database'
 import { type Request, type Response } from 'express'
 
+
 export function getVenues (req: Request, res: Response) {
   const getVenuesQuery = `SELECT * FROM venues`
 
@@ -28,6 +29,8 @@ export function addVenue (req: Request, res: Response) {
     AND venue_city = ? 
     AND venue_state = ?`
 
+  // QUERY FOR CHECKING VENUE DUPLICATE:
+
   database.query(checkDuplicateQuery, [name, city, state], (err, data: any) => {
     if (data.length) {
       return res.status(409).send('This venue has already been added.')
@@ -41,12 +44,46 @@ export function addVenue (req: Request, res: Response) {
       if (err != null) {
         return res.status(500).json(err)
       }
-   
+      // QUERY TO RETURN THE VENUE ID BACK:
+
       database.query(`SELECT * FROM venues WHERE venue_name = ?`, req.body.venueName, (err, data: any) => {
         if (err != null) {
           return res.status(500).json(err)
         }
-        return res.status(200).json(data[0])
+
+        // FUNCTION THAT GENERATES FAKE SEATS:
+
+        function generateSeats(sectionNum: number, venueId: number, seatNum: number) {
+          const seatArray = [];
+      
+          for (let i = 1; i <= sectionNum; i++) {
+              for (let j = 1; j <= seatNum; j++) {
+                  seatArray.push([i, venueId, j])
+              }
+          }
+          return seatArray
+        }
+        
+        const values = generateSeats(
+          req.body.section,
+          data[0].venue_id,
+          req.body.seatNumber,
+        )
+      
+        const createSeatQuery = `INSERT INTO seats (
+          section, 
+          venue_id, 
+          seat_number
+          ) VALUES ?`
+
+        // QUERY TO CREATE THE SEAT:
+
+        database.query(createSeatQuery, [values], (err: any, data: any) => {
+          if (err != null) {
+            return res.status(500).json(err)
+          }
+          return res.status(200).json(data)
+        })
       })
     })
   })

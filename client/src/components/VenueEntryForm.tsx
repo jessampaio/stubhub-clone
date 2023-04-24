@@ -1,6 +1,20 @@
 import axios, { AxiosError } from 'axios'
-import { ReactNode, useState } from 'react'
-import { Select, FormControl, FormLabel, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Button, FormErrorMessage, HStack } from '@chakra-ui/react'
+import React, { ReactNode, useState } from 'react'
+import {
+  Select,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  FormErrorMessage,
+  HStack
+} from '@chakra-ui/react'
 
 interface Props {
   handleStateChange: (key: string, value: string) => void;
@@ -24,8 +38,8 @@ const VenueEntryForm = (props: Props) => {
     venueCapacity: 0,
     venueCity: '',
     venueState: '',
-    sections: 0,
-    seats: 0
+    section: 0,
+    seatNumber: 0
   })
 
   const getVenues = () => {
@@ -41,13 +55,12 @@ const VenueEntryForm = (props: Props) => {
         }
       })
       .catch(function (err) {
-        console.log('There was an error.')
+        console.log('There was an error getting venues.')
         throw err
       })
   }
 
   getVenues()
-
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewVenueInfo(prevNewVenueInfo => {
@@ -69,15 +82,13 @@ const VenueEntryForm = (props: Props) => {
       .catch((err: AxiosError) => setErrorMessage(err?.response?.data as string || 'Unknown error.'))
   }
 
-  console.log(newVenueInfo)
-
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     props.handleStateChange('venueId', event.target.value)
   }
 
   return (
       <>
-        <HStack spacing={'20px'} mb={'10px'}>
+        <HStack justifyContent={'space-between'} mb={'10px'}>
         <Select aria-label="Select a venue" value={props.value} onChange={handleSelect}>
           <option>Choose a venue</option>
             {venuesSelectOptions}
@@ -105,9 +116,9 @@ const VenueEntryForm = (props: Props) => {
             <FormLabel>Venue state</FormLabel>
                 <Input type="text" name="venueState" onChange={handleChange} placeholder="Enter venue state" />
                 <FormLabel>Number of sections</FormLabel>
-                <Input type="number" name="sections" onChange={handleChange} placeholder="Enter number of sections" />
+                <Input type="number" name="section" onChange={handleChange} placeholder="Enter number of sections" />
             <FormLabel>Number of seats per section</FormLabel>
-                <Input type="number" name="seats" onChange={handleChange} placeholder="Enter number of seats per section" />
+                <Input type="number" name="seatNumber" onChange={handleChange} placeholder="Enter number of seats per section" />
                 <Button type="submit" onClick={handleAddNewVenue}>
                   Add new venue
                 </Button>
