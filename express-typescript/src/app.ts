@@ -1,5 +1,6 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv' // eslint-disable-line
 dotenv.config() // eslint-disable-line
+
 import cors from 'cors'
 import express, { type Request, type Response } from 'express'
 import userRoutes from './routes/user'
@@ -8,6 +9,7 @@ import categoryRoutes from './routes/category'
 import venueRoutes from './routes/venue'
 import ticketRoutes from './routes/ticket'
 import participantRoutes from './routes/participant'
+
 
 const app = express()
 const PORT = process.env.PORT || 3345

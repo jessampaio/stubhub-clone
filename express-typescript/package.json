@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "start": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "lint": "./node_modules/eslint/bin/eslint.js . --fix"
   },
   "keywords": [],
   "author": "",
