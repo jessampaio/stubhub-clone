@@ -3,7 +3,6 @@ import { getParticipants, addParticipant, getParticipant, deleteParticipant } fr
 
 const router = Router()
 
-
 router.get('/participants', getParticipants)
 router.post('/participants', addParticipant)
 router.get('/participant/:id', getParticipant)

@@ -3,7 +3,6 @@ import { getEvents, addEvent, getEvent, updateEvent, deleteEvent } from '../cont
 
 const router = Router()
 
-
 router.get('/events', getEvents)
 router.post('/events', addEvent)
 router.get('/event/:id', getEvent)

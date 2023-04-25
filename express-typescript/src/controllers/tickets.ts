@@ -1,22 +1,20 @@
 import database from '../database'
 import { type Request, type Response } from 'express'
 
-export function getTickets(req: Request, res: Response) {
-
-  const getTicketsQuery = `SELECT * FROM tickets`
+export function getTickets (req: Request, res: Response) {
+  const getTicketsQuery = 'SELECT * FROM tickets'
 
   database.query(getTicketsQuery, (err, data: any) => {
     if (data) {
       return res.send(data)
     }
-    if (err) {
+    if (err != null) {
       return res.send(err)
     }
   })
 }
 
 export function createTicket (req: Request, res: Response) {
-
   const createTicketQuery = `INSERT INTO tickets (
       ticket_price, 
       event_id, 
@@ -28,9 +26,9 @@ export function createTicket (req: Request, res: Response) {
     req.body.ticketPrice,
     req.body.eventSelected,
     req.body.ticketTier,
-    req.body.ticketQuantity,
+    req.body.ticketQuantity
   ]
-  
+
   database.query(createTicketQuery, [values], (err: any, data: any) => {
     if (err != null) {
       return res.status(500).json(err)
@@ -40,7 +38,7 @@ export function createTicket (req: Request, res: Response) {
 }
 
 export function getTieredTickets (req: Request, res: Response) {
-  const getTieredTicketQuery = `SELECT * FROM tickets WHERE ticket_tier = ?`
+  const getTieredTicketQuery = 'SELECT * FROM tickets WHERE ticket_tier = ?'
 
   database.query(getTieredTicketQuery, req.body.ticketTier, (err, data: any) => {
     if (data) {
@@ -62,12 +60,12 @@ export function updateTicket (req: Request, res: Response) {
     ticket_price = ?
     WHERE ticket_id = ?`
 
-    const values = [
-      req.body.ticketQuantity,
-      req.body.ticketTier,
-      req.body.ticketPrice,
-      req.body.ticketId
-    ]
+  const values = [
+    req.body.ticketQuantity,
+    req.body.ticketTier,
+    req.body.ticketPrice,
+    req.body.ticketId
+  ]
 
   database.query(updateTicketQuery, [values], (err, data: any) => {
     if (err != null) {
@@ -81,7 +79,7 @@ export function updateTicket (req: Request, res: Response) {
 }
 
 export function deleteTicket (req: Request, res: Response) {
-  const deleteTicketQuery = `DELETE FROM tickets WHERE ticket_id = ?`
+  const deleteTicketQuery = 'DELETE FROM tickets WHERE ticket_id = ?'
 
   database.query(deleteTicketQuery, [req.params.id], (err, data) => {
     if (err != null) {

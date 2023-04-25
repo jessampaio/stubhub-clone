@@ -2,28 +2,26 @@ import database from '../database'
 import { type Request, type Response } from 'express'
 
 export function getSeats (req: Request, res: Response) {
-
-  const getSeatsQuery = `SELECT * FROM seats`
+  const getSeatsQuery = 'SELECT * FROM seats'
 
   database.query(getSeatsQuery, (err, data: any) => {
     if (data) {
       return res.send(data)
     }
-    if (err) {
+    if (err != null) {
       return res.send(err)
     }
   })
 }
 
 export function createSeat (req: Request, res: Response) {
-
-  function generateSeats(sectionNum: number, venueId: number, seatNum: number) {
-    let array = [];
+  function generateSeats (sectionNum: number, venueId: number, seatNum: number) {
+    const array = []
 
     for (let i = 1; i <= sectionNum; i++) {
-        for (let j = 1; j <= seatNum; j++) {
-            array.push([i, venueId, j])
-        }
+      for (let j = 1; j <= seatNum; j++) {
+        array.push([i, venueId, j])
+      }
     }
     return array
   }
@@ -31,7 +29,7 @@ export function createSeat (req: Request, res: Response) {
   const values = generateSeats(
     req.body.section,
     req.body.venueId,
-    req.body.seatNumber,
+    req.body.seatNumber
   )
 
   const createSeatQuery = `INSERT INTO seats (
@@ -49,7 +47,7 @@ export function createSeat (req: Request, res: Response) {
 }
 
 export function getSeat (req: Request, res: Response) {
-  const getSeatQuery = `SELECT * FROM seats WHERE seat_id = ?`
+  const getSeatQuery = 'SELECT * FROM seats WHERE seat_id = ?'
 
   database.query(getSeatQuery, req.body.seatId, (err, data: any) => {
     if (data) {
@@ -65,7 +63,7 @@ export function getSeat (req: Request, res: Response) {
 }
 
 export function deleteSeat (req: Request, res: Response) {
-  const deleteSeatQuery = `DELETE FROM seats WHERE seat_id = ?`
+  const deleteSeatQuery = 'DELETE FROM seats WHERE seat_id = ?'
 
   database.query(deleteSeatQuery, [req.params.id], (err, data) => {
     if (err != null) {

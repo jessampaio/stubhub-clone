@@ -4,6 +4,7 @@ import { FormControl, FormLabel, Input, Button, useToast, Container } from '@cha
 import EventContext from '../contexts/eventContext'
 import VenueEntryForm from './VenueEntryForm'
 import CategoryEntryForm from './CategoryEntryForm'
+import AddNewParticipantForm from './AddNewParticipantForm'
 
 const AddEventForm = () => {
   const toast = useToast()
@@ -55,8 +56,14 @@ const AddEventForm = () => {
           value={eventInfo.categoryId}
           handleStateChange={setStateValue}
         />
-        <VenueEntryForm value={eventInfo.venueId}
-        handleStateChange={setStateValue} />
+        <VenueEntryForm
+        value={eventInfo.venueId}
+        handleStateChange={setStateValue}
+        />
+        <AddNewParticipantForm
+        value={eventInfo.participantId}
+        handleStateChange={setStateValue}
+        />
           <FormControl>
               <FormLabel>Event Name</FormLabel>
                 <Input type="text" value={eventInfo.eventName} name="eventName" onChange={handleChange} placeholder="Enter event name" />

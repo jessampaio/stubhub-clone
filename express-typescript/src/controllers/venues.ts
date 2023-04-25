@@ -1,9 +1,8 @@
 import database from '../database'
 import { type Request, type Response } from 'express'
 
-
 export function getVenues (req: Request, res: Response) {
-  const getVenuesQuery = `SELECT * FROM venues`
+  const getVenuesQuery = 'SELECT * FROM venues'
 
   database.query(getVenuesQuery, (err, data: any) => {
     if (err != null) {
@@ -36,7 +35,7 @@ export function addVenue (req: Request, res: Response) {
       return res.status(409).send('This venue has already been added.')
     }
 
-    const addVenueQuery = `INSERT INTO venues (venue_name, venue_capacity, venue_city, venue_state) VALUES (?)`
+    const addVenueQuery = 'INSERT INTO venues (venue_name, venue_capacity, venue_city, venue_state) VALUES (?)'
 
     const values = [name, capacity, city, state]
 
@@ -46,30 +45,30 @@ export function addVenue (req: Request, res: Response) {
       }
       // QUERY TO RETURN THE VENUE ID BACK:
 
-      database.query(`SELECT * FROM venues WHERE venue_name = ?`, req.body.venueName, (err, data: any) => {
+      database.query('SELECT * FROM venues WHERE venue_name = ?', req.body.venueName, (err, data: any) => {
         if (err != null) {
           return res.status(500).json(err)
         }
 
         // FUNCTION THAT GENERATES FAKE SEATS:
 
-        function generateSeats(sectionNum: number, venueId: number, seatNum: number) {
-          const seatArray = [];
-      
+        function generateSeats (sectionNum: number, venueId: number, seatNum: number) {
+          const seatArray = []
+
           for (let i = 1; i <= sectionNum; i++) {
-              for (let j = 1; j <= seatNum; j++) {
-                  seatArray.push([i, venueId, j])
-              }
+            for (let j = 1; j <= seatNum; j++) {
+              seatArray.push([i, venueId, j])
+            }
           }
           return seatArray
         }
-        
+
         const values = generateSeats(
           req.body.section,
           data[0].venue_id,
-          req.body.seatNumber,
+          req.body.seatNumber
         )
-      
+
         const createSeatQuery = `INSERT INTO seats (
           section, 
           venue_id, 
@@ -90,7 +89,7 @@ export function addVenue (req: Request, res: Response) {
 }
 
 export function getVenue (req: Request, res: Response) {
-  const getVenueQuery = `SELECT * FROM venues WHERE venue_id = ?`
+  const getVenueQuery = 'SELECT * FROM venues WHERE venue_id = ?'
 
   database.query(getVenueQuery, [req.params.id], (err, data: any) => {
     if (data.length === 0) {
@@ -104,7 +103,7 @@ export function getVenue (req: Request, res: Response) {
 }
 
 export function updateVenue (req: Request, res: Response) {
-  const updateVenueQuery = `UPDATE venues SET venue_name = ?, venue_capacity = ?, venue_city = ?, venue_state = ? WHERE venue_id = ?`
+  const updateVenueQuery = 'UPDATE venues SET venue_name = ?, venue_capacity = ?, venue_city = ?, venue_state = ? WHERE venue_id = ?'
 
   const values = [
     req.body.venue_name,
@@ -125,7 +124,7 @@ export function updateVenue (req: Request, res: Response) {
 }
 
 export function deleteVenue (req: Request, res: Response) {
-  const deleteVenueQuery = `DELETE FROM venues WHERE venue_id = ?`
+  const deleteVenueQuery = 'DELETE FROM venues WHERE venue_id = ?'
 
   database.query(deleteVenueQuery, [req.params.id], (err, data) => {
     if (err != null) {

@@ -2,7 +2,7 @@ import database from '../database'
 import { type Request, type Response } from 'express'
 
 export function getEvents (req: Request, res: Response) {
-  const getEventsQuery = `SELECT * FROM events`
+  const getEventsQuery = 'SELECT * FROM events'
 
   database.query(getEventsQuery, (err, data: any) => {
     if (err != null) {
@@ -34,7 +34,7 @@ export function addEvent (req: Request, res: Response) {
   ]
 
   database.query(addEventQuery, [values], (err, data) => {
-    if (err != null) { 
+    if (err != null) {
       return res.status(500).json(err)
     }
     return res.status(200).send('Event has been added successfully.')
@@ -52,7 +52,6 @@ export function getEvent (req: Request, res: Response) {
   WHERE event_id = ?`
 
   database.query(getEventQuery, [req.params.id], (err, data: any) => {
-    
     if (data.length === 0) {
       return res.status(200).send('No event has been added yet.')
     }
@@ -96,7 +95,7 @@ export function updateEvent (req: Request, res: Response) {
 }
 
 export function deleteEvent (req: Request, res: Response) {
-  const deleteEventQuery = `DELETE FROM events WHERE event_id = ?`
+  const deleteEventQuery = 'DELETE FROM events WHERE event_id = ?'
 
   database.query(deleteEventQuery, [req.params.id], (err, data) => {
     if (err != null) {
@@ -105,3 +104,4 @@ export function deleteEvent (req: Request, res: Response) {
     return res.send('Event has been deleted successfully.')
   })
 }
+
