@@ -7,6 +7,7 @@ import eventRoutes from './routes/event'
 import categoryRoutes from './routes/category'
 import venueRoutes from './routes/venue'
 import ticketRoutes from './routes/ticket'
+import participantRoutes from './routes/participant'
 
 const app = express()
 const PORT = process.env.PORT || 3345
@@ -24,6 +25,7 @@ app.use(categoryRoutes)
 app.use(venueRoutes)
 app.use(eventRoutes)
 app.use(ticketRoutes)
+app.use(participantRoutes)
 
 app.get('/', (req: Request, res: Response) => {
   res.send('User logged out and redirected to home.')
