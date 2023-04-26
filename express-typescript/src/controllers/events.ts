@@ -34,6 +34,7 @@ export function addEvent (req: Request, res: Response) {
   ]
 
   database.query(addEventQuery, [values], (err, data) => {
+    console.log(req)
     if (err != null) {
       return res.status(500).json(err)
     }

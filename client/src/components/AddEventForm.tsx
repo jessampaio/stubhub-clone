@@ -42,12 +42,14 @@ const AddEventForm = () => {
       .catch((err: AxiosError) => setErr(err))
   }
 
-  const setStateValue = (key: string, value: string) => {
+  const setStateValue = (key: string, value: any) => {
     setEventInfo((prevEvent: any) => ({
       ...prevEvent,
       [key]: value
     }))
   }
+
+  console.log("the participants", eventInfo.participantId)
 
   return (
       <Container maxW="550px">
