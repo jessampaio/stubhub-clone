@@ -1,4 +1,4 @@
-import { ResultSetHeader, RowDataPacket } from 'mysql2'
+import { RowDataPacket } from 'mysql2';
 import { connection } from '../database'
 import { type Request, type Response } from 'express'
 
@@ -21,10 +21,11 @@ export async function getParticipants (req: Request, res: Response) {
 export async function addParticipant (req: Request, res: Response) {
   try {
     const conn = await connection
-    const [data] = await conn.execute(`INSERT INTO participants (name) VALUES (?)`, [req.body.name])
-    const [id] = await conn.execute(`SELECT * FROM participants WHERE name = ?`, [req.body.name])
-    if (data) {
-      return res.status(200).send(id)
+    await conn.execute(`INSERT INTO participants (name) VALUES (?)`, [req.body.name])
+    const [result]: any = await conn.execute(`SELECT * FROM participants WHERE name = ?`, [req.body.name])
+    if (result) {
+      console.log(result[0])
+      return res.status(200).json(result[0].participant_id.toString())
     }
   } catch (err) {
     if (err) {

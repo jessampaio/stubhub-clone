@@ -37,7 +37,9 @@ const CategoryEntryForm = (props: Props) => {
       .then(function (response) {
         if (response.data.length) {
           const options = response.data.map((category: CategoryData) => (
-          <option key={category.category_id} value={category.category_id}>
+          <option
+          key={category.category_id}
+          value={category.category_id}>
             {category.category_name}
           </option>)
           )
@@ -52,7 +54,7 @@ const CategoryEntryForm = (props: Props) => {
 
   useEffect(() => {
     getCategories()
-  })
+  }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value)

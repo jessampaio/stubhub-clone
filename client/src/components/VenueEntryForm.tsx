@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import {
   Select,
   FormControl,
@@ -47,7 +47,9 @@ const VenueEntryForm = (props: Props) => {
       .then(function (response) {
         if (response.data.length) {
           const options = response.data.map((venue: VenueData) => (
-          <option key={venue.venue_id} value={venue.venue_id}>
+          <option
+          key={venue.venue_id}
+          value={venue.venue_id}>
             {venue.venue_name}
           </option>)
           )
@@ -60,7 +62,9 @@ const VenueEntryForm = (props: Props) => {
       })
   }
 
-  getVenues()
+  useEffect(() => {
+    getVenues()
+  }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewVenueInfo(prevNewVenueInfo => {
@@ -76,7 +80,7 @@ const VenueEntryForm = (props: Props) => {
     axios.post('http://localhost:3345/venues', { ...newVenueInfo })
       .then(response => {
         setShowModal(false)
-        props.handleStateChange('venueId', response.data.venue_id)
+        props.handleStateChange('venueId', response.data[0].venue_id)
         getVenues()
       })
       .catch((err: AxiosError) => setErrorMessage(err?.response?.data as string || 'Unknown error.'))

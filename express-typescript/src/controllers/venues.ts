@@ -45,9 +45,12 @@ export function addVenue (req: Request, res: Response) {
       }
       // QUERY TO RETURN THE VENUE ID BACK:
 
-      database.query('SELECT * FROM venues WHERE venue_name = ?', req.body.venueName, (err, data: any) => {
+      database.query('SELECT * FROM venues WHERE venue_name = ?', req.body.venueName, (err, id: any) => {
         if (err != null) {
           return res.status(500).json(err)
+        }
+        if (id) {
+         console.log("data from query", id) 
         }
 
         // FUNCTION THAT GENERATES FAKE SEATS:
@@ -65,7 +68,7 @@ export function addVenue (req: Request, res: Response) {
 
         const values = generateSeats(
           req.body.section,
-          data[0].venue_id,
+          id[0].venue_id,
           req.body.seatNumber
         )
 
@@ -81,7 +84,8 @@ export function addVenue (req: Request, res: Response) {
           if (err != null) {
             return res.status(500).json(err)
           }
-          return res.status(200).json(data)
+          console.log(id)
+          return res.status(200).json(id)
         })
       })
     })
@@ -89,7 +93,7 @@ export function addVenue (req: Request, res: Response) {
 }
 
 export function getVenue (req: Request, res: Response) {
-  const getVenueQuery = 'SELECT * FROM venues WHERE venue_id = ?'
+  const getVenueQuery = `SELECT * FROM venues WHERE venue_id = ?`
 
   database.query(getVenueQuery, [req.params.id], (err, data: any) => {
     if (data.length === 0) {
@@ -103,7 +107,12 @@ export function getVenue (req: Request, res: Response) {
 }
 
 export function updateVenue (req: Request, res: Response) {
-  const updateVenueQuery = 'UPDATE venues SET venue_name = ?, venue_capacity = ?, venue_city = ?, venue_state = ? WHERE venue_id = ?'
+  const updateVenueQuery = `UPDATE venues SET 
+  venue_name = ?, 
+  venue_capacity = ?, 
+  venue_city = ?, 
+  venue_state = ? 
+  WHERE venue_id = ?`
 
   const values = [
     req.body.venue_name,

@@ -1,8 +1,7 @@
 import axios, { AxiosError } from 'axios'
-import React, { ReactNode, useState } from 'react'
-import { MultiSelect } from 'chakra-multiselect'
+import React, { useEffect, useState } from 'react'
+import Select, { MultiValue } from 'react-select'
 import {
-  Select,
   FormControl,
   FormLabel,
   Input,
@@ -17,10 +16,9 @@ import {
   HStack
 } from '@chakra-ui/react'
 
-
 interface Props {
-  handleStateChange: (key: string, value: string) => void;
-  value: number | string;
+  handleStateChange: (key: string, value: Participant[]) => void;
+  value: any[];
 }
 
 interface ParticipantData {
@@ -28,8 +26,13 @@ interface ParticipantData {
   name: string;
 }
 
+interface Participant {
+  label: string;
+  value: number;
+}
+
 const AddNewParticipantForm = (props: Props) => {
-  const [participantsSelectOptions, setParticipantsSelectOptions] = useState<ReactNode[]>([])
+  const [participantsSelectOptions, setParticipantsSelectOptions] = useState<ParticipantData[]>([])
   const [showModal, setShowModal] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [newParticipant, setNewParticipant] = useState({
@@ -40,10 +43,10 @@ const AddNewParticipantForm = (props: Props) => {
     axios.get('http://localhost:3345/participants')
       .then(function (response) {
         if (response.data.length) {
-          const options = response.data.map((participant: ParticipantData) => (
-          <option key={participant.participant_id} value={participant.participant_id}>
-            {participant.name}
-          </option>)
+          const options = response.data.map((participant: ParticipantData) => ({
+            label: participant.name, 
+            value: participant.participant_id
+          })
           )
           setParticipantsSelectOptions(options)
         }
@@ -54,12 +57,14 @@ const AddNewParticipantForm = (props: Props) => {
       })
   }
 
-  getParticipants()
+  useEffect(() => {
+    getParticipants()
+  }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewParticipant(prevParticipantInfo => {
+    setNewParticipant(prevParticipant => {
       return {
-        ...prevParticipantInfo,
+        ...prevParticipant,
         [event.target.name]: event.target.value
       }
     })
@@ -70,25 +75,32 @@ const AddNewParticipantForm = (props: Props) => {
     axios.post('http://localhost:3345/participants', { ...newParticipant })
       .then(response => {
         setShowModal(false)
-        props.handleStateChange('participantId', response.data[0].participant_id)
-        console.log(response)
+        props.handleStateChange('participantId', response.data)
         getParticipants()
       })
       .catch((err: AxiosError) => setErrorMessage(err?.response?.data as string || 'Unknown error.'))
   }
 
-  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.target.value)
-    props.handleStateChange('participantId', event.target.value)
+  const handleSelect = (newValue: MultiValue<Participant>) => {
+    console.log(newValue)
+
+    props.handleStateChange('participantId', newValue as Participant[])
   }
 
   return (
       <>
         <HStack justifyContent={'space-between'} mb={'10px'}>
-        <Select aria-label="Select a participant" value={props.value} onChange={handleSelect}>
-          <option>Choose a participant</option>
-            {participantsSelectOptions}
-        </Select>
+          <Select
+          placeholder='Choose a participant'
+          value={props.value}
+          name='participantId'
+          isMulti
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={handleSelect}
+          options={participantsSelectOptions}
+        />
+
         <Button onClick={() => setShowModal(true)}>
         Add new Participant
         </Button>
