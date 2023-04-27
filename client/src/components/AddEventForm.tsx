@@ -49,8 +49,6 @@ const AddEventForm = () => {
     }))
   }
 
-  console.log('the participants', eventInfo.participantId)
-
   return (
       <Container maxW="550px">
         <h1>New Event:</h1>

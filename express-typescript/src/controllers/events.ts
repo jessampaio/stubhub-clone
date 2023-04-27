@@ -15,6 +15,7 @@ export function getEvents (req: Request, res: Response) {
 }
 
 export function addEvent (req: Request, res: Response) {
+
   const addEventQuery = `INSERT INTO events (
       event_name, 
       event_date, 
@@ -34,11 +35,41 @@ export function addEvent (req: Request, res: Response) {
   ]
 
   database.query(addEventQuery, [values], (err, data) => {
-    console.log(req)
+    console.log("Event being added", data)
     if (err != null) {
       return res.status(500).json(err)
     }
-    return res.status(200).send('Event has been added successfully.')
+    
+    const getEventIdQuery = `SELECT LAST_INSERT_ID() AS event_id`
+    
+    database.query(getEventIdQuery, (err, eventId: any) => {
+      console.log("getting the id back from db", eventId)
+      if (err) {
+        return res.status(500).json(err)
+      }
+      
+      const addParticipantsEventsQuery = `INSERT INTO participants_in_events (
+        participant_id, 
+        event_id
+        ) VALUES ?`
+      
+        const participants = req.body.participantId.map(participantObj => {
+          return [participantObj.value, eventId[0].event_id]
+        })
+      
+        console.log("the participants", participants)
+
+        database.query(addParticipantsEventsQuery, [participants], (err, data) => {
+     
+        console.log(data)
+        if (err !== null) {
+          console.log(err)
+          return res.status(500).json(err)
+        }
+        return res.status(200)
+      })
+    })
+
   })
 }
 

@@ -20,10 +20,16 @@ export async function getParticipants (req: Request, res: Response) {
 export async function addParticipant (req: Request, res: Response) {
   try {
     const conn = await connection
-    await conn.execute('INSERT INTO participants (name) VALUES (?)', [req.body.name])
-    const [result]: any = await conn.execute('SELECT * FROM participants WHERE name = ?', [req.body.name])
+    await conn.execute(`INSERT INTO participants 
+    (name) VALUES (?)`, 
+    [req.body.name])
+
+    const [result]: any = await conn.execute(`SELECT * FROM participants
+     WHERE name = ?`, 
+     [req.body.name])
+
     if (result) {
-      console.log('ADDING PARTICIPANT NODE', result[0])
+      console.log('ADDING PARTICIPANT NODE', result)
       return res.status(200).json(result[0])
     }
   } catch (err) {
@@ -37,8 +43,10 @@ export async function addParticipant (req: Request, res: Response) {
 export async function getParticipant (req: Request, res: Response) {
   try {
     const conn = await connection
-    const data = await conn.execute('SELECT * FROM participants WHERE participant_id = ?', req.params.id)
-    console.log(data[0])
+    const data = await conn.execute(`SELECT * FROM participants
+     WHERE participant_id = ?`, 
+     req.params.id)
+    
     if (data[0]) {
       return res.status(200).send(data)
     }
@@ -53,8 +61,10 @@ export async function getParticipant (req: Request, res: Response) {
 export async function deleteParticipant (req: Request, res: Response) {
   try {
     const conn = await connection
-    const data = await conn.execute('DELETE * FROM participants WHERE participant_id = ?', req.params.id)
-    console.log(data[0])
+    const data = await conn.execute(`DELETE * FROM participants 
+    WHERE participant_id = ?`, 
+    req.params.id)
+    
     if (data[0]) {
       return res.status(200).send(data)
     }
