@@ -50,7 +50,7 @@ export function addVenue (req: Request, res: Response) {
           return res.status(500).json(err)
         }
         if (id) {
-         console.log("data from query", id) 
+          console.log('data from query', id)
         }
 
         // FUNCTION THAT GENERATES FAKE SEATS:
@@ -93,7 +93,7 @@ export function addVenue (req: Request, res: Response) {
 }
 
 export function getVenue (req: Request, res: Response) {
-  const getVenueQuery = `SELECT * FROM venues WHERE venue_id = ?`
+  const getVenueQuery = 'SELECT * FROM venues WHERE venue_id = ?'
 
   database.query(getVenueQuery, [req.params.id], (err, data: any) => {
     if (data.length === 0) {

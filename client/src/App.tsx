@@ -13,7 +13,7 @@ const INITIAL_EVENT_STATE = {
   ticketAmount: 0,
   categoryId: '',
   venueId: '',
-  participantId: [] 
+  participantId: []
 }
 
 export default function App (): any {

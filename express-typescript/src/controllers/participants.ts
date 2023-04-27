@@ -1,11 +1,10 @@
-import { RowDataPacket } from 'mysql2';
 import { connection } from '../database'
 import { type Request, type Response } from 'express'
 
 export async function getParticipants (req: Request, res: Response) {
   try {
     const conn = await connection
-    const [data]: any = await conn.execute(`SELECT * FROM participants`)
+    const [data]: any = await conn.execute('SELECT * FROM participants')
     if (data.length === 0) {
       return res.status(204).send()
     }
@@ -21,11 +20,11 @@ export async function getParticipants (req: Request, res: Response) {
 export async function addParticipant (req: Request, res: Response) {
   try {
     const conn = await connection
-    await conn.execute(`INSERT INTO participants (name) VALUES (?)`, [req.body.name])
-    const [result]: any = await conn.execute(`SELECT * FROM participants WHERE name = ?`, [req.body.name])
+    await conn.execute('INSERT INTO participants (name) VALUES (?)', [req.body.name])
+    const [result]: any = await conn.execute('SELECT * FROM participants WHERE name = ?', [req.body.name])
     if (result) {
-      console.log(result[0])
-      return res.status(200).json(result[0].participant_id.toString())
+      console.log('ADDING PARTICIPANT NODE', result[0])
+      return res.status(200).json(result[0])
     }
   } catch (err) {
     if (err) {

@@ -16,19 +16,18 @@ import {
   HStack
 } from '@chakra-ui/react'
 
-interface Props {
-  handleStateChange: (key: string, value: Participant[]) => void;
-  value: any[];
-}
-
 interface ParticipantData {
   participant_id: number;
   name: string;
 }
-
 interface Participant {
   label: string;
   value: number;
+}
+
+interface Props {
+  handleStateChange: (key: string, value: Participant[]) => void;
+  value: any[];
 }
 
 const AddNewParticipantForm = (props: Props) => {
@@ -44,7 +43,7 @@ const AddNewParticipantForm = (props: Props) => {
       .then(function (response) {
         if (response.data.length) {
           const options = response.data.map((participant: ParticipantData) => ({
-            label: participant.name, 
+            label: participant.name,
             value: participant.participant_id
           })
           )
@@ -75,7 +74,13 @@ const AddNewParticipantForm = (props: Props) => {
     axios.post('http://localhost:3345/participants', { ...newParticipant })
       .then(response => {
         setShowModal(false)
-        props.handleStateChange('participantId', response.data)
+        console.log('posting the thing COMPONENT', response)
+        props.handleStateChange('participantId',
+          [...props.value,
+            {
+              label: response.data.name,
+              value: response.data.participant_id
+            }])
         getParticipants()
       })
       .catch((err: AxiosError) => setErrorMessage(err?.response?.data as string || 'Unknown error.'))
@@ -85,6 +90,7 @@ const AddNewParticipantForm = (props: Props) => {
     console.log(newValue)
 
     props.handleStateChange('participantId', newValue as Participant[])
+    console.log(newValue)
   }
 
   return (

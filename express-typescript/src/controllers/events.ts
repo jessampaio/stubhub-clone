@@ -105,4 +105,3 @@ export function deleteEvent (req: Request, res: Response) {
     return res.send('Event has been deleted successfully.')
   })
 }
-
