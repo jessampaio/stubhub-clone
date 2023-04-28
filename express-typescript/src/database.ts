@@ -4,19 +4,19 @@ import mysqlPromise from 'mysql2/promise'
 // ASYNC AWAIT:
 
 export const connection = mysqlPromise.createConnection({
-  host: 'localhost',
-  user: 'root',
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASS,
-  database: 'stubhub'
+  database: process.env.DATABASE_NAME
 })
 
 // CALLBACK:
 
 const database = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASS,
-  database: 'stubhub'
+  database: process.env.DATABASE_NAME
 })
 
 export default database

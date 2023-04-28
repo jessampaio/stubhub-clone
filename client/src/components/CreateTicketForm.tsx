@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { FormControl, FormLabel, Input, Button, useToast, Select } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, Button, useToast, Select, Container } from '@chakra-ui/react'
 
 interface Event {
   event_date: string;
@@ -111,24 +111,24 @@ const CreateTicketForm = () => {
   }
 
   return (
-        <>
+        <Container maxW="550px">
           <Select aria-label="Select Event" value={eventSelected} onChange={handleSelectEvent}>
             <option>Choose an event</option>
                   {eventSelectOptions}
           </Select>
           {ticketsRemaining && <span>Number of tickets to be priced: {ticketsRemaining}</span>}
-          <FormControl>
-              <FormLabel>Ticket Tier</FormLabel>
-                <Input type="text" name="ticketTier" value={ticket.ticketTier} onChange={handleTicketChange} placeholder="Enter ticket tier" />
-            <FormLabel>Ticket Price</FormLabel>
-                <Input type="text" name="ticketPrice" value={ticket.ticketPrice} onChange={handleTicketChange} placeholder="Enter ticket price" />
-            <FormLabel>Ticket Quantity</FormLabel>
-                <Input type="text" name="ticketQuantity" value={ticket.ticketQuantity} onChange={handleTicketChange} placeholder="Enter ticket quantity" />
-                <Button type="submit" onClick={handleCreateTicket}>
-                  Add tickets
-                </Button>
-          </FormControl>
-        </>
+            <FormControl>
+                <FormLabel>Ticket Tier</FormLabel>
+                  <Input type="text" name="ticketTier" value={ticket.ticketTier} onChange={handleTicketChange} placeholder="Enter ticket tier" />
+              <FormLabel>Ticket Price</FormLabel>
+                  <Input type="text" name="ticketPrice" value={ticket.ticketPrice} onChange={handleTicketChange} placeholder="Enter ticket price" />
+              <FormLabel>Ticket Quantity</FormLabel>
+                  <Input type="text" name="ticketQuantity" value={ticket.ticketQuantity} onChange={handleTicketChange} placeholder="Enter ticket quantity" />
+                  <Button type="submit" onClick={handleCreateTicket}>
+                    Add tickets
+                  </Button>
+            </FormControl>
+          </Container>
   )
 }
 

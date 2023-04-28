@@ -66,7 +66,7 @@ export function addEvent (req: Request, res: Response) {
           console.log(err)
           return res.status(500).json(err)
         }
-        return res.status(200)
+        return res.status(200).send(data)
       })
     })
 
