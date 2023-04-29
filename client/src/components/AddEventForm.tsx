@@ -11,7 +11,7 @@ const AddEventForm = () => {
   const [err, setErr] = useState<any>({})
   const { eventInfo, setEventInfo, resetEventInfo } = useContext(EventContext)
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEventInfo((prevEventInfo: any) => {
       return {
         ...prevEventInfo,
@@ -30,7 +30,7 @@ const AddEventForm = () => {
     })
   }
 
-  const handleCreateEvent = (event: any) => {
+  const handleCreateEvent = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     axios.post('http://localhost:3345/events', eventInfo)
       .then(data => {

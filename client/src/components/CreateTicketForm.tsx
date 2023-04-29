@@ -53,9 +53,9 @@ const CreateTicketForm = () => {
     getEvents()
   }, [])
 
-  const handleSelectEvent = (event: any) => {
+  const handleSelectEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setEventSelected(event.target.value)
-    getInfoAboutEvent(event.target.value)
+    getInfoAboutEvent(Number(event.target.value))
   }
 
   const getInfoAboutEvent = (eventId: number) => {
@@ -74,7 +74,7 @@ const CreateTicketForm = () => {
       })
   }
 
-  const handleTicketChange = (event: any) => {
+  const handleTicketChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTicket((prevTicket: Ticket) => ({
       ...prevTicket,
       [event.target.name]: event.target.value
@@ -91,7 +91,7 @@ const CreateTicketForm = () => {
     })
   }
 
-  const handleCreateTicket = (event: any) => {
+  const handleCreateTicket = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     axios.post('http://localhost:3345/tickets', { eventSelected, ...ticket })
       .then(function (response) {

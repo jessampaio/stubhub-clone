@@ -1,7 +1,11 @@
+import Testing from '../components/Testing'
 
 const Home = () => {
   return (
-    <div>homepage</div>
+    <>
+
+      <Testing />
+    </>
   )
 }
 

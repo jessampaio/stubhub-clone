@@ -32,6 +32,7 @@ export async function addParticipant (req: Request, res: Response) {
       console.log('ADDING PARTICIPANT NODE', result)
       return res.status(200).json(result[0])
     }
+
   } catch (err) {
     if (err) {
       console.log(err)
