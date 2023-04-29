@@ -75,7 +75,7 @@ const AddNewParticipantForm = (props: Props) => {
       .then(response => {
         setShowModal(false)
         console.log('posting the thing COMPONENT', response)
-        props.handleStateChange('participantId',
+        props.handleStateChange('participants',
           [...props.value,
             {
               label: response.data.name,
@@ -89,24 +89,23 @@ const AddNewParticipantForm = (props: Props) => {
   const handleSelect = (newValue: MultiValue<Participant>) => {
     console.log(newValue)
 
-    props.handleStateChange('participantId', newValue as Participant[])
+    props.handleStateChange('participants', newValue as Participant[])
     console.log(newValue)
   }
 
   return (
       <>
         <HStack justifyContent={'space-between'} mb={'10px'}>
-          <Select
-          placeholder='Choose a participant'
-          value={props.value}
-          name='participantId'
-          isMulti
-          className="basic-multi-select"
-          classNamePrefix="select"
-          onChange={handleSelect}
-          options={participantsSelectOptions}
-        />
-
+            <Select
+            placeholder='Choose a participant'
+            value={props.value}
+            name='participants'
+            isMulti
+            className="basic-multi-select"
+            classNamePrefix="select"
+            onChange={handleSelect}
+            options={participantsSelectOptions}
+          />
         <Button onClick={() => setShowModal(true)}>
         Add new Participant
         </Button>

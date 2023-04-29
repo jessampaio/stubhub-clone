@@ -61,7 +61,7 @@ const AddEventForm = () => {
         handleStateChange={setStateValue}
         />
         <AddNewParticipantForm
-        value={eventInfo.participantId}
+        value={eventInfo.participants}
         handleStateChange={setStateValue}
         />
           <FormControl>

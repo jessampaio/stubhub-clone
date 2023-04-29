@@ -1,6 +1,11 @@
 import database from '../database'
 import { type Request, type Response } from 'express'
 
+interface ParticipantObj {
+  value: number;
+  event_id: number;
+}
+
 export function getEvents (req: Request, res: Response) {
   const getEventsQuery = 'SELECT * FROM events'
 
@@ -53,7 +58,7 @@ export function addEvent (req: Request, res: Response) {
         event_id
         ) VALUES ?`
       
-        const participants = req.body.participantId.map(participantObj => {
+        const participants = req.body.participants.map((participantObj: ParticipantObj) => {
           return [participantObj.value, eventId[0].event_id]
         })
       

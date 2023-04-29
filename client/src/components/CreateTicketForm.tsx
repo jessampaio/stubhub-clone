@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormControl, FormLabel, Input, Button, useToast, Select, Container } from '@chakra-ui/react'
 
 interface Event {
