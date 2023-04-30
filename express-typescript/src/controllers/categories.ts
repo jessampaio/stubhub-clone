@@ -1,15 +1,19 @@
 import database from '../database'
+import { connection } from '../database'
 import { type Request, type Response } from 'express'
 
-export function getCategories (req: Request, res: Response) {
-  const getCategoriesQuery = 'SELECT * FROM categories'
-
-  database.query(getCategoriesQuery, (err, data: any) => {
+export async function getCategories (req: Request, res: Response) {
+  try {
+    const conn = await connection
+    const [data]: any = await conn.execute(`SELECT * FROM categories`)
+    if (data) {
+      return res.send(data)
+    }
+  } catch (err) {
     if (err != null) {
       return res.status(500).json(err)
     }
-    return res.send(data)
-  })
+  }
 }
 
 export function addCategory (req: Request, res: Response) {
