@@ -96,7 +96,7 @@ const AddNewParticipantForm = (props: Props) => {
   return (
       <>
         <HStack justifyContent={'space-between'} mb={'10px'}>
-            <Select
+          <Select
             placeholder='Choose a participant'
             value={props.value}
             name='participants'

@@ -25,24 +25,24 @@ export default function App (): any {
   }
 
   return (
-        <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
-    <BrowserRouter>
-      <Grid templateAreas={{
+    <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
+      <BrowserRouter>
+        <Grid templateAreas={{
         base: `"nav"
-              "main"`
-      }}>
-        <GridItem area="nav" style={{ height: '100px' }}>
-          <NavBar />
-        </GridItem>
-        <GridItem area="main">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/createEvent" element={<CreateEventPage />} />
-            <Route path="/createTicket" element={<CreateTicketPage />} />
-          </Routes>
-        </GridItem>
-      </Grid>
-    </BrowserRouter>
-        </EventContext.Provider>
+        "main"`
+        }}>
+          <GridItem area="nav" style={{ height: '100px' }}>
+            <NavBar />
+          </GridItem>
+            <GridItem area="main">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/createEvent" element={<CreateEventPage />} />
+                <Route path="/createTicket" element={<CreateTicketPage />} />
+              </Routes>
+            </GridItem>
+        </Grid>
+      </BrowserRouter>
+    </EventContext.Provider>
   )
 }
