@@ -4,7 +4,6 @@ import CreateEventPage from './pages/CreateEventPage'
 import EventContext from './contexts/eventContext'
 import CreateTicketPage from './pages/CreateTicketPage'
 import { Grid, GridItem } from '@chakra-ui/react'
-import NavBar from './components/NavBar'
 import Home from './pages/Home'
 
 const INITIAL_EVENT_STATE = {
@@ -32,7 +31,6 @@ export default function App (): any {
         "main"`
         }}>
           <GridItem area="nav" style={{ height: '100px' }}>
-            <NavBar />
           </GridItem>
             <GridItem area="main">
               <Routes>

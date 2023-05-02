@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { FormControl, FormLabel, Input, Button, useToast, Select, Container } from '@chakra-ui/react'
 
-interface Event {
+export interface Event {
   event_date: string;
   event_id: number;
   event_name: string;

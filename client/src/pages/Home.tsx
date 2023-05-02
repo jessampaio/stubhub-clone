@@ -1,91 +1,39 @@
+import EventBox from '../components/EventBox'
 import MainSearchBar from '../components/MainSearchBar'
-import { Box, Container, Heading, Image, SimpleGrid } from '@chakra-ui/react'
+import { Container, Heading, SimpleGrid } from '@chakra-ui/react'
+
+const events = [
+  {
+    category: 'sports',
+    heading: 'Top Sports'
+  },
+  {
+    category: 'concerts',
+    heading: 'Top Concerts'
+  },
+  {
+    category: 'testing1',
+    heading: 'Top Other Stuff'
+  }
+]
 
 const Home = () => {
   return (
-    <Container maxW="990px" >
+    <Container maxW="1300px" >
       <MainSearchBar />
-      <Heading size='md' mb='10px'>Recently viewed</Heading>
-      <SimpleGrid minChildWidth='10px' spacing='10px' mb={'50px'}>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://loremflickr.com/640/480/concerts' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://loremflickr.com/640/480/concerts' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://loremflickr.com/640/480/concerts' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://loremflickr.com/640/480/concerts' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-      </SimpleGrid>
-      <Heading size='md' mb='10px'>Top Concerts</Heading>
-      <SimpleGrid minChildWidth='10px' spacing='10px' mb={'50px'}>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-      </SimpleGrid>
-      <Heading size='md' mb='10px'>Top Sports</Heading>
-      <SimpleGrid minChildWidth='10px' spacing='10px' mb={'50px'}>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://images.pexels.com/photos/264279/pexels-photo-264279.jpeg' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://images.pexels.com/photos/264279/pexels-photo-264279.jpeg' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://images.pexels.com/photos/264279/pexels-photo-264279.jpeg' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-        <Box height='170px' mb={'30px'}>
-          <Image boxSize='200px' mb={'10px'} borderRadius={'10px'} src='https://images.pexels.com/photos/264279/pexels-photo-264279.jpeg' alt='Dan Abramov' />
-          <Heading as='h5' size='sm'>
-            some event
-          </Heading>
-        </Box>
-      </SimpleGrid>
+      {/* <Heading size='md' mb='10px'>Recently viewed</Heading>
+      <SimpleGrid minChildWidth='10px' spacing='30px' mb={'50px'}>
+        <EventBox />
+      </SimpleGrid> */}
+      {events.map((event, idx) => (
+        <span key={idx}>
+          <Heading size='md' mb='10px'>{event.heading}</Heading>
+          <SimpleGrid minChildWidth='10px' spacing='30px' mb={'50px'}>
+            <EventBox category={event.category} />
+          </SimpleGrid> 
+        </span>
+      ))}
+
     </Container>
   )
 }

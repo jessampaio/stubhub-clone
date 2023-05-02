@@ -1,4 +1,5 @@
 import database from '../database'
+import { connection } from '../database'
 import { type Request, type Response } from 'express'
 
 interface ParticipantObj {
@@ -6,17 +7,35 @@ interface ParticipantObj {
   event_id: number;
 }
 
-export function getEvents (req: Request, res: Response) {
-  const getEventsQuery = 'SELECT * FROM events'
+export async function getEvents (req: Request, res: Response) {
+  try {
+    let getEventsQuery = `SELECT * FROM events`
+    
+    const values = []
+    
+    const categoryMap: Record<string, any> = {
+      sports: 57,
+      concerts: 56,
+      testing1: 58
+    }
 
-  database.query(getEventsQuery, (err, data: any) => {
+    if (req.query.category) {
+      const { category } = req.query;
+      getEventsQuery = getEventsQuery + ' WHERE category_id = ?'
+      values.push(categoryMap[String(category)])
+    }
+
+    const conn = await connection
+    const [data]: any = await conn.execute(getEventsQuery, values)
+
+    if (data) {
+      return res.status(200).send(data)
+    }
+  } catch (err) {
     if (err != null) {
       return res.status(500).json(err)
     }
-    if (data) {
-      return res.send(data)
-    }
-  })
+  }
 }
 
 export function addEvent (req: Request, res: Response) {
