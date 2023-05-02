@@ -4,10 +4,10 @@ import { SearchIcon } from '@chakra-ui/icons'
 const MainSearchBar = () => {
   return (
     <HStack>
-      <Image boxSize='100px' 
-      mb={'10px'} 
-      borderRadius={'10px'} 
-      src='https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg' 
+      <Image boxSize='100px'
+      mb={'10px'}
+      borderRadius={'10px'}
+      src='https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg'
       alt='' />
       <InputGroup mb={'30px'}>
         <InputLeftElement

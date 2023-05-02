@@ -1,6 +1,5 @@
 import MainSearchBar from '../components/MainSearchBar'
-import { Box, Container, Heading, Image, SimpleGrid, Text } from '@chakra-ui/react'
-
+import { Box, Container, Heading, Image, SimpleGrid } from '@chakra-ui/react'
 
 const Home = () => {
   return (

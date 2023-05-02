@@ -28,7 +28,7 @@ export default function App (): any {
     <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
       <BrowserRouter>
         <Grid templateAreas={{
-        base: `"nav"
+          base: `"nav"
         "main"`
         }}>
           <GridItem area="nav" style={{ height: '100px' }}>

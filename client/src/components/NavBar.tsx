@@ -1,12 +1,12 @@
-import { Center, Container, Image } from '@chakra-ui/react'
+// import { Center, Container, Image } from '@chakra-ui/react'
 
-const NavBar = () => {
-  return (
-    <>
-    
-    </>
+// const NavBar = () => {
+//   return (
+//     <>
 
-  )
-}
+//     </>
 
-export default NavBar
+//   )
+// }
+
+// export default NavBar
