@@ -5,6 +5,7 @@ import EventContext from './contexts/eventContext'
 import CreateTicketPage from './pages/CreateTicketPage'
 import { Grid, GridItem } from '@chakra-ui/react'
 import Home from './pages/Home'
+import TicketInfoPage from './pages/TicketInfoPage'
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -13,11 +14,13 @@ const INITIAL_EVENT_STATE = {
   ticketAmount: 0,
   categoryId: '',
   venueId: '',
-  participants: []
+  participants: [],
+  eventImg: ''
 }
 
 export default function App (): any {
-  const [eventInfo, setEventInfo] = useState<Record<string, any>>(INITIAL_EVENT_STATE)
+  const [eventInfo, setEventInfo] =
+    useState<Record<string, any>>(INITIAL_EVENT_STATE)
 
   function resetEventInfo () {
     setEventInfo(INITIAL_EVENT_STATE)
@@ -26,19 +29,21 @@ export default function App (): any {
   return (
     <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
       <BrowserRouter>
-        <Grid templateAreas={{
-          base: `"nav"
+        <Grid
+          templateAreas={{
+            base: `"nav"
         "main"`
-        }}>
-          <GridItem area="nav" style={{ height: '100px' }}>
+          }}
+        >
+          <GridItem area="nav" style={{ height: '100px' }}></GridItem>
+          <GridItem area="main">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/createEvent" element={<CreateEventPage />} />
+              <Route path="/createTicket" element={<CreateTicketPage />} />
+              <Route path="/events/:eventId/" element={<TicketInfoPage />} />
+            </Routes>
           </GridItem>
-            <GridItem area="main">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/createEvent" element={<CreateEventPage />} />
-                <Route path="/createTicket" element={<CreateTicketPage />} />
-              </Routes>
-            </GridItem>
         </Grid>
       </BrowserRouter>
     </EventContext.Provider>
