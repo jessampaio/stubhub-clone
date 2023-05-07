@@ -1,6 +1,17 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { FormControl, FormLabel, Input, Button, useToast, Select, Container } from '@chakra-ui/react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import {
+  FormControl,
+  Input,
+  Button,
+  useToast,
+  Select,
+  Container,
+  Stack,
+  InputGroup,
+  InputLeftAddon,
+  Divider,
+} from '@chakra-ui/react';
 
 export interface Event {
   event_date: string;
@@ -9,77 +20,70 @@ export interface Event {
   event_time: string;
   ticket_amount: string;
   venue_id: number;
+  event_img: string;
 }
 
 interface Ticket {
-  ticketTier: string;
   ticketPrice: number;
   ticketQuantity: number;
-}
-
-const INITIAL_TICKET_STATE = {
-  ticketTier: '',
-  ticketPrice: 0,
-  ticketQuantity: 0
+  ticketSection: number;
 }
 
 const CreateTicketForm = () => {
-  const toast = useToast()
-  const [eventSelectOptions, setEventSelectOptions] = useState<any>([])
-  const [eventSelected, setEventSelected] = useState('')
-  const [ticket, setTicket] = useState<Ticket>(INITIAL_TICKET_STATE)
-  const [ticketsRemaining, setTicketsRemaining] = useState('')
+  const toast = useToast();
+  const [eventSelectOptions, setEventSelectOptions] = useState<any>([]);
+  const [eventSelected, setEventSelected] = useState('');
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [ticketsRemaining, setTicketsRemaining] = useState('');
+
+  const [sections, setSections] = useState([]);
 
   const getEvents = () => {
-    axios.get('http://localhost:3345/events')
+    axios
+      .get('http://localhost:3345/events')
       .then(function (response) {
         if (response.data.length) {
           const eventOptions = response.data.map((event: Event) => (
             <option key={event.event_id} value={event.event_id}>
               {event.event_name}
             </option>
-          )
-          )
-          setEventSelectOptions(eventOptions)
+          ));
+          setEventSelectOptions(eventOptions);
         }
       })
       .catch(function (err) {
-        console.log('ERROR getting events: ', err)
-        throw err
-      })
-  }
+        console.log('ERROR getting events: ', err);
+        throw err;
+      });
+  };
 
   useEffect(() => {
-    getEvents()
-  }, [])
+    getEvents();
+  }, []);
 
   const handleSelectEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setEventSelected(event.target.value)
-    getInfoAboutEvent(Number(event.target.value))
-  }
+    setEventSelected(event.target.value);
+    getInfoAboutEvent(Number(event.target.value));
+  };
 
   const getInfoAboutEvent = (eventId: number) => {
-    axios.get(`http://localhost:3345/event/${eventId}`)
+    axios
+      .get(`http://localhost:3345/event/${eventId}`)
       .then(function (response) {
-        if (response.data[0].tickets_remaining) {
-          const ticketsLeft = response.data[0].tickets_remaining
-          setTicketsRemaining(ticketsLeft)
+        console.log(response.data[0]);
+        if (response.data[0]) {
+          const ticketsLeft = response.data[0].tickets_remaining;
+          setTicketsRemaining(ticketsLeft);
+          getInfoAboutSection(response.data[0].venue_id);
         }
       })
       .catch(function (err) {
         if (err) {
-          console.log(err)
-          throw err
+          console.log(err);
+          throw err;
         }
-      })
-  }
-
-  const handleTicketChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTicket((prevTicket: Ticket) => ({
-      ...prevTicket,
-      [event.target.name]: event.target.value
-    }))
-  }
+      });
+  };
 
   const showToast = () => {
     toast({
@@ -87,49 +91,84 @@ const CreateTicketForm = () => {
       description: 'Ticket has been created succesfully',
       status: 'success',
       duration: 9000,
-      isClosable: true
-    })
-  }
+      isClosable: true,
+    });
+  };
 
   const handleCreateTicket = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    axios.post('http://localhost:3345/tickets', { eventSelected, ...ticket })
+    console.log('CREATING TICKET', tickets);
+    event.preventDefault();
+    axios
+      .post('http://localhost:3345/tickets', { eventSelected, tickets })
       .then(function (response) {
         if (response.data) {
-          showToast()
-          setEventSelected('')
-          setTicket(INITIAL_TICKET_STATE)
-          setTicketsRemaining('')
+          showToast();
+          setEventSelected('');
+          setTickets([]);
+          setTicketsRemaining('');
         }
       })
       .catch(function (err) {
         if (err) {
-          console.log(err)
-          throw err
+          console.log(err);
+          throw err;
         }
-      })
-  }
+      });
+  };
+
+  const handleTicketChange = (newSection: any, index: number) => {
+    console.log('label', tickets)
+
+    setTickets((prevTickets) => {
+      prevTickets[index] = newSection
+      return [...prevTickets]
+    });
+
+  };
+
+  const getInfoAboutSection = async (venueId: any) => {
+    const response = await axios.get(`http://localhost:3345/seats/sectionseats/${venueId}`);
+    console.log(response.data);
+    setSections(response.data);
+  };
+
+  const createSections = () => {
+    return sections.map((section: any, idx: number) => (
+      <Container key={idx} justifyContent={'space-around'}>
+        <Stack>
+          <InputGroup>
+            <InputLeftAddon children={`Section ${section.section}`} />
+            <InputLeftAddon children={`Seat Quantity: ${section.seats_per_section}`} />
+            <Input
+              width="200px"
+              name="ticketPrices"
+              type="number"
+              placeholder="Enter ticket price"
+              onChange={(event) => handleTicketChange({ ...section, price: event.target.value }, idx)}
+            />
+          </InputGroup>
+        </Stack>
+        <Divider h="5px" width="100px" />
+      </Container>
+    ));
+  };
 
   return (
-        <Container maxW="550px">
-          <Select aria-label="Select Event" value={eventSelected} onChange={handleSelectEvent}>
-            <option>Choose an event</option>
-                  {eventSelectOptions}
-          </Select>
-          {ticketsRemaining && <span>Number of tickets to be priced: {ticketsRemaining}</span>}
-            <FormControl>
-                <FormLabel>Ticket Tier</FormLabel>
-                  <Input type="text" name="ticketTier" value={ticket.ticketTier} onChange={handleTicketChange} placeholder="Enter ticket tier" />
-              <FormLabel>Ticket Price</FormLabel>
-                  <Input type="text" name="ticketPrice" value={ticket.ticketPrice} onChange={handleTicketChange} placeholder="Enter ticket price" />
-              <FormLabel>Ticket Quantity</FormLabel>
-                  <Input type="text" name="ticketQuantity" value={ticket.ticketQuantity} onChange={handleTicketChange} placeholder="Enter ticket quantity" />
-                  <Button type="submit" onClick={handleCreateTicket}>
-                    Add tickets
-                  </Button>
-            </FormControl>
-          </Container>
-  )
-}
+    <Container maxW="550px">
+      <Select aria-label="Select Event" value={eventSelected} onChange={handleSelectEvent}>
+        <option>Choose an event</option>
+        {eventSelectOptions}
+      </Select>
+      {ticketsRemaining && <span>Number of tickets to be priced: {ticketsRemaining}</span>}
+      <Divider h="5px" width="100px" />
+      <FormControl>
+        {createSections()}
+        <Button type="submit" onClick={handleCreateTicket}>
+          Add tickets
+        </Button>
+      </FormControl>
+    </Container>
+  );
+};
 
-export default CreateTicketForm
+export default CreateTicketForm;

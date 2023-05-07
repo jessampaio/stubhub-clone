@@ -39,14 +39,14 @@ const AddNewParticipantForm = (props: Props) => {
   })
 
   const getParticipants = () => {
-    axios.get('http://localhost:3345/participants')
+    axios
+      .get('http://localhost:3345/participants')
       .then(function (response) {
         if (response.data.length) {
           const options = response.data.map((participant: ParticipantData) => ({
             label: participant.name,
             value: participant.participant_id
-          })
-          )
+          }))
           setParticipantsSelectOptions(options)
         }
       })
@@ -61,7 +61,7 @@ const AddNewParticipantForm = (props: Props) => {
   }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewParticipant(prevParticipant => {
+    setNewParticipant((prevParticipant) => {
       return {
         ...prevParticipant,
         [event.target.name]: event.target.value
@@ -71,19 +71,21 @@ const AddNewParticipantForm = (props: Props) => {
 
   const handleAddNewParticipant = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    axios.post('http://localhost:3345/participants', { ...newParticipant })
-      .then(response => {
+    axios
+      .post('http://localhost:3345/participants', { ...newParticipant })
+      .then((response) => {
         setShowModal(false)
         console.log('posting the thing COMPONENT', response)
-        props.handleStateChange('participants',
-          [...props.value,
-            {
-              label: response.data.name,
-              value: response.data.participant_id
-            }])
+        props.handleStateChange('participants', [
+          ...props.value,
+          {
+            label: response.data.name,
+            value: response.data.participant_id
+          }
+        ])
         getParticipants()
       })
-      .catch((err: AxiosError) => setErrorMessage(err?.response?.data as string || 'Unknown error.'))
+      .catch((err: AxiosError) => setErrorMessage((err?.response?.data as string) || 'Unknown error.'))
   }
 
   const handleSelect = (newValue: MultiValue<Participant>) => {
@@ -94,42 +96,38 @@ const AddNewParticipantForm = (props: Props) => {
   }
 
   return (
-      <>
-        <HStack justifyContent={'space-between'} mb={'10px'}>
-          <Select
-            placeholder='Choose a participant'
-            value={props.value}
-            name='participants'
-            isMulti
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleSelect}
-            options={participantsSelectOptions}
-          />
-        <Button onClick={() => setShowModal(true)}>
-        Add new Participant
-        </Button>
-        </HStack>
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+    <>
+      <HStack justifyContent={'space-between'} mb={'10px'}>
+        <Select
+          placeholder="Choose a participant"
+          value={props.value}
+          name="participants"
+          isMulti
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={handleSelect}
+          options={participantsSelectOptions}
+        />
+        <Button onClick={() => setShowModal(true)}>Add new Participant</Button>
+      </HStack>
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add new participant</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          <FormControl isInvalid={Boolean(errorMessage)}>
+            <FormControl isInvalid={Boolean(errorMessage)}>
               <FormLabel>New Participant</FormLabel>
-                <Input type="text" name="name" onChange={handleChange} placeholder="Enter participant name" />
-                  {
-                    errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>
-                  }
-                <Button type="submit" onClick={handleAddNewParticipant}>
-                  Add new participant
-                </Button>
-          </FormControl>
-        </ModalBody>
+              <Input type="text" name="name" onChange={handleChange} placeholder="Enter participant name" />
+              {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
+              <Button type="submit" onClick={handleAddNewParticipant}>
+                Add new participant
+              </Button>
+            </FormControl>
+          </ModalBody>
         </ModalContent>
       </Modal>
-      </>
+    </>
   )
 }
 
