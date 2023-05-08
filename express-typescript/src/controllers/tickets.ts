@@ -1,17 +1,25 @@
 import database from '../database';
+import { connection } from "../database";
 import { type Request, type Response } from 'express';
 
-export function getTickets(req: Request, res: Response) {
-  const getTicketsQuery = 'SELECT * FROM tickets';
+export async function getTickets(req: Request, res: Response) {
+  try {
+    const conn = await connection
+    const [data]: any = await conn.execute(`SELECT * FROM tickets 
+    WHERE event_id = ? 
+    ORDER BY ticket_price ASC`, [req.params.id])
 
-  database.query(getTicketsQuery, (err, data: any) => {
     if (data) {
-      return res.send(data);
+      console.log(data)
+      return res.status(200).send(data)
     }
+
+  } catch (err) {
     if (err != null) {
-      return res.send(err);
+      console.log(err)
+      return res.send(err)
     }
-  });
+  }
 }
 
 export function createTicket(req: Request, res: Response) {

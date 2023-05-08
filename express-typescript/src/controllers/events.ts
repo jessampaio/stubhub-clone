@@ -108,13 +108,14 @@ export function getEvent(req: Request, res: Response) {
 	  FROM tickets
 	  JOIN events
 		USING (event_id) 
+    WHERE event_id = ?
 	  HAVING tickets_remaining > 0) as tickets_remaining
   FROM events
   JOIN venues 
 	USING (venue_id)
   WHERE event_id = ?`;
 
-  database.query(getEventQuery, [req.params.id], (err, data: any) => {
+  database.query(getEventQuery, [req.params.id, req.params.id], (err, data: any) => {
     if (data.length === 0) {
       return res.status(200).send("No event has been added yet.");
     }

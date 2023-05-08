@@ -1,8 +1,8 @@
-import { Box, Heading, Image } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { Event } from './CreateTicketForm';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Box, Heading, Image } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { Event } from './CreateTicketForm'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 interface EventState {
   events: Event[];
@@ -13,7 +13,7 @@ interface EventBoxProps {
 }
 
 const EventBox = (props: EventBoxProps) => {
-  const [event, setEvent] = useState<EventState>();
+  const [event, setEvent] = useState<EventState>()
 
   const getEvents = () => {
     axios.get(`http://localhost:3345/events?category=${props.category}`).then(function (response) {
@@ -27,17 +27,17 @@ const EventBox = (props: EventBoxProps) => {
               </Heading>
             </Box>
           </Link>
-        ));
-        setEvent(events);
+        ))
+        setEvent(events)
       }
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    getEvents();
-  }, []);
+    getEvents()
+  }, [])
 
-  return <>{event}</>;
-};
+  return <>{event}</>
+}
 
-export default EventBox;
+export default EventBox

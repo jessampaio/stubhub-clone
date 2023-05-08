@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import {
   FormControl,
   Input,
@@ -10,8 +10,8 @@ import {
   Stack,
   InputGroup,
   InputLeftAddon,
-  Divider,
-} from '@chakra-ui/react';
+  Divider
+} from '@chakra-ui/react'
 
 export interface Event {
   event_date: string;
@@ -30,13 +30,13 @@ interface Ticket {
 }
 
 const CreateTicketForm = () => {
-  const toast = useToast();
-  const [eventSelectOptions, setEventSelectOptions] = useState<any>([]);
-  const [eventSelected, setEventSelected] = useState('');
-  const [tickets, setTickets] = useState<Ticket[]>([]);
-  const [ticketsRemaining, setTicketsRemaining] = useState('');
+  const toast = useToast()
+  const [eventSelectOptions, setEventSelectOptions] = useState<any>([])
+  const [eventSelected, setEventSelected] = useState('')
+  const [tickets, setTickets] = useState<Ticket[]>([])
+  const [ticketsRemaining, setTicketsRemaining] = useState('')
 
-  const [sections, setSections] = useState([]);
+  const [sections, setSections] = useState([])
 
   const getEvents = () => {
     axios
@@ -47,43 +47,43 @@ const CreateTicketForm = () => {
             <option key={event.event_id} value={event.event_id}>
               {event.event_name}
             </option>
-          ));
-          setEventSelectOptions(eventOptions);
+          ))
+          setEventSelectOptions(eventOptions)
         }
       })
       .catch(function (err) {
-        console.log('ERROR getting events: ', err);
-        throw err;
-      });
-  };
+        console.log('ERROR getting events: ', err)
+        throw err
+      })
+  }
 
   useEffect(() => {
-    getEvents();
-  }, []);
+    getEvents()
+  }, [])
 
   const handleSelectEvent = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setEventSelected(event.target.value);
-    getInfoAboutEvent(Number(event.target.value));
-  };
+    setEventSelected(event.target.value)
+    getInfoAboutEvent(Number(event.target.value))
+  }
 
   const getInfoAboutEvent = (eventId: number) => {
     axios
       .get(`http://localhost:3345/event/${eventId}`)
       .then(function (response) {
-        console.log(response.data[0]);
+        console.log(response.data[0])
         if (response.data[0]) {
-          const ticketsLeft = response.data[0].tickets_remaining;
-          setTicketsRemaining(ticketsLeft);
-          getInfoAboutSection(response.data[0].venue_id);
+          const ticketsLeft = response.data[0].tickets_remaining
+          setTicketsRemaining(ticketsLeft)
+          getInfoAboutSection(response.data[0].venue_id)
         }
       })
       .catch(function (err) {
         if (err) {
-          console.log(err);
-          throw err;
+          console.log(err)
+          throw err
         }
-      });
-  };
+      })
+  }
 
   const showToast = () => {
     toast({
@@ -91,30 +91,30 @@ const CreateTicketForm = () => {
       description: 'Ticket has been created succesfully',
       status: 'success',
       duration: 9000,
-      isClosable: true,
-    });
-  };
+      isClosable: true
+    })
+  }
 
   const handleCreateTicket = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('CREATING TICKET', tickets);
-    event.preventDefault();
+    console.log('CREATING TICKET', tickets)
+    event.preventDefault()
     axios
       .post('http://localhost:3345/tickets', { eventSelected, tickets })
       .then(function (response) {
         if (response.data) {
-          showToast();
-          setEventSelected('');
-          setTickets([]);
-          setTicketsRemaining('');
+          showToast()
+          setEventSelected('')
+          setTickets([])
+          setTicketsRemaining('')
         }
       })
       .catch(function (err) {
         if (err) {
-          console.log(err);
-          throw err;
+          console.log(err)
+          throw err
         }
-      });
-  };
+      })
+  }
 
   const handleTicketChange = (newSection: any, index: number) => {
     console.log('label', tickets)
@@ -122,15 +122,14 @@ const CreateTicketForm = () => {
     setTickets((prevTickets) => {
       prevTickets[index] = newSection
       return [...prevTickets]
-    });
-
-  };
+    })
+  }
 
   const getInfoAboutSection = async (venueId: any) => {
-    const response = await axios.get(`http://localhost:3345/seats/sectionseats/${venueId}`);
-    console.log(response.data);
-    setSections(response.data);
-  };
+    const response = await axios.get(`http://localhost:3345/seats/sectionseats/${venueId}`)
+    console.log(response.data)
+    setSections(response.data)
+  }
 
   const createSections = () => {
     return sections.map((section: any, idx: number) => (
@@ -150,8 +149,8 @@ const CreateTicketForm = () => {
         </Stack>
         <Divider h="5px" width="100px" />
       </Container>
-    ));
-  };
+    ))
+  }
 
   return (
     <Container maxW="550px">
@@ -168,7 +167,7 @@ const CreateTicketForm = () => {
         </Button>
       </FormControl>
     </Container>
-  );
-};
+  )
+}
 
-export default CreateTicketForm;
+export default CreateTicketForm

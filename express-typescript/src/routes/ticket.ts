@@ -3,7 +3,7 @@ import { createTicket, getTieredTickets, updateTicket, deleteTicket, getTickets 
 
 const router = Router();
 
-router.get('/tickets', getTickets);
+router.get('/tickets/:id', getTickets);
 router.post('/tickets', createTicket);
 router.get('/ticket/getTicket', getTieredTickets);
 router.put('/tickets/ticket/update', updateTicket);
