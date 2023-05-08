@@ -6,6 +6,8 @@ import CreateTicketPage from './pages/CreateTicketPage'
 import { Grid, GridItem } from '@chakra-ui/react'
 import Home from './pages/Home'
 import TicketInfoPage from './pages/TicketInfoPage'
+import { Login } from './pages/Login'
+import { Register } from './pages/Register'
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -18,11 +20,11 @@ const INITIAL_EVENT_STATE = {
   eventImg: ''
 }
 
-export default function App (): any {
+export default function App(): any {
   const [eventInfo, setEventInfo] =
     useState<Record<string, any>>(INITIAL_EVENT_STATE)
 
-  function resetEventInfo () {
+  function resetEventInfo() {
     setEventInfo(INITIAL_EVENT_STATE)
   }
 
@@ -39,6 +41,8 @@ export default function App (): any {
           <GridItem area="main">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/createEvent" element={<CreateEventPage />} />
               <Route path="/createTicket" element={<CreateTicketPage />} />
               <Route path="/events/:eventId/" element={<TicketInfoPage />} />

@@ -15,7 +15,6 @@ import {
   ModalCloseButton,
   ModalBody,
   FormControl,
-  FormLabel,
   Input,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';

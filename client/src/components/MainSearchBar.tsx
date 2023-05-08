@@ -36,8 +36,8 @@ const MainSearchBar = () => {
         <Link width="80px" href="https://chakra-ui.com">
           My Tickets
         </Link>
-        <Link width="70px" href="https://chakra-ui.com">
-          Profile
+        <Link width="70px" href="http://localhost:5173/login">
+          Sign In
         </Link>
       </HStack>
     </HStack>
