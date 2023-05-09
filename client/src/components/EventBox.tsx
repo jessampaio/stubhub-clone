@@ -35,7 +35,7 @@ const EventBox = (props: EventBoxProps) => {
 
   useEffect(() => {
     getEvents()
-  }, [])
+  })
 
   return <>{event}</>
 }

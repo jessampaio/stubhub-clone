@@ -42,7 +42,7 @@ const TicketInfoPage = () => {
 
   useEffect(() => {
     getEventInfo()
-  }, [])
+  })
 
   return (
     <>

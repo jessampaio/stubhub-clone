@@ -3,6 +3,7 @@ import { type Request, type Response, type NextFunction } from 'express';
 
 export default function auth(req: Request, res: Response, next: NextFunction) {
   const token = req.header('x-auth-token');
+  console.log(token)
   if (!token) return res.status(401).send('ACCESS DENIED. NO TOKEN.');
 
   try {
@@ -15,6 +16,7 @@ export default function auth(req: Request, res: Response, next: NextFunction) {
 
     next();
   } catch (err) {
+    console.log(err)
     res.status(400).send('Invalid Token.');
   }
 }

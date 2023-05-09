@@ -15,9 +15,9 @@ import {
   ModalCloseButton,
   ModalBody,
   FormControl,
-  Input,
+  Input
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 interface Ticket {
   created_at: string;
@@ -36,7 +36,6 @@ const TicketCard = ({ eventId }: Props) => {
   const [tickets, setTickets] = useState([])
   const [showModal, setShowModal] = useState<boolean>(false)
 
-
   const getTicketsList = () => {
     axios.get(`http://localhost:3345/tickets/${eventId}`)
       .then(function (response) {
@@ -47,7 +46,7 @@ const TicketCard = ({ eventId }: Props) => {
               <Card
                 key={ticket.ticket_id}
                 overflowY="auto"
-                maxHeight="300px"
+                maxHeight="250px"
                 direction={{ base: 'column', sm: 'row' }}
                 variant="outline"
               >
@@ -77,8 +76,7 @@ const TicketCard = ({ eventId }: Props) => {
 
   useEffect(() => {
     getTicketsList()
-  }, [])
-
+  })
 
   return (
     <>
