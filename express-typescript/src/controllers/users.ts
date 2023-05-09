@@ -26,12 +26,11 @@ export function getUsers(req: Request, res: Response) {
 
 export function registerUser(req: Request, res: Response) {
   const createUserQuery =
-    "INSERT INTO users (`firstName`, `lastName`, `username`, `email`, `password`) VALUES (?)";
+    "INSERT INTO users (`first_name`, `last_name`, `email`, `password`) VALUES (?)";
 
   const values = [
     req.body.firstName,
     req.body.lastName,
-    req.body.username,
     req.body.email,
     genHash(req.body.password),
   ];
@@ -50,9 +49,9 @@ export function registerUser(req: Request, res: Response) {
 // LOGIN:
 
 export function login(req: Request, res: Response) {
-  const loginQuery = "SELECT * FROM users WHERE username = ?";
+  const loginQuery = "SELECT * FROM users WHERE email = ?";
 
-  database.query(loginQuery, [req.body.username], (err, data: any) => {
+  database.query(loginQuery, [req.body.email], (err, data: any) => {
     if (err != null) return res.status(500).json(err);
     if (data.length === 0) return res.status(404).json("User not found.");
 
@@ -62,13 +61,14 @@ export function login(req: Request, res: Response) {
     );
     if (!checkPassword) return res.status(400).json("Wrong password.");
     console.log("TESTING USER ID BEFORE SIGNING TOKEN:", data[0].user_id);
+
     const token = jwt.sign(
       { id: data[0].user_id },
-      process.env.SECRET_KEY || "",
-      { expiresIn: "7200" }
+      process.env.SECRET_KEY || '',
+      { expiresIn: "1d" }
     );
     console.log("token signed:", token);
-    res.header("x-auth-token", token).send("Loggged in.");
+    return res.header("x-auth-token", token).send(token);
   });
 }
 
@@ -82,14 +82,13 @@ export function updateUser(req: Request, res: Response) {
   }
 
   const updatingUserQuery =
-    "UPDATE users SET `firstName` = ?, `lastName` = ?, `email` = ?, `password` = ?, `username` = ? WHERE user_id = ?";
+    "UPDATE users SET `first_name` = ?, `last_name` = ?, `email` = ?, `password` = ? WHERE user_id = ?";
 
   const values = [
-    req.body.firstName,
-    req.body.lastName,
+    req.body.first_name,
+    req.body.last_name,
     req.body.email,
-    genHash(req.body.password),
-    req.body.username,
+    genHash(req.body.password)
   ];
 
   database.query(

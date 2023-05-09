@@ -20,16 +20,17 @@ const INITIAL_EVENT_STATE = {
   eventImg: ''
 }
 
-export default function App(): any {
+export default function App (): any {
   const [eventInfo, setEventInfo] =
     useState<Record<string, any>>(INITIAL_EVENT_STATE)
 
-  function resetEventInfo() {
+  function resetEventInfo () {
     setEventInfo(INITIAL_EVENT_STATE)
   }
 
   return (
     <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
+
       <BrowserRouter>
         <Grid
           templateAreas={{
