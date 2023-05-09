@@ -10,10 +10,11 @@ import {
   Link,
   Stack
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import axios from 'axios';
+import UserContext from '../contexts/userContext';
 
-const INITIAL_LOGIN_STATE = {
+export const INITIAL_LOGIN_STATE = {
   email: '',
   password: ''
 }
@@ -25,7 +26,7 @@ interface LoginInfo {
 
 export const Login = () => {
   const [loginInfo, setLoginInfo] = useState<LoginInfo>(INITIAL_LOGIN_STATE);
-
+  const { currentUser, setCurrentUser } = useContext(UserContext)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginInfo((prevLoginInfo: LoginInfo) => ({
@@ -41,9 +42,15 @@ export const Login = () => {
       .then(function (response) {
         if (response) {
           console.log(response)
+          setCurrentUser({
+            ...loginInfo,
+            token: response.data
+          })
         }
       })
   }
+
+  console.log(currentUser)
 
   return (
     <Container width={'450px'}>

@@ -1,7 +1,8 @@
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react'
 import EventBox from '../components/EventBox'
 import MainSearchBar from '../components/MainSearchBar'
 import { Container, Heading, SimpleGrid } from '@chakra-ui/react'
+import UserContext from '../contexts/userContext'
 
 const events = [
   {
@@ -19,6 +20,8 @@ const events = [
 ]
 
 const Home = () => {
+  const { currentUser } = useContext(UserContext)
+  console.log("CURRENT USER INFO: ", currentUser)
   return (
     <Container maxW="1300px">
       <MainSearchBar />

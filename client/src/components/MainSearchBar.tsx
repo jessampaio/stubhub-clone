@@ -7,8 +7,15 @@ import {
   Link
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
+import UserContext from '../contexts/userContext'
+import { useContext } from 'react'
 
 const MainSearchBar = () => {
+
+  const { currentUser, setCurrentUser } = useContext(UserContext)
+
+  console.log("GETTING CONTEXT: ", currentUser)
+
   return (
     <HStack>
       <Image
