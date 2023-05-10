@@ -11,10 +11,9 @@ import UserContext from '../contexts/userContext'
 import { useContext } from 'react'
 
 const MainSearchBar = () => {
+  const { currentUser } = useContext(UserContext)
 
-  const { currentUser, setCurrentUser } = useContext(UserContext)
-
-  console.log("GETTING CONTEXT: ", currentUser)
+  console.log('GETTING CONTEXT: ', currentUser)
 
   return (
     <HStack>

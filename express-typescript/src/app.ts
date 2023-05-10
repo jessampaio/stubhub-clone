@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 3345;
 
 const corsOptions = {
   origin: 'http://localhost:5173',
+  exposedHeaders: 'x-auth-token',
 };
 
 app.use(cors(corsOptions));

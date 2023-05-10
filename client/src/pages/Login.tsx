@@ -10,9 +10,10 @@ import {
   Link,
   Stack
 } from '@chakra-ui/react'
-import { useContext, useState } from 'react'
-import axios from 'axios';
-import UserContext from '../contexts/userContext';
+import React, { useContext, useState } from 'react'
+import axios from 'axios'
+import UserContext from '../contexts/userContext'
+import { useNavigate } from 'react-router-dom'
 
 export const INITIAL_LOGIN_STATE = {
   email: '',
@@ -25,8 +26,10 @@ interface LoginInfo {
 }
 
 export const Login = () => {
-  const [loginInfo, setLoginInfo] = useState<LoginInfo>(INITIAL_LOGIN_STATE);
-  const { currentUser, setCurrentUser } = useContext(UserContext)
+  const [loginInfo, setLoginInfo] = useState<LoginInfo>(INITIAL_LOGIN_STATE)
+  const { setCurrentUser } = useContext(UserContext)
+
+  const navigate = useNavigate()
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginInfo((prevLoginInfo: LoginInfo) => ({
@@ -41,16 +44,15 @@ export const Login = () => {
       .post('http://localhost:3345/login', loginInfo)
       .then(function (response) {
         if (response) {
-          console.log(response)
+          console.log('RES: ', response)
           setCurrentUser({
             ...loginInfo,
-            token: response.data
+            token: response.headers['x-auth-token']
           })
+          return navigate('/')
         }
       })
   }
-
-  console.log(currentUser)
 
   return (
     <Container width={'450px'}>
@@ -67,12 +69,14 @@ export const Login = () => {
           </Stack>
         </Center>
         <Input
+          id="email"
           onChange={handleInputChange}
           marginBottom={'10px'}
           name='email'
           type='email'
           placeholder='Email address' />
         <Input
+          id="password"
           onChange={handleInputChange}
           marginBottom={'10px'}
           name='password'

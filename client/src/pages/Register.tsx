@@ -1,7 +1,6 @@
 import { Button, Center, Container, FormControl, FormHelperText, FormLabel, Image, Input, Link, Stack } from '@chakra-ui/react'
-import axios from 'axios';
-import { useState } from 'react';
-
+import axios from 'axios'
+import React, { useState } from 'react'
 
 const INITIAL_USER_INFO_STATE = {
   firstName: '',
@@ -36,7 +35,6 @@ export const Register = () => {
         }
       })
   }
-
 
   return (
     <>

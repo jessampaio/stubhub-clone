@@ -44,11 +44,13 @@ export function registerUser(req: Request, res: Response) {
     }
     return res.send("User has been added sucessfully.");
   });
+
+  // return login(req, res)
 }
 
 // LOGIN:
 
-export function login(req: Request, res: Response) {
+export async function login(req: Request, res: Response) {
   const loginQuery = "SELECT * FROM users WHERE email = ?";
 
   database.query(loginQuery, [req.body.email], (err, data: any) => {
@@ -68,7 +70,7 @@ export function login(req: Request, res: Response) {
       { expiresIn: "1d" }
     );
     console.log("token signed:", token);
-    return res.header("x-auth-token", token).send(token);
+    return res.header("x-auth-token", token).send('Success.');
   });
 }
 

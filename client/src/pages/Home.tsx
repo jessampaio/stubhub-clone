@@ -21,7 +21,7 @@ const events = [
 
 const Home = () => {
   const { currentUser } = useContext(UserContext)
-  console.log("CURRENT USER INFO: ", currentUser)
+  console.log('CURRENT USER INFO: ', currentUser)
   return (
     <Container maxW="1300px">
       <MainSearchBar />
