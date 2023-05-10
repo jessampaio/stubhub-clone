@@ -9,44 +9,43 @@ const TicketInfoPage = () => {
 
   const { eventId } = useParams()
 
-  const getEventInfo = () => {
-    axios.get(`http://localhost:3345/event/${eventId}`)
-      .then(function (response) {
-        if (response) {
-          console.log(response.data)
-          const eventDetails = response.data.map((event: any) => (
-            <Container key={event.event_id} maxW="900">
-              <Card maxW="900">
-                <CardBody>
-                  <Image src={event.event_img} alt={event.event_name} borderRadius="lg" />
-                  <Stack mt="6" spacing="3" />
-                  <Heading size="md">{event.event_name}</Heading>
-                  <p>{event.venue_name}</p>
-                  <p>
-                    {event.venue_city} <span>{event.venue_state}</span>
-                  </p>
-                  <p>
-                    {event.event_time} <span>{event.event_date}</span>
-                  </p>
-                </CardBody>
-              </Card>
-              <Stack>
-                <TicketCard eventId={event.event_id} />
-              </Stack>
-            </Container>
-          ))
-          setEventInformation(eventDetails)
-        }
-      })
+  function buildEvenInfo () {
+    return eventInformation.map((event: any) => (
+      <Container key={event.event_id} maxW="900">
+        <Card maxW="900">
+          <CardBody>
+            <Image src={event.event_img} alt={event.event_name} borderRadius="lg" />
+            <Stack mt="6" spacing="3" />
+            <Heading size="md">{event.event_name}</Heading>
+            <p>{event.venue_name}</p>
+            <p>
+              {event.venue_city} <span>{event.venue_state}</span>
+            </p>
+            <p>
+              {event.event_time} <span>{event.event_date}</span>
+            </p>
+          </CardBody>
+        </Card>
+        <Stack>
+          <TicketCard eventId={event.event_id} />
+        </Stack>
+      </Container>
+    ))
   }
 
   useEffect(() => {
-    getEventInfo()
-  })
+    axios.get(`http://localhost:3345/event/${eventId}`)
+      .then(function (response) {
+        if (response) {
+          console.log('ticketInfoPage.tsx', response.data)
+          setEventInformation(response.data)
+        }
+      })
+  }, [eventId])
 
   return (
     <>
-      {eventInformation}
+      {eventInformation.length > 0 && buildEvenInfo()}
     </>
   )
 }

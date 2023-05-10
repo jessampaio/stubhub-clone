@@ -9,6 +9,7 @@ import TicketInfoPage from './pages/TicketInfoPage'
 import { INITIAL_LOGIN_STATE, Login } from './pages/Login'
 import { Register } from './pages/Register'
 import UserContext from './contexts/userContext'
+import Purchase from './pages/Purchase'
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -23,7 +24,7 @@ const INITIAL_EVENT_STATE = {
 
 const INITIAL_CURRENT_USER_STATE = {
   ...INITIAL_LOGIN_STATE,
-  token: 'hello'
+  token: ''
 }
 
 interface CurrentUser {
@@ -32,18 +33,18 @@ interface CurrentUser {
   token: string;
 }
 
-export default function App(): any {
+export default function App (): any {
   const [eventInfo, setEventInfo] = useState<Record<string, any>>(INITIAL_EVENT_STATE)
   const [currentUser, setCurrentUser] = useState<CurrentUser>(INITIAL_CURRENT_USER_STATE)
+  const [eventAndTicket, setEventAndTicket] = useState<Record<string, any>>([])
 
-
-  function resetEventInfo() {
+  function resetEventInfo () {
     setEventInfo(INITIAL_EVENT_STATE)
   }
 
   return (
     <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
-      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <UserContext.Provider value={{ currentUser, setCurrentUser, eventAndTicket, setEventAndTicket }}>
         <BrowserRouter>
           <Grid
             templateAreas={{
@@ -60,6 +61,7 @@ export default function App(): any {
                 <Route path="/createEvent" element={<CreateEventPage />} />
                 <Route path="/createTicket" element={<CreateTicketPage />} />
                 <Route path="/events/:eventId/" element={<TicketInfoPage />} />
+                <Route path="/purchase" element={<Purchase />} />
               </Routes>
             </GridItem>
           </Grid>
