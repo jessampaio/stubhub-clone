@@ -33,6 +33,8 @@ const TicketInfoPage = () => {
     ))
   }
 
+  console.log(eventInformation)
+
   useEffect(() => {
     axios.get(`http://localhost:3345/event/${eventId}`)
       .then(function (response) {

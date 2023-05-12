@@ -20,10 +20,7 @@ import {
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
-
-const INITIAL_TICKET_STATE = {
-  ticketQuantity: 0
-}
+import { loadStripe } from '@stripe/stripe-js'
 
 interface Ticket {
   created_at: string;
@@ -38,15 +35,15 @@ interface Props {
   eventId: number;
 }
 
-interface TicketQuantity {
-  ticketQuantity: number;
-}
+const stripePromise = loadStripe('pk_test_51N6aFrHsmvWJAjUnFwmbgm5w7rsxIvclvBSO4Brre9wY2qyux9Kjti4vMrYGen2MDePiPiVfEo00mhKr8XXkHEri00aQxgTjup')
 
 const TicketCard = ({ eventId }: Props) => {
   const [tickets, setTickets] = useState<any>([])
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [ticketQuantity, setTicketQuantity] = useState<TicketQuantity>(INITIAL_TICKET_STATE)
-  const { setEventAndTicket } = useContext(UserContext)
+  const [choice, setChoice] = useState<any>()
+  const { eventAndTicket, setEventAndTicket } = useContext(UserContext)
+  const [clientSecret, setClientSecret] = useState<any>('');
+
 
   const navigate = useNavigate()
 
@@ -60,7 +57,7 @@ const TicketCard = ({ eventId }: Props) => {
       })
   }
 
-  function buildTickets () {
+  function buildTickets() {
     return tickets.map((ticket: Ticket) => (
       <Box key={ticket.ticket_id} overflowY="auto" maxHeight="600px">
         <Card
@@ -78,7 +75,10 @@ const TicketCard = ({ eventId }: Props) => {
             </CardBody>
             <CardFooter>
               <Button
-                onClick={() => setShowModal(true)}
+                onClick={() => {
+                  setShowModal(true)
+                  setChoice({ ...choice, ticket })
+                }}
                 size='sm'
                 variant="solid"
                 colorScheme="purple">
@@ -92,18 +92,27 @@ const TicketCard = ({ eventId }: Props) => {
   }
 
   const handleTicketQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTicketQuantity((prevTicket: TicketQuantity) => ({
-      ...prevTicket,
-      [event.target.name]: event.target.value
-    }))
+    setChoice({ ...choice, ticketQuantity: event.target.value })
+    setEventAndTicket({ ...choice, ticketQuantity: event.target.value })
   }
 
   const handleProceedPayment = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setEventAndTicket({
-      eventId: tickets[0].event_id,
-      ticketQuantity: Number(ticketQuantity.ticketQuantity)
-    })
+    console.log('choice', choice)
+    console.log('eventandticket', eventAndTicket)
+    paymentIntent(eventAndTicket)
     navigate('/purchase')
+  }
+
+  const paymentIntent = (obj: any) => {
+    console.log(eventAndTicket)
+    axios
+      .post('http://localhost:3345/purchases', eventAndTicket)
+      .then(function (response) {
+        if (response) {
+          console.log('payment intent', response)
+          setClientSecret(response.data.clientSecret)
+        }
+      })
   }
 
   useEffect(getTicketsList, [eventId])

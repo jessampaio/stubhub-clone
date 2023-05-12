@@ -10,6 +10,7 @@ import venueRoutes from './routes/venue';
 import ticketRoutes from './routes/ticket';
 import participantRoutes from './routes/participant';
 import seatRoutes from './routes/seat';
+import purchaseRoutes from './routes/purchase'
 
 const app = express();
 const PORT = process.env.PORT || 3345;
@@ -30,6 +31,7 @@ app.use(eventRoutes);
 app.use(ticketRoutes);
 app.use(participantRoutes);
 app.use(seatRoutes);
+app.use(purchaseRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('User logged out and redirected to home.');
