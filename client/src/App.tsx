@@ -11,6 +11,8 @@ import { Register } from './pages/Register'
 import UserContext from './contexts/userContext'
 import Purchase from './pages/Purchase'
 import Footer from './components/Footer'
+import PaymentSuccess from './pages/PaymentSuccess'
+
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -38,6 +40,7 @@ export default function App(): any {
   const [eventInfo, setEventInfo] = useState<Record<string, any>>(INITIAL_EVENT_STATE)
   const [currentUser, setCurrentUser] = useState<CurrentUser>(INITIAL_CURRENT_USER_STATE)
   const [eventAndTicket, setEventAndTicket] = useState<Record<string, any>>([])
+  const [clientSecret, setClientSecret] = useState<any>('')
 
   function resetEventInfo() {
     setEventInfo(INITIAL_EVENT_STATE)
@@ -45,9 +48,10 @@ export default function App(): any {
 
   return (
     <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
-      <UserContext.Provider value={{ currentUser, setCurrentUser, eventAndTicket, setEventAndTicket }}>
+      <UserContext.Provider value={{ currentUser, setCurrentUser, eventAndTicket, setEventAndTicket, clientSecret, setClientSecret }}>
         <BrowserRouter>
           <Grid
+            min-height='100vh'
             templateAreas={{
               base: `"nav"
         "main"`
@@ -63,6 +67,7 @@ export default function App(): any {
                 <Route path="/createTicket" element={<CreateTicketPage />} />
                 <Route path="/events/:eventId/" element={<TicketInfoPage />} />
                 <Route path="/purchase" element={<Purchase />} />
+                <Route path="/success" element={<PaymentSuccess />} />
               </Routes>
             </GridItem>
           </Grid>

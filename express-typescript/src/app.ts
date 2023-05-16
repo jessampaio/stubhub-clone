@@ -31,7 +31,7 @@ app.use(eventRoutes);
 app.use(ticketRoutes);
 app.use(participantRoutes);
 app.use(seatRoutes);
-app.use(purchaseRoutes);
+app.use('/purchases', purchaseRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('User logged out and redirected to home.');

@@ -1,103 +1,101 @@
-// import React, { useEffect, useState } from 'react'
-// import {
-//   PaymentElement,
-//   LinkAuthenticationElement,
-//   useStripe,
-//   useElements
-// } from '@stripe/react-stripe-js'
+import React, { useContext, useEffect, useState } from 'react'
+import {
+  PaymentElement,
+  LinkAuthenticationElement,
+  useStripe,
+  useElements
+} from '@stripe/react-stripe-js'
+import UserContext from '../contexts/userContext'
+import { useNavigate } from 'react-router-dom'
 
-// export default function CheckoutForm () {
-//   const stripe = useStripe()
-//   const elements = useElements()
+export default function CheckoutForm() {
+  const stripe: any = useStripe()
+  const elements = useElements()
 
-//   const [email, setEmail] = useState('')
-//   const [message, setMessage] = useState(null)
-//   const [isLoading, setIsLoading] = useState(false)
+  const [, setEmail] = useState<any>('')
+  const [stateMessage, setStateMessage] = useState<any>('')
+  const [isLoading, setIsLoading] = useState<any>(false)
+  const { setEventAndTicket, eventAndTicket, clientSecret } = useContext(UserContext)
 
-//   useEffect(() => {
-//     if (!stripe) {
-//       return
-//     }
+  const navigate = useNavigate()
 
-//     const clientSecret = new URLSearchParams(window.location.search).get(
-//       'payment_intent_client_secret'
-//     )
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-//     if (!clientSecret) {
-//       return
-//     }
+    if (!stripe || !elements) {
+      return;
+    }
 
-//     stripe
-//       .retrievePaymentIntent(clientSecret)
-//       .then(({ paymentIntent }) => {
-//         switch (paymentIntent.status) {
-//           case 'succeeded':
-//             setMessage('Payment succeeded!')
-//             break
-//           case 'processing':
-//             setMessage('Your payment is processing.')
-//             break
-//           case 'requires_payment_method':
-//             setMessage('Your payment was not successful, please try again.')
-//             break
-//           default:
-//             setMessage('Something went wrong.')
-//             break
-//         }
-//       })
-//   }, [stripe])
+    setIsLoading(true)
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault()
+    const { error } = await stripe.confirmPayment({
+      elements,
+      redirect: 'if_required'
+    })
 
-//     if (!stripe || !elements) {
-//       // Stripe.js hasn't yet loaded.
-//       // Make sure to disable form submission until Stripe.js has loaded.
-//       return
-//     }
 
-//     setIsLoading(true)
+    if (error?.type === 'card_error' || error?.type === 'validation_error') {
+      setStateMessage(error.message)
+    } else {
+      setStateMessage('An unexpected error occurred.')
+    }
 
-//     const { error } = await stripe.confirmPayment({
-//       elements,
-//       confirmParams: {
-//         // Make sure to change this to your payment completion page
-//         return_url: 'http://localhost:3000'
-//       }
-//     })
+    callStripe()
 
-//     // This point will only be reached if there is an immediate error when
-//     // confirming the payment. Otherwise, your customer will be redirected to
-//     // your `return_url`. For some payment methods like iDEAL, your customer will
-//     // be redirected to an intermediate site first to authorize the payment, then
-//     // redirected to the `return_url`.
-//     if (error.type === 'card_error' || error.type === 'validation_error') {
-//       setMessage(error.message)
-//     } else {
-//       setMessage('An unexpected error occurred.')
-//     }
+    setIsLoading(false)
+  }
 
-//     setIsLoading(false)
-//   }
+  const paymentElementOptions: any = {
+    layout: 'tabs'
+  }
 
-//   const paymentElementOptions = {
-//     layout: 'tabs'
-//   }
+  const callStripe = () => {
+    let message = ''
 
-//   return (
-//     <form id="payment-form" onSubmit={handleSubmit}>
-//       <LinkAuthenticationElement
-//         id="link-authentication-element"
-//         onChange={(e) => setEmail(e.target.value)}
-//       />
-//       <PaymentElement id="payment-element" options={paymentElementOptions} />
-//       <button disabled={isLoading || !stripe || !elements} id="submit">
-//         <span id="button-text">
-//           {isLoading ? <div className="spinner" id="spinner"></div> : 'Pay now'}
-//         </span>
-//       </button>
-//       {/* Show any error or success messages */}
-//       {message && <div id="payment-message">{message}</div>}
-//     </form>
-//   )
-// }
+    stripe
+      .retrievePaymentIntent(clientSecret)
+      .then(({ paymentIntent }: any) => {
+        switch (paymentIntent?.status) {
+          case 'succeeded':
+            console.log('SUCCEDED', eventAndTicket, message)
+            message = 'Payment succeeded!'
+            setStateMessage(message)
+            setEventAndTicket({ ...eventAndTicket, message: message })
+            break
+          case 'processing':
+            message = 'Your payment is processing.'
+            setStateMessage(message)
+            setEventAndTicket({ ...eventAndTicket, message: message })
+            break
+          case 'requires_payment_method':
+            message = 'Your payment was not successful, please try again.'
+            setStateMessage(message)
+            setEventAndTicket({ ...eventAndTicket, message: message })
+            break
+          default:
+            message = 'Something went wrong.'
+            setStateMessage(message)
+            setEventAndTicket({ ...eventAndTicket, message: message })
+            break
+        }
+      })
+    navigate('/success')
+  }
+
+  return (
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <LinkAuthenticationElement
+        id="link-authentication-element"
+        onChange={(e: any) => setEmail(e.target?.value)}
+      />
+      <PaymentElement id="payment-element" options={paymentElementOptions} />
+      <button disabled={isLoading || !stripe || !elements} id="submit">
+        <span id="button-text">
+          {isLoading ? <div className="spinner" id="spinner"></div> : 'Pay now'}
+        </span>
+      </button>
+      {/* Show any error or success messages */}
+      {stateMessage && <div id="payment-message">{stateMessage}</div>}
+    </form>
+  )
+}

@@ -20,7 +20,6 @@ import {
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
-import { loadStripe } from '@stripe/stripe-js'
 
 interface Ticket {
   created_at: string;
@@ -35,15 +34,10 @@ interface Props {
   eventId: number;
 }
 
-const stripePromise = loadStripe('pk_test_51N6aFrHsmvWJAjUnFwmbgm5w7rsxIvclvBSO4Brre9wY2qyux9Kjti4vMrYGen2MDePiPiVfEo00mhKr8XXkHEri00aQxgTjup')
-
 const TicketCard = ({ eventId }: Props) => {
   const [tickets, setTickets] = useState<any>([])
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [choice, setChoice] = useState<any>()
-  const { eventAndTicket, setEventAndTicket } = useContext(UserContext)
-  const [clientSecret, setClientSecret] = useState<any>('');
-
+  const { eventAndTicket, setEventAndTicket, setClientSecret } = useContext(UserContext)
 
   const navigate = useNavigate()
 
@@ -57,7 +51,7 @@ const TicketCard = ({ eventId }: Props) => {
       })
   }
 
-  function buildTickets() {
+  function buildTickets () {
     return tickets.map((ticket: Ticket) => (
       <Box key={ticket.ticket_id} overflowY="auto" maxHeight="600px">
         <Card
@@ -77,7 +71,7 @@ const TicketCard = ({ eventId }: Props) => {
               <Button
                 onClick={() => {
                   setShowModal(true)
-                  setChoice({ ...choice, ticket })
+                  setEventAndTicket({ ...eventAndTicket, ticket })
                 }}
                 size='sm'
                 variant="solid"
@@ -92,24 +86,25 @@ const TicketCard = ({ eventId }: Props) => {
   }
 
   const handleTicketQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChoice({ ...choice, ticketQuantity: event.target.value })
-    setEventAndTicket({ ...choice, ticketQuantity: event.target.value })
+    setEventAndTicket({ ...eventAndTicket, ticketQuantity: event.target.value })
   }
 
-  const handleProceedPayment = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('choice', choice)
+  const handleProceedPayment = () => {
     console.log('eventandticket', eventAndTicket)
-    paymentIntent(eventAndTicket)
+    paymentIntent()
     navigate('/purchase')
   }
 
-  const paymentIntent = (obj: any) => {
+  const paymentIntent = () => {
     console.log(eventAndTicket)
     axios
       .post('http://localhost:3345/purchases', eventAndTicket)
       .then(function (response) {
         if (response) {
           console.log('payment intent', response)
+          setEventAndTicket({
+            ...eventAndTicket
+          })
           setClientSecret(response.data.clientSecret)
         }
       })

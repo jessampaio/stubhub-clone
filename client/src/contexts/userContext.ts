@@ -5,6 +5,8 @@ interface UserContextType {
   setCurrentUser: any;
   eventAndTicket: any;
   setEventAndTicket: any;
+  clientSecret: any;
+  setClientSecret: any;
 }
 
 const UserContext = React.createContext<UserContextType>(
