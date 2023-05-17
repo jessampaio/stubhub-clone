@@ -1,15 +1,13 @@
-import axios from "axios"
-import { useContext, useEffect } from "react"
-import UserContext from "../contexts/userContext"
-
-
+import axios from 'axios'
+import { useContext, useEffect } from 'react'
+import UserContext from '../contexts/userContext'
 
 const PaymentSuccess = () => {
   const { eventAndTicket, currentUser } = useContext(UserContext)
 
   useEffect(() => {
     if (eventAndTicket.message === undefined || eventAndTicket.message === null) {
-      return;
+      return
     }
 
     completePurchase()

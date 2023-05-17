@@ -60,13 +60,18 @@ export async function completePurchase(req: Request, res: Response) {
     UPDATE tickets SET ticket_quantity = (ticket_quantity - ?)
     WHERE ticket_id = ?`, [parseInt(req.body.ticketQuantity), req.body.ticket.ticket_id])
 
-    // if ticket number > 1 then i need to return arrays each seat in the array
-    const [purchaseQuery]: any = await conn.execute(`
+    const purchase = seatsQuery.map((seat: any) => {
+      return [userId, seat.seat_id, req.body.ticket.event_id, 1]
+    })
+
+    console.log(purchase)
+
+    const [purchaseQuery]: any = await conn.query(`
     INSERT INTO purchases (user_id, seat_id, event_id, payment_method_id)
-    VALUES ??`, [userId, seatsQuery[0].seat_id, req.body.ticket.ticket_id, 1])
+    VALUES ?`, [purchase])
 
     console.log(purchaseQuery)
-    return res.send(purchaseQuery)
+    return res.send('success')
 
   } catch (err) {
     if (err) {

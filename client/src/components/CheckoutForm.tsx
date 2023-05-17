@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   PaymentElement,
   LinkAuthenticationElement,
@@ -8,7 +8,7 @@ import {
 import UserContext from '../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
 
-export default function CheckoutForm() {
+export default function CheckoutForm () {
   const stripe: any = useStripe()
   const elements = useElements()
 
@@ -23,7 +23,7 @@ export default function CheckoutForm() {
     e.preventDefault()
 
     if (!stripe || !elements) {
-      return;
+      return
     }
 
     setIsLoading(true)
@@ -32,7 +32,6 @@ export default function CheckoutForm() {
       elements,
       redirect: 'if_required'
     })
-
 
     if (error?.type === 'card_error' || error?.type === 'validation_error') {
       setStateMessage(error.message)
@@ -60,22 +59,22 @@ export default function CheckoutForm() {
             console.log('SUCCEDED', eventAndTicket, message)
             message = 'Payment succeeded!'
             setStateMessage(message)
-            setEventAndTicket({ ...eventAndTicket, message: message })
+            setEventAndTicket({ ...eventAndTicket, message })
             break
           case 'processing':
             message = 'Your payment is processing.'
             setStateMessage(message)
-            setEventAndTicket({ ...eventAndTicket, message: message })
+            setEventAndTicket({ ...eventAndTicket, message })
             break
           case 'requires_payment_method':
             message = 'Your payment was not successful, please try again.'
             setStateMessage(message)
-            setEventAndTicket({ ...eventAndTicket, message: message })
+            setEventAndTicket({ ...eventAndTicket, message })
             break
           default:
             message = 'Something went wrong.'
             setStateMessage(message)
-            setEventAndTicket({ ...eventAndTicket, message: message })
+            setEventAndTicket({ ...eventAndTicket, message })
             break
         }
       })
