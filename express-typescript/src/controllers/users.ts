@@ -70,7 +70,7 @@ export async function login(req: Request, res: Response) {
       { expiresIn: "1d" }
     );
     console.log("token signed:", token);
-    return res.header("x-auth-token", token).send('Success.');
+    return res.cookie('token', token, { sameSite: 'strict', path: '/', maxAge: 604800, httpOnly: true }).json({ token })
   });
 }
 
@@ -137,7 +137,7 @@ export function logout(req: Request, res: Response) {
     return res.send("No user has been found.");
   }
 
-  res.header("");
-  req.token = "";
+  req.token = ''
+  res.cookie('token', '')
   res.redirect("/");
 }

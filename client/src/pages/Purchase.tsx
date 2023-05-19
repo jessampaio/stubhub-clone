@@ -14,7 +14,7 @@ const Purchase = () => {
     theme: 'stripe'
   }
 
-  const options = {
+  const options: any = {
     clientSecret,
     appearance
   }

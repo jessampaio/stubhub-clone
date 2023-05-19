@@ -12,5 +12,6 @@
 //     <div>testing</div>
 //   )
 // }
+// TESTING DJANGO ENDPOINT
 
 // export default Testing

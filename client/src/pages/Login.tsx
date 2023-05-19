@@ -14,6 +14,9 @@ import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import UserContext from '../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
+
+axios.defaults.withCredentials = true
 
 export const INITIAL_LOGIN_STATE = {
   email: '',
@@ -28,6 +31,7 @@ interface LoginInfo {
 export const Login = () => {
   const [loginInfo, setLoginInfo] = useState<LoginInfo>(INITIAL_LOGIN_STATE)
   const { setCurrentUser } = useContext(UserContext)
+  const [, setCookie] = useCookies(['user'])
 
   const navigate = useNavigate()
 
@@ -41,14 +45,14 @@ export const Login = () => {
 
   const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
     axios
-      .post('http://localhost:3345/login', loginInfo)
+      .post('http://localhost:3345/login', loginInfo, { withCredentials: true })
       .then(function (response) {
         if (response) {
           console.log('RES: ', response)
           setCurrentUser({
-            ...loginInfo,
-            token: response.headers['x-auth-token']
+            ...loginInfo
           })
+          setCookie('user', { ...loginInfo }, { path: '/' })
           return navigate('/')
         }
       })

@@ -3,6 +3,7 @@ import { ReactNode } from 'react'
 import {
   Box,
   Container,
+  Image,
   Link,
   SimpleGrid,
   Stack,
@@ -37,7 +38,7 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export default function LargeWithLogoLeft () {
+export default function LargeWithLogoLeft() {
   return (
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
@@ -47,11 +48,15 @@ export default function LargeWithLogoLeft () {
           templateColumns={{ sm: '1fr 1fr', md: '2fr 1fr 1fr 1fr 1fr' }}
           spacing={8}>
           <Stack spacing={6}>
-            <Box>
-              <Logo color={useColorModeValue('gray.700', 'white')} />
-            </Box>
+            <Image
+              boxSize="100px"
+              mb={'10px'}
+              borderRadius={'10px'}
+              src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
+              alt='StubHub Logo'
+            />
             <Text fontSize={'sm'}>
-              © 2022 Chakra Templates. All rights reserved
+              © 2022 StubHub. All rights reserved.
             </Text>
           </Stack>
           <Stack align={'flex-start'}>

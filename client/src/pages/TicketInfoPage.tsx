@@ -3,15 +3,18 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import TicketCard from '../components/TicketCard'
+import { useCookies } from 'react-cookie'
 
 const TicketInfoPage = () => {
   const [eventInformation, setEventInformation] = useState([])
+  const [cookies] = useCookies(['user'])
+
 
   const { eventId } = useParams()
 
-  function buildEvenInfo () {
+  function buildEvenInfo() {
     return eventInformation.map((event: any) => (
-      <Container key={event.event_id} maxW="900">
+      <Container key={event.event_id} maxW="900" marginTop={'20px'} marginBottom={'20px'}>
         <Card maxW="900">
           <CardBody>
             <Image src={event.event_img} alt={event.event_name} borderRadius="lg" />
@@ -33,6 +36,7 @@ const TicketInfoPage = () => {
     ))
   }
 
+  console.log('user still there?', cookies.user)
   console.log(eventInformation)
 
   useEffect(() => {
