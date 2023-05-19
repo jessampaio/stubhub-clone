@@ -44,7 +44,8 @@ export async function completePurchase(req: Request, res: Response) {
   try {
     console.log('answering', req.body)
 
-    const decoded: any = jwt.verify(req.body.token, process.env.SECRET_KEY || '')
+    const token = req.cookies.token
+    const decoded: any = jwt.verify(token, process.env.SECRET_KEY || '')
     const userId = decoded.id
 
     const conn = await connection

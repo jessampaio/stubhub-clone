@@ -12,6 +12,8 @@ import UserContext from './contexts/userContext'
 import Purchase from './pages/Purchase'
 import Footer from './components/Footer'
 import PaymentSuccess from './pages/PaymentSuccess'
+import MainSearchBar from './components/MainSearchBar'
+
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -35,13 +37,13 @@ interface CurrentUser {
   token: string;
 }
 
-export default function App (): any {
+export default function App(): any {
   const [eventInfo, setEventInfo] = useState<Record<string, any>>(INITIAL_EVENT_STATE)
   const [currentUser, setCurrentUser] = useState<CurrentUser>(INITIAL_CURRENT_USER_STATE)
   const [eventAndTicket, setEventAndTicket] = useState<Record<string, any>>([])
   const [clientSecret, setClientSecret] = useState<any>('')
 
-  function resetEventInfo () {
+  function resetEventInfo() {
     setEventInfo(INITIAL_EVENT_STATE)
   }
 
@@ -56,7 +58,8 @@ export default function App (): any {
         "main"`
             }}
           >
-            <GridItem area="nav" style={{ height: '100px' }}></GridItem>
+            {/* <GridItem area="nav" style={{ height: '100px' }}>
+            </GridItem> */}
             <GridItem area="main">
               <Routes>
                 <Route path="/" element={<Home />} />

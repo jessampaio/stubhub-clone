@@ -11,6 +11,7 @@ import ticketRoutes from './routes/ticket';
 import participantRoutes from './routes/participant';
 import seatRoutes from './routes/seat';
 import purchaseRoutes from './routes/purchase'
+import cookieParser from 'cookie-parser'
 
 const app = express();
 const PORT = process.env.PORT || 3345;
@@ -19,11 +20,12 @@ const PORT = process.env.PORT || 3345;
 
 const corsOptions = {
   origin: 'http://localhost:5173',
-  exposedHeaders: 'x-auth-token',
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 app.use(userRoutes);
 app.use(categoryRoutes);
 app.use(venueRoutes);

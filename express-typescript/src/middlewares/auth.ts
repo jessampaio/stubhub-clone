@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { type Request, type Response, type NextFunction } from 'express';
 
+
 export default function auth(req: Request, res: Response, next: NextFunction) {
-  const token = req.header('x-auth-token');
+  const token = req.cookies.token
+  console.log(req.body)
   console.log(token)
   if (!token) return res.status(401).send('ACCESS DENIED. NO TOKEN.');
 
