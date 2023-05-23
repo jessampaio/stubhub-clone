@@ -12,7 +12,8 @@ import UserContext from './contexts/userContext'
 import Purchase from './pages/Purchase'
 import Footer from './components/Footer'
 import PaymentSuccess from './pages/PaymentSuccess'
-import MainSearchBar from './components/MainSearchBar'
+import MyAccount from './pages/MyAccount'
+
 
 
 const INITIAL_EVENT_STATE = {
@@ -55,7 +56,7 @@ export default function App(): any {
             min-height='100vh'
             templateAreas={{
               base: `"nav"
-        "main"`
+        "main" "footer"`
             }}
           >
             {/* <GridItem area="nav" style={{ height: '100px' }}>
@@ -65,6 +66,7 @@ export default function App(): any {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/createEvent" element={<CreateEventPage />} />
                 <Route path="/createTicket" element={<CreateTicketPage />} />
                 <Route path="/events/:eventId/" element={<TicketInfoPage />} />

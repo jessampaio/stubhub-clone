@@ -128,6 +128,35 @@ export function getEvent(req: Request, res: Response) {
   });
 }
 
+
+export async function getEventsAndParticipants(req: Request, res: Response) {
+  try {
+    const conn = await connection
+    const [queryResult]: any = await conn.execute(`
+    SELECT
+      event_id AS id,
+      event_name AS name,
+      'event' as type
+    FROM events
+    UNION
+    SELECT
+      participant_id,
+      name,
+      'participant' as type
+    FROM participants`)
+
+    if (queryResult) {
+      console.log(queryResult)
+      return res.send(queryResult)
+    }
+  } catch (err) {
+    if (err) {
+      console.log(err)
+      return res.json(err)
+    }
+  }
+}
+
 export function updateEvent(req: Request, res: Response) {
   const updateEventQuery = `UPDATE events
     SET event_name = ?, 
