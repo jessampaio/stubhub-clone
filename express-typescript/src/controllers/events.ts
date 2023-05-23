@@ -21,7 +21,10 @@ export async function getEvents(req: Request, res: Response) {
 
     if (req.query.category) {
       const { category } = req.query;
-      getEventsQuery = getEventsQuery + " WHERE category_id = ?";
+      getEventsQuery = getEventsQuery + `
+      WHERE category_id = ? 
+      ORDER BY RAND() LIMIT 5`
+
       values.push(categoryMap[String(category)]);
     }
 
@@ -146,7 +149,6 @@ export async function getEventsAndParticipants(req: Request, res: Response) {
     FROM participants`)
 
     if (queryResult) {
-      console.log(queryResult)
       return res.send(queryResult)
     }
   } catch (err) {

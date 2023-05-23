@@ -12,7 +12,7 @@ const TicketInfoPage = () => {
 
   const { eventId } = useParams()
 
-  function buildEvenInfo() {
+  function buildEventInfo() {
     return eventInformation.map((event: any) => (
       <Container key={event.event_id} maxW="900" marginTop={'20px'} marginBottom={'20px'}>
         <Card maxW="900">
@@ -51,7 +51,7 @@ const TicketInfoPage = () => {
 
   return (
     <>
-      {eventInformation.length > 0 && buildEvenInfo()}
+      {eventInformation.length > 0 && buildEventInfo()}
     </>
   )
 }

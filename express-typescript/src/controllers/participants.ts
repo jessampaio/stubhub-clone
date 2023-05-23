@@ -47,13 +47,29 @@ export async function addParticipant(req: Request, res: Response) {
 export async function getParticipant(req: Request, res: Response) {
   try {
     const conn = await connection;
-    const data = await conn.execute(
-      `SELECT * FROM participants
-     WHERE participant_id = ?`,
-      req.params.id
+    const [data]: any = await conn.execute(
+      `SELECT 
+        pe.participant_id,
+        pe.event_id,
+        e.event_name,
+        e.event_date,
+        e.event_time,
+        e.venue_id,
+        e.category_id,
+        e.ticket_amount,
+        e.event_img,
+        e.created_at
+    FROM participants p
+    JOIN participants_in_events pe
+     USING (participant_id)
+     JOIN events e
+      USING (event_id)
+    WHERE participant_id = ?
+    `,
+      [req.params.id]
     );
 
-    if (data[0]) {
+    if (data) {
       return res.status(200).send(data);
     }
   } catch (err) {

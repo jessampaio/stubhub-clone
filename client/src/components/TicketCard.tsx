@@ -15,7 +15,8 @@ import {
   ModalCloseButton,
   ModalBody,
   FormControl,
-  Input
+  Input,
+  Center
 } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../contexts/userContext'
@@ -51,7 +52,7 @@ const TicketCard = ({ eventId }: Props) => {
       })
   }
 
-  function buildTickets () {
+  function buildTickets() {
     return tickets.map((ticket: Ticket) => (
       <Box key={ticket.ticket_id} overflowY="auto" maxHeight="600px">
         <Card
@@ -112,9 +113,22 @@ const TicketCard = ({ eventId }: Props) => {
 
   useEffect(getTicketsList, [eventId])
 
+  const noTicketMsg = () => {
+    return (
+      <>
+        <Center>
+          <Text
+            fontWeight='bold'
+            fontSize={16}
+            padding='20px'>There is no tickets for this event yet, check back soon!</Text>
+        </Center>
+      </>
+    )
+  }
+
   return (
     <>
-      {tickets.length > 0 && buildTickets()}
+      {tickets.length > 0 ? buildTickets() : noTicketMsg()}
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <ModalOverlay />
         <ModalContent>
