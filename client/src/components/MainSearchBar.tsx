@@ -6,7 +6,6 @@ import {
   FormControl,
   Center,
 } from '@chakra-ui/react'
-import { SearchIcon } from '@chakra-ui/icons'
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
 import Select from 'react-select'
@@ -22,7 +21,6 @@ interface EventsAndParticipants {
 const MainSearchBar = () => {
   const [cookies] = useCookies(['user'])
   const [searchOptions, setSearchOptions] = useState<any>([])
-  const [searchInput, setSearchInput] = useState<any>({ searchBar: '' })
 
   const navigate = useNavigate()
 
@@ -49,7 +47,9 @@ const MainSearchBar = () => {
     if (event.type === 'event') {
       navigate(`/events/${event.value}`)
     }
-    // if participant then show events for that participant
+    if (event.type === 'participant') {
+      navigate(`/participant/${event.value}`)
+    }
   }
 
   const styles = {

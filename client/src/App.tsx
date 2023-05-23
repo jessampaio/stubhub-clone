@@ -13,6 +13,7 @@ import Purchase from './pages/Purchase'
 import Footer from './components/Footer'
 import PaymentSuccess from './pages/PaymentSuccess'
 import MyAccount from './pages/MyAccount'
+import ShowEventsForParticipant from './pages/ShowEventsForParticipant'
 
 
 
@@ -69,6 +70,7 @@ export default function App(): any {
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/createEvent" element={<CreateEventPage />} />
                 <Route path="/createTicket" element={<CreateTicketPage />} />
+                <Route path="/participant/:id" element={<ShowEventsForParticipant />} />
                 <Route path="/events/:eventId/" element={<TicketInfoPage />} />
                 <Route path="/purchase" element={<Purchase />} />
                 <Route path="/success" element={<PaymentSuccess />} />
