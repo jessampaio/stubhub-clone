@@ -1,4 +1,5 @@
 import {
+  AbsoluteCenter,
   Button,
   Center,
   Container,
@@ -59,51 +60,55 @@ export const Login = () => {
   }
 
   return (
-    <Container width={'450px'}>
-      <FormControl>
-        <Center>
-          <Stack marginBottom={'20px'}>
-            <Image
-              boxSize="100px"
-              borderRadius={'10px'}
-              src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
-              alt=""
-            />
-            <FormLabel>Sign in to StubHub</FormLabel>
-          </Stack>
-        </Center>
-        <Input
-          id="email"
-          onChange={handleInputChange}
-          marginBottom={'10px'}
-          name='email'
-          type='email'
-          placeholder='Email address' />
-        <Input
-          id="password"
-          onChange={handleInputChange}
-          marginBottom={'10px'}
-          name='password'
-          type='password'
-          placeholder='Password' />
-        <Center>
-          <Button
-            onClick={handleLogin}
+    <Container position='relative' h={'70vh'} >
+      <AbsoluteCenter axis='both' width={'450px'}>
+        <FormControl >
+          <Center>
+            <Stack marginBottom={'20px'}>
+              <Center>
+                <Image
+                  boxSize="100px"
+                  borderRadius={'10px'}
+                  src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
+                  alt=""
+                />
+              </Center>
+              <FormLabel>Sign in to StubHub</FormLabel>
+            </Stack>
+          </Center>
+          <Input
+            id="email"
+            onChange={handleInputChange}
             marginBottom={'10px'}
-          >
-            Sign in</Button>
-        </Center>
-        <Center>
-          <Stack>
-            <FormHelperText textAlign={'center'}>
-              By signing in or creating an account, you acknowledge and accept our privacy policy.
-            </FormHelperText>
-            <FormHelperText textAlign={'center'}>
-              New to StubHub? <Link href='http://localhost:5173/register' fontWeight={'bold'}>Create an account.</Link>
-            </FormHelperText>
-          </Stack>
-        </Center>
-      </FormControl>
+            name='email'
+            type='email'
+            placeholder='Email address' />
+          <Input
+            id="password"
+            onChange={handleInputChange}
+            marginBottom={'10px'}
+            name='password'
+            type='password'
+            placeholder='Password' />
+          <Center>
+            <Button
+              onClick={handleLogin}
+              marginBottom={'10px'}
+            >
+              Sign in</Button>
+          </Center>
+          <Center>
+            <Stack>
+              <FormHelperText textAlign={'center'}>
+                By signing in or creating an account, you acknowledge and accept our privacy policy.
+              </FormHelperText>
+              <FormHelperText textAlign={'center'}>
+                New to StubHub? <Link href='http://localhost:5173/register' fontWeight={'bold'}>Create an account.</Link>
+              </FormHelperText>
+            </Stack>
+          </Center>
+        </FormControl>
+      </AbsoluteCenter>
     </Container>
   )
 }

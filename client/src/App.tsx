@@ -37,13 +37,13 @@ interface CurrentUser {
   token: string;
 }
 
-export default function App (): any {
+export default function App(): any {
   const [eventInfo, setEventInfo] = useState<Record<string, any>>(INITIAL_EVENT_STATE)
   const [currentUser, setCurrentUser] = useState<CurrentUser>(INITIAL_CURRENT_USER_STATE)
   const [eventAndTicket, setEventAndTicket] = useState<Record<string, any>>([])
   const [clientSecret, setClientSecret] = useState<any>('')
 
-  function resetEventInfo () {
+  function resetEventInfo() {
     setEventInfo(INITIAL_EVENT_STATE)
   }
 
@@ -52,10 +52,11 @@ export default function App (): any {
       <UserContext.Provider value={{ currentUser, setCurrentUser, eventAndTicket, setEventAndTicket, clientSecret, setClientSecret }}>
         <BrowserRouter>
           <Grid
-            min-height='100vh'
             templateAreas={{
-              base: `"nav"
-        "main" "footer"`
+              base: `
+              "nav"
+              "main" 
+              "footer"`
             }}
           >
             {/* <GridItem area="nav" style={{ height: '100px' }}>
@@ -74,8 +75,10 @@ export default function App (): any {
                 <Route path="/success" element={<PaymentSuccess />} />
               </Routes>
             </GridItem>
+            <GridItem area='footer'>
+              <Footer />
+            </GridItem>
           </Grid>
-          <Footer />
         </BrowserRouter>
       </UserContext.Provider>
     </EventContext.Provider>
