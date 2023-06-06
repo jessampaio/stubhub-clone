@@ -52,7 +52,7 @@ const TicketCard = ({ eventId }: Props) => {
       })
   }
 
-  function buildTickets() {
+  function buildTickets () {
     return tickets.map((ticket: Ticket) => (
       <Box key={ticket.ticket_id} overflowY="auto" maxHeight="600px">
         <Card

@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react'
+import { Fragment } from 'react'
 import EventBox from '../components/EventBox'
 import MainSearchBar from '../components/MainSearchBar'
 import { Container, Heading, SimpleGrid } from '@chakra-ui/react'
@@ -19,7 +19,6 @@ const events = [
 ]
 
 const Home = () => {
-
   return (
     <Container maxW="1300px">
       <MainSearchBar />

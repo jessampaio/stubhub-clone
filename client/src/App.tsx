@@ -15,8 +15,6 @@ import PaymentSuccess from './pages/PaymentSuccess'
 import MyAccount from './pages/MyAccount'
 import ShowEventsForParticipant from './pages/ShowEventsForParticipant'
 
-
-
 const INITIAL_EVENT_STATE = {
   eventName: '',
   eventDate: '',
@@ -39,13 +37,13 @@ interface CurrentUser {
   token: string;
 }
 
-export default function App(): any {
+export default function App (): any {
   const [eventInfo, setEventInfo] = useState<Record<string, any>>(INITIAL_EVENT_STATE)
   const [currentUser, setCurrentUser] = useState<CurrentUser>(INITIAL_CURRENT_USER_STATE)
   const [eventAndTicket, setEventAndTicket] = useState<Record<string, any>>([])
   const [clientSecret, setClientSecret] = useState<any>('')
 
-  function resetEventInfo() {
+  function resetEventInfo () {
     setEventInfo(INITIAL_EVENT_STATE)
   }
 

@@ -1,8 +1,7 @@
-import { Button, Card, CardBody, Center, Container, HStack, Heading, Image, Stack, Text } from "@chakra-ui/react"
-import axios from "axios"
-import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-
+import { Button, Card, CardBody, Center, Container, Heading, Image, Stack, Text } from '@chakra-ui/react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const ShowEventsForParticipant = () => {
   const [eventsInfo, setEventsInfo] = useState<any>([])
@@ -10,7 +9,7 @@ const ShowEventsForParticipant = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  function buildParticipantInfo() {
+  function buildParticipantInfo () {
     return eventsInfo.map((event: any) => (
       <Container key={event.event_id} maxW="550" marginTop={'20px'} marginBottom={'20px'}>
         <Card maxW="900">

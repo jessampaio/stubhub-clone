@@ -4,13 +4,15 @@ import {
   Image,
   Link,
   FormControl,
-  Center,
+  Center
 } from '@chakra-ui/react'
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
-import Select from 'react-select'
+import Select, { components, DropdownIndicatorProps } from 'react-select'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { BsSearch } from "react-icons/bs";
+
 
 interface EventsAndParticipants {
   id: string;
@@ -56,12 +58,23 @@ const MainSearchBar = () => {
     control: (base: any) => ({
       ...base,
       minWidth: '925px',
+      flexDirection: 'row-reverse'
     })
   }
 
   useEffect(() => {
     getEventsAndParticipants()
   }, [])
+
+  const DropdownIndicator = (
+    props: DropdownIndicatorProps
+  ) => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <BsSearch />
+      </components.DropdownIndicator>
+    );
+  };
 
   return (
     <>
@@ -83,19 +96,21 @@ const MainSearchBar = () => {
           styles={styles}
           placeholder="Search an event, artist or team"
           name="searchBar"
-          components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+          components={{
+            DropdownIndicator,
+            IndicatorSeparator: () => null
+          }}
           className="basic-single-select"
           classNamePrefix="select"
           onChange={handleSearchBar}
           options={searchOptions}
         />
         <HStack>
-          {cookies.user ?
-            <Link width="100px" href="http://localhost:5173/my-account">
+          {cookies.user
+            ? <Link width="100px" href="http://localhost:5173/my-account">
               My Account
             </Link>
-            :
-            <Link width="70px" href="http://localhost:5173/login">
+            : <Link width="70px" href="http://localhost:5173/login">
               Sign In
             </Link>
           }

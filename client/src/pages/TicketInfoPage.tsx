@@ -9,10 +9,9 @@ const TicketInfoPage = () => {
   const [eventInformation, setEventInformation] = useState([])
   const [cookies] = useCookies(['user'])
 
-
   const { eventId } = useParams()
 
-  function buildEventInfo() {
+  function buildEventInfo () {
     return eventInformation.map((event: any) => (
       <Container key={event.event_id} maxW="900" marginTop={'20px'} marginBottom={'20px'}>
         <Card maxW="900">

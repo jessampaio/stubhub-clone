@@ -1,9 +1,10 @@
-
 const MyAccount = () => {
   return (
-    <h1>
-      my acc
-    </h1>
+    <>
+
+      See your tickets
+
+    </>
   )
 }
 
