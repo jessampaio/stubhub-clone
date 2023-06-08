@@ -1,5 +1,4 @@
 import { ReactNode } from 'react'
-
 import {
   Box,
   Container,
@@ -19,7 +18,7 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export default function LargeWithLogoLeft () {
+export default function LargeWithLogoLeft() {
   return (
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}

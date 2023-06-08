@@ -4,7 +4,10 @@ import {
   Image,
   Link,
   FormControl,
-  Center
+  Container,
+  Center,
+  Box,
+  Flex
 } from '@chakra-ui/react'
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
@@ -57,7 +60,7 @@ const MainSearchBar = () => {
   const styles = {
     control: (base: any) => ({
       ...base,
-      minWidth: '925px',
+      borderRadius: '15px',
       flexDirection: 'row-reverse'
     })
   }
@@ -77,46 +80,51 @@ const MainSearchBar = () => {
   };
 
   return (
-    <>
-      <FormControl>
-        <Center>
+    <Container w='100%' maxW={'1300px'} >
+      <Box w='100%' textAlign={'center'}>
+        <FormControl>
           <FormHelperText>StubHub is the world's top destination for ticket buyers and resellers. Prices may be higher or lower than face value.
           </FormHelperText>
-        </Center>
-      </FormControl>
-      <HStack height={'140px'}>
-        <Image
-          boxSize="100px"
-          mb={'10px'}
-          borderRadius={'10px'}
-          src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
-          alt=""
-        />
-        <Select
-          styles={styles}
-          placeholder="Search an event, artist or team"
-          name="searchBar"
-          components={{
-            DropdownIndicator,
-            IndicatorSeparator: () => null
-          }}
-          className="basic-single-select"
-          classNamePrefix="select"
-          onChange={handleSearchBar}
-          options={searchOptions}
-        />
-        <HStack>
+        </FormControl>
+      </Box>
+      <Flex minWidth='max-content' alignItems='center'>
+        <Box width={'120px'} paddingRight={'10px'}>
+          <Image
+            boxSize="100px"
+            borderRadius={'10px'}
+            src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
+            alt=""
+          />
+        </Box>
+        <Box width={'100%'}>
+          <Select
+            styles={styles}
+            placeholder="Search an event, artist or team"
+            name="searchBar"
+            components={{
+              DropdownIndicator,
+              IndicatorSeparator: () => null
+            }}
+            className="basic-single-select"
+            classNamePrefix="select"
+            onChange={handleSearchBar}
+            options={searchOptions}
+          />
+        </Box>
+        <Box width='65px' textAlign={'end'}>
           {cookies.user
-            ? <Link width="100px" href="http://localhost:5173/my-account">
+            ? <Link href="http://localhost:5173/my-account">
               My Account
             </Link>
-            : <Link width="70px" href="http://localhost:5173/login">
+            : <Link width='70px' href="http://localhost:5173/login">
               Sign In
             </Link>
           }
-        </HStack>
-      </HStack>
-    </>
+        </Box>
+      </Flex>
+    </Container >
+
+
   )
 }
 

@@ -59,18 +59,24 @@ export const Login = () => {
       })
   }
 
+  const goHome = () => {
+    navigate('/')
+  }
+
   return (
-    <Container position='relative' h={'70vh'} >
+    <Container position='relative' h={'70vh'}>
       <AbsoluteCenter axis='both' width={'450px'}>
-        <FormControl >
+        <FormControl>
           <Center>
             <Stack marginBottom={'20px'}>
               <Center>
                 <Image
+                  cursor={'pointer'}
+                  onClick={goHome}
                   boxSize="100px"
                   borderRadius={'10px'}
                   src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
-                  alt=""
+                  alt='StubHub-Logo'
                 />
               </Center>
               <FormLabel>Sign in to StubHub</FormLabel>

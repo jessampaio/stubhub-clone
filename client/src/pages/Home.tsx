@@ -21,8 +21,6 @@ const events = [
 const Home = () => {
   return (
     <Container maxW="1300px">
-      <MainSearchBar />
-
       {/* <Heading size='md' mb='10px'>Recently viewed</Heading>
       <SimpleGrid minChildWidth='10px' spacing='30px' mb={'50px'}>
         <EventBox />
