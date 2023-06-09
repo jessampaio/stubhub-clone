@@ -1,11 +1,9 @@
 import {
   FormHelperText,
-  HStack,
   Image,
-  Link,
   FormControl,
   Container,
-  Center,
+  Link,
   Box,
   Flex
 } from '@chakra-ui/react'
@@ -14,8 +12,7 @@ import axios from 'axios'
 import Select, { components, DropdownIndicatorProps } from 'react-select'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BsSearch } from "react-icons/bs";
-
+import { BsSearch } from 'react-icons/bs'
 
 interface EventsAndParticipants {
   id: string;
@@ -76,8 +73,8 @@ const MainSearchBar = () => {
       <components.DropdownIndicator {...props}>
         <BsSearch />
       </components.DropdownIndicator>
-    );
-  };
+    )
+  }
 
   return (
     <Container w='100%' maxW={'1300px'} >
@@ -123,7 +120,6 @@ const MainSearchBar = () => {
         </Box>
       </Flex>
     </Container >
-
 
   )
 }

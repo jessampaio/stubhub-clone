@@ -14,7 +14,7 @@ import {
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import UserContext from '../contexts/userContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link as LinkRouter, Router } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 axios.defaults.withCredentials = true
@@ -59,25 +59,22 @@ export const Login = () => {
       })
   }
 
-  const goHome = () => {
-    navigate('/')
-  }
-
   return (
-    <Container position='relative' h={'70vh'}>
+    <Container position='relative' h={'750px'}>
       <AbsoluteCenter axis='both' width={'450px'}>
         <FormControl>
           <Center>
             <Stack marginBottom={'20px'}>
               <Center>
-                <Image
-                  cursor={'pointer'}
-                  onClick={goHome}
-                  boxSize="100px"
-                  borderRadius={'10px'}
-                  src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
-                  alt='StubHub-Logo'
-                />
+                <LinkRouter to='/'>
+                  <Image
+                    cursor={'pointer'}
+                    boxSize="100px"
+                    borderRadius={'10px'}
+                    src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
+                    alt='StubHub-Logo'
+                  />
+                </LinkRouter>
               </Center>
               <FormLabel>Sign in to StubHub</FormLabel>
             </Stack>

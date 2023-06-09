@@ -1,10 +1,9 @@
-import { Card, CardBody, Center, Container, Heading, Image, Stack } from '@chakra-ui/react'
+import { Card, CardBody, Container, Heading, Image, Stack } from '@chakra-ui/react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import TicketCard from '../components/TicketCard'
 import { useCookies } from 'react-cookie'
-import MainSearchBar from '../components/MainSearchBar'
 
 const TicketInfoPage = () => {
   const [eventInformation, setEventInformation] = useState([])
@@ -12,7 +11,7 @@ const TicketInfoPage = () => {
 
   const { eventId } = useParams()
 
-  function buildEventInfo() {
+  function buildEventInfo () {
     return eventInformation.map((event: any) => (
       <Container key={event.event_id} maxW="900" marginTop={'20px'} marginBottom={'20px'}>
         <Card maxW="900">
