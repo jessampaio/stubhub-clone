@@ -5,7 +5,12 @@ import {
   Container,
   Link,
   Box,
-  Flex
+  Flex,
+  Hide,
+  Show,
+  HStack,
+  Center,
+  Avatar
 } from '@chakra-ui/react'
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
@@ -78,22 +83,92 @@ const MainSearchBar = () => {
 
   return (
     <Container w='100%' maxW={'1300px'} >
-      <Box w='100%' textAlign={'center'}>
-        <FormControl>
-          <FormHelperText>StubHub is the world's top destination for ticket buyers and resellers. Prices may be higher or lower than face value.
-          </FormHelperText>
-        </FormControl>
-      </Box>
-      <Flex minWidth='max-content' alignItems='center'>
-        <Box width={'120px'} paddingRight={'10px'}>
-          <Image
-            boxSize="100px"
-            borderRadius={'10px'}
-            src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
-            alt=""
-          />
+      <Hide below={'md'}>
+        <Box w='100%' textAlign={'center'}>
+          <FormControl>
+            <FormHelperText>StubHub is the world's top destination for ticket buyers and resellers. Prices may be higher or lower than face value.
+            </FormHelperText>
+          </FormControl>
         </Box>
-        <Box width={'100%'}>
+        <Flex minWidth='max-content' alignItems='center'>
+          <Box width={'120px'} paddingRight={'10px'}>
+            <Link href='http://localhost:5173'>
+              <Image
+                boxSize="100px"
+                borderRadius={'10px'}
+                src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
+                alt=""
+              />
+            </Link>
+          </Box>
+          <Box width={'100%'}>
+            <Select
+              styles={styles}
+              placeholder="Search an event, artist or team"
+              name="searchBar"
+              components={{
+                DropdownIndicator,
+                IndicatorSeparator: () => null
+              }}
+              className="basic-single-select"
+              classNamePrefix="select"
+              onChange={handleSearchBar}
+              options={searchOptions}
+            />
+          </Box>
+          <Box width='70px' textAlign={'center'}>
+            {cookies.user
+              ? <Link href='http://localhost:5173/my-account'>
+                <Avatar
+                  size='md'
+                  name={cookies.user.name}
+                />
+              </Link>
+              : <Link href='http://localhost:5173/login'>
+                <Avatar
+                  size='sm' />
+              </Link>
+            }
+          </Box>
+        </Flex>
+      </Hide>
+      <Show below={'md'}>
+        <Box w='100%' textAlign={'center'}>
+          <FormControl>
+            <FormHelperText fontSize={'10px'}>StubHub is the world's top destination for ticket buyers and resellers. Prices may be higher or lower than face value.
+            </FormHelperText>
+          </FormControl>
+        </Box>
+        <Center>
+          <Box width={'150px'} paddingRight={'0px'}>
+            <HStack>
+              <Link href='http://localhost:5173'>
+                <Image
+                  boxSize="100px"
+                  width={'250px'}
+                  src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
+                  alt=""
+                />
+              </Link>
+              <Box width='100%' textAlign={'end'}>
+                {cookies.user
+                  ? <Link href='http://localhost:5173/my-account'>
+                    <Avatar
+                      size='md'
+                      name={cookies.user.name}
+                    />
+                  </Link>
+                  : <Link href='http://localhost:5173/login'>
+                    <Avatar
+                      size='md'
+                    />
+                  </Link>
+                }
+              </Box>
+            </HStack>
+          </Box>
+        </Center>
+        <Box width={'100%'} marginBottom={'15px'}>
           <Select
             styles={styles}
             placeholder="Search an event, artist or team"
@@ -108,19 +183,8 @@ const MainSearchBar = () => {
             options={searchOptions}
           />
         </Box>
-        <Box width='65px' textAlign={'end'}>
-          {cookies.user
-            ? <Link href="http://localhost:5173/my-account">
-              My Account
-            </Link>
-            : <Link width='70px' href="http://localhost:5173/login">
-              Sign In
-            </Link>
-          }
-        </Box>
-      </Flex>
+      </Show >
     </Container >
-
   )
 }
 

@@ -45,12 +45,11 @@ export function registerUser(req: Request, res: Response) {
     return res.send("User has been added sucessfully.");
   });
 
-  // return login(req, res)
 }
 
 // LOGIN:
 
-export async function login(req: Request, res: Response) {
+export async function login(req: Request, res: any) {
   const loginQuery = "SELECT * FROM users WHERE email = ?";
 
   database.query(loginQuery, [req.body.email], (err, data: any) => {
@@ -70,7 +69,12 @@ export async function login(req: Request, res: Response) {
       { expiresIn: "1d" }
     );
     console.log("token signed:", token);
-    return res.cookie('token', token, { sameSite: 'strict', path: '/', maxAge: 604800, httpOnly: true }).json({ token })
+
+    const fullName = `${data[0].first_name} ${data[0].last_name}`
+
+    return res.cookie('token', token, { sameSite: 'strict', path: '/', maxAge: 604800, httpOnly: true })
+      .json({ token, fullName })
+
   });
 }
 

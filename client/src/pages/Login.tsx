@@ -14,7 +14,7 @@ import {
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import UserContext from '../contexts/userContext'
-import { useNavigate, Link as LinkRouter, Router } from 'react-router-dom'
+import { useNavigate, Link as LinkRouter, Router, redirect } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 axios.defaults.withCredentials = true
@@ -53,7 +53,7 @@ export const Login = () => {
           setCurrentUser({
             ...loginInfo
           })
-          setCookie('user', { ...loginInfo }, { path: '/' })
+          setCookie('user', { ...loginInfo, name: response.data.fullName }, { path: '/' })
           return navigate('/')
         }
       })
@@ -66,7 +66,7 @@ export const Login = () => {
           <Center>
             <Stack marginBottom={'20px'}>
               <Center>
-                <LinkRouter to='/'>
+                <Link href='http://localhost:5173'>
                   <Image
                     cursor={'pointer'}
                     boxSize="100px"
@@ -74,7 +74,7 @@ export const Login = () => {
                     src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
                     alt='StubHub-Logo'
                   />
-                </LinkRouter>
+                </Link>
               </Center>
               <FormLabel>Sign in to StubHub</FormLabel>
             </Stack>

@@ -5,13 +5,15 @@ import { CookiesProvider } from 'react-cookie'
 import { RouterProvider } from 'react-router-dom'
 import theme from './theme'
 import router from './routing/router'
+import App from './App'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <CookiesProvider>
-        <RouterProvider router={router} />
+        <App />
       </CookiesProvider>
     </ChakraProvider>
   </React.StrictMode>

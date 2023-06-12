@@ -24,6 +24,7 @@ const EventBox = (props: EventBoxProps) => {
             <Link key={event.event_id} to={`/events/${event.event_id}`}>
               <Box cursor={'pointer'} height="170px" mb={'20px'}>
                 <Image
+                  width={'100%'}
                   height={'170px'}
                   objectFit={'cover'}
                   mb={'10px'}

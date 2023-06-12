@@ -11,12 +11,20 @@ const TicketInfoPage = () => {
 
   const { eventId } = useParams()
 
-  function buildEventInfo () {
+  function buildEventInfo() {
     return eventInformation.map((event: any) => (
-      <Container key={event.event_id} maxW="900" marginTop={'20px'} marginBottom={'20px'}>
-        <Card maxW="900">
+      <Container
+        key={event.event_id}
+        maxW="750"
+        marginTop={'20px'}
+        marginBottom={'20px'}>
+        <Card
+          maxW="750">
           <CardBody>
-            <Image src={event.event_img} alt={event.event_name} borderRadius="lg" />
+            <Image
+              width={'100%'}
+              src={event.event_img}
+              alt={event.event_name} borderRadius="lg" />
             <Stack mt="6" spacing="3" />
             <Heading size="md">{event.event_name}</Heading>
             <p>{event.venue_name}</p>

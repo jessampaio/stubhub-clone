@@ -44,12 +44,14 @@ export const Register = () => {
           <Center>
             <Stack
               marginBottom={'20px'}>
-              <Image
-                boxSize="100px"
-                borderRadius={'10px'}
-                src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
-                alt=""
-              />
+              <Link href='http://localhost:5173'>
+                <Image
+                  boxSize="100px"
+                  borderRadius={'10px'}
+                  src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
+                  alt=""
+                />
+              </Link>
               <FormLabel>Create an account</FormLabel>
             </Stack>
           </Center>

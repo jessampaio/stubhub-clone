@@ -1,6 +1,8 @@
 import AddEventForm from '../components/AddEventForm'
 
+
 const CreateEventPage = () => {
+
   return (
     <>
       <AddEventForm />
