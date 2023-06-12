@@ -22,7 +22,14 @@ const EventBox = (props: EventBoxProps) => {
           console.log(response)
           const events = response.data.map((event: Event) => (
             <Link key={event.event_id} to={`/events/${event.event_id}`}>
-              <Box cursor={'pointer'} height="170px" mb={'20px'}>
+              <Box
+                _hover={{
+                  transform: 'scale(1.03)',
+                  transition: 'transform .15s ease-in'
+                }}
+                cursor={'pointer'}
+                height="170px"
+                mb={'20px'}>
                 <Image
                   width={'100%'}
                   height={'170px'}

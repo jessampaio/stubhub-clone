@@ -14,7 +14,7 @@ import {
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import UserContext from '../contexts/userContext'
-import { useNavigate, Link as LinkRouter, Router, redirect } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 axios.defaults.withCredentials = true
@@ -32,7 +32,13 @@ interface LoginInfo {
 export const Login = () => {
   const [loginInfo, setLoginInfo] = useState<LoginInfo>(INITIAL_LOGIN_STATE)
   const { setCurrentUser } = useContext(UserContext)
-  const [, setCookie] = useCookies(['user'])
+  const [cookies, setCookies] = useCookies(['user'])
+
+  if (cookies.user) {
+    return (
+      <Navigate to='/' />
+    )
+  }
 
   const navigate = useNavigate()
 
@@ -53,11 +59,12 @@ export const Login = () => {
           setCurrentUser({
             ...loginInfo
           })
-          setCookie('user', { ...loginInfo, name: response.data.fullName }, { path: '/' })
+          setCookies('user', { ...loginInfo, name: response.data.fullName, isAdmin: response.data.isAdmin }, { path: '/' })
           return navigate('/')
         }
       })
   }
+
 
   return (
     <Container position='relative' h={'750px'}>

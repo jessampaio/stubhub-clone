@@ -70,10 +70,13 @@ export async function login(req: Request, res: any) {
     );
     console.log("token signed:", token);
 
+    const isAdmin = data[0].is_admin
+    console.log(isAdmin)
+
     const fullName = `${data[0].first_name} ${data[0].last_name}`
 
     return res.cookie('token', token, { sameSite: 'strict', path: '/', maxAge: 604800, httpOnly: true })
-      .json({ token, fullName })
+      .json({ token, fullName, isAdmin })
 
   });
 }
