@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { INITIAL_LOGIN_STATE } from './pages/Login';
 import EventContext from './contexts/eventContext';
 import UserContext from './contexts/userContext';
@@ -34,6 +34,14 @@ const App = () => {
   const [eventAndTicket, setEventAndTicket] = useState<Record<string, any>>([])
   const [clientSecret, setClientSecret] = useState<any>('')
 
+  const [showSearch, setShowSearch] = useState<boolean>(true);
+
+  const path = window.location.pathname;
+
+  useEffect(() => {
+    setShowSearch(!Boolean(path.includes('login') || path.includes('register')))
+  }, [path])
+
 
   function resetEventInfo() {
     setEventInfo(INITIAL_EVENT_STATE)
@@ -41,7 +49,7 @@ const App = () => {
 
   return (
     <EventContext.Provider value={{ eventInfo, setEventInfo, resetEventInfo }}>
-      <UserContext.Provider value={{ currentUser, setCurrentUser, eventAndTicket, setEventAndTicket, clientSecret, setClientSecret }}>
+      <UserContext.Provider value={{ currentUser, setCurrentUser, eventAndTicket, setEventAndTicket, clientSecret, setClientSecret, showSearch }}>
         <RouterProvider router={router} />
       </UserContext.Provider>
     </EventContext.Provider >

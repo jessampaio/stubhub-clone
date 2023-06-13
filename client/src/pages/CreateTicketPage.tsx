@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom'
 const CreateTicketPage = () => {
   const [cookies] = useCookies(['user'])
 
-  if (!cookies.user.isAdmin) {
+  if (!cookies.user?.isAdmin) {
     return (
       <Navigate to='/' />
     )

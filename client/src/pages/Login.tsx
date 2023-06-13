@@ -60,10 +60,11 @@ export const Login = () => {
             ...loginInfo
           })
           setCookies('user', { ...loginInfo, name: response.data.fullName, isAdmin: response.data.isAdmin }, { path: '/' })
-          return navigate('/')
+          navigate('/')
         }
       })
   }
+
 
 
   return (

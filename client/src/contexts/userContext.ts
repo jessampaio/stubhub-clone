@@ -7,6 +7,7 @@ interface UserContextType {
   setEventAndTicket: any;
   clientSecret: any;
   setClientSecret: any;
+  showSearch: boolean;
 }
 
 const UserContext = React.createContext<UserContextType>(

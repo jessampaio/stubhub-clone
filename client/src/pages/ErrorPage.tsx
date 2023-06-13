@@ -1,4 +1,4 @@
-import { Container, Flex, Heading, Text } from "@chakra-ui/react"
+import { AbsoluteCenter, Container, Flex, Heading, Text } from "@chakra-ui/react"
 import { isRouteErrorResponse, useRouteError } from "react-router-dom"
 import MainSearchBar from "../components/MainSearchBar";
 import Footer from "../components/Footer";
@@ -11,7 +11,11 @@ const ErrorPage = () => {
     <>
       <MainSearchBar />
       <Heading>Oops</Heading>
-      <Text>{isRouteErrorResponse(error) ? `This page doesn't exist.` : `An unexpected error ocurred.`}</Text>
+      <Text>
+        {isRouteErrorResponse(error)
+          ? `This page doesn't exist.`
+          : `An unexpected error ocurred.`}
+      </Text>
       <Footer />
     </>
   )
