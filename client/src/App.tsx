@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { INITIAL_LOGIN_STATE } from './pages/Login';
-import EventContext from './contexts/eventContext';
-import UserContext from './contexts/userContext';
-import AddEventForm from './components/AddEventForm';
-import { RouterProvider } from 'react-router-dom';
-import router from './routing/router';
+import { INITIAL_LOGIN_STATE } from './pages/Login'
+import EventContext from './contexts/eventContext'
+import UserContext from './contexts/userContext'
+import { RouterProvider } from 'react-router-dom'
+import router from './routing/router'
 
 const INITIAL_EVENT_STATE = {
   eventName: '',
@@ -34,16 +33,15 @@ const App = () => {
   const [eventAndTicket, setEventAndTicket] = useState<Record<string, any>>([])
   const [clientSecret, setClientSecret] = useState<any>('')
 
-  const [showSearch, setShowSearch] = useState<boolean>(true);
+  const [showSearch, setShowSearch] = useState<boolean>(true)
 
-  const path = window.location.pathname;
+  const path = window.location.pathname
 
   useEffect(() => {
-    setShowSearch(!Boolean(path.includes('login') || path.includes('register')))
+    setShowSearch(!(path.includes('login') || path.includes('register')))
   }, [path])
 
-
-  function resetEventInfo() {
+  function resetEventInfo () {
     setEventInfo(INITIAL_EVENT_STATE)
   }
 

@@ -1,10 +1,8 @@
 import { Fragment } from 'react'
 import { Container, Grid, GridItem, Heading, SimpleGrid } from '@chakra-ui/react'
 import EventBox from '../components/EventBox'
-import MainSearchBar from '../components/MainSearchBar'
 
-export default function Home(): any {
-
+export default function Home (): any {
   const events = [
     {
       category: 'sports',

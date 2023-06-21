@@ -11,7 +11,7 @@ const TicketInfoPage = () => {
 
   const { eventId } = useParams()
 
-  function buildEventInfo() {
+  function buildEventInfo () {
     return eventInformation.map((event: any) => (
       <Container
         key={event.event_id}

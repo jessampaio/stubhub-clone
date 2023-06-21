@@ -13,6 +13,7 @@ const PaymentSuccess = () => {
     }
 
     completePurchase()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventAndTicket])
 
   const completePurchase = () => {

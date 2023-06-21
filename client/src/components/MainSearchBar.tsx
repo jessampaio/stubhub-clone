@@ -15,7 +15,7 @@ import {
 import { useCookies } from 'react-cookie'
 import axios from 'axios'
 import Select, { components, DropdownIndicatorProps } from 'react-select'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BsSearch } from 'react-icons/bs'
 
@@ -28,26 +28,27 @@ interface EventsAndParticipants {
 const MainSearchBar = () => {
   const [cookies] = useCookies(['user'])
   const [searchOptions, setSearchOptions] = useState<any>([])
+  const [search, setSearch] = useState<any>([])
 
   const navigate = useNavigate()
 
-  const getEventsAndParticipants = () => {
-    axios
-      .get('http://localhost:3345/events/eventsandparticipants')
-      .then((response) => {
-        if (response) {
-          console.log(response)
-          const options = response.data.map((option: EventsAndParticipants) => {
-            return {
-              label: option.name,
-              value: option.id,
-              type: option.type
-            }
-          })
-          setSearchOptions(options)
-        }
-      })
-  }
+  // const getEventsAndParticipants = () => {
+  //   axios
+  //     .get('http://localhost:3350/events/eventsandparticipants')
+  //     .then((response) => {
+  //       if (response) {
+  //         console.log(response)
+  //         const options = response.data.map((option: EventsAndParticipants) => {
+  //           return {
+  //             label: option.name,
+  //             value: option.id,
+  //             type: option.type
+  //           }
+  //         })
+  //         setSearchOptions(options)
+  //       }
+  //     })
+  // }
 
   const handleSearchBar = (event: any) => {
     console.log(event)
@@ -59,6 +60,43 @@ const MainSearchBar = () => {
     }
   }
 
+  const handleSearch = (value: any) => {
+    console.log(value)
+
+    const searchWords = value
+
+    console.log('the words', searchWords)
+
+    axios
+      .post('http://localhost:3350/events/eventsandparticipants', { searchWords })
+      .then((response) => {
+        if (response) {
+          console.log(response)
+          const options = response.data.map((option: any) => {
+            return {
+              label: option.name,
+              value: option.id,
+              type: option.type
+            }
+          })
+          console.log('setting options')
+          setSearch(options)
+        }
+      })
+  }
+
+  //   fetch("http://localhost:3350/graphql", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //     },
+  //     body: JSON.stringify({ query: "{ query Hello($searchWords: String!) { hello(searchWords: $searchWords )} }", variables: { searchWords } }),
+  //   })
+  //     .then(r => r.json())
+  //     .then(data => console.log("data returned:", data))
+  // }
+
   const styles = {
     control: (base: any) => ({
       ...base,
@@ -67,9 +105,9 @@ const MainSearchBar = () => {
     })
   }
 
-  useEffect(() => {
-    getEventsAndParticipants()
-  }, [])
+  // useEffect(() => {
+  //   getEventsAndParticipants()
+  // }, [])
 
   const DropdownIndicator = (
     props: DropdownIndicatorProps
@@ -112,8 +150,8 @@ const MainSearchBar = () => {
               }}
               className="basic-single-select"
               classNamePrefix="select"
-              onChange={handleSearchBar}
-              options={searchOptions}
+              onInputChange={(value: any) => handleSearch(value)}
+              options={search}
             />
           </Box>
           <Box width='70px' textAlign={'center'}>
@@ -180,7 +218,7 @@ const MainSearchBar = () => {
             className="basic-single-select"
             classNamePrefix="select"
             onChange={handleSearchBar}
-            options={searchOptions}
+          // options={searchOptions}
           />
         </Box>
       </Show >

@@ -14,7 +14,7 @@ import {
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import UserContext from '../contexts/userContext'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 axios.defaults.withCredentials = true
@@ -64,8 +64,6 @@ export const Login = () => {
         }
       })
   }
-
-
 
   return (
     <Container position='relative' h={'750px'}>

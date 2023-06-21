@@ -131,7 +131,6 @@ export function getEvent(req: Request, res: Response) {
   });
 }
 
-
 export async function getEventsAndParticipants(req: Request, res: Response) {
   try {
     const conn = await connection
