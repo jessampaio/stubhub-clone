@@ -19,15 +19,15 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BsSearch } from 'react-icons/bs'
 
-interface EventsAndParticipants {
-  id: string;
-  name: string;
-  type: string;
-}
+// interface EventsAndParticipants {
+//   id: string;
+//   name: string;
+//   type: string;
+// }
 
 const MainSearchBar = () => {
   const [cookies] = useCookies(['user'])
-  const [searchOptions, setSearchOptions] = useState<any>([])
+  // const [searchOptions, setSearchOptions] = useState<any>([])
   const [search, setSearch] = useState<any>([])
 
   const navigate = useNavigate()

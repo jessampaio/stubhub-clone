@@ -1,0 +1,23 @@
+services:
+
+  frontend:
+    build: ./client
+    ports: 
+      - 3000:3000
+
+  backend:
+    build: ./express-typescript
+    ports:
+      - 3001:3001
+    environment:
+      DB_URL: mysql://db/stubhub
+      
+  database:
+    image: mysql:8.0.33
+    ports:
+      - 3306:3306
+    volumes:
+      - stubhub:/var/lib/mysql
+
+volumes:
+  stubhub:

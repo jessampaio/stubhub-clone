@@ -14,7 +14,7 @@ import purchaseRoutes from './routes/purchase'
 import cookieParser from 'cookie-parser'
 
 const app = express();
-const PORT = process.env.PORT || 3345;
+const PORT = process.env.PORT || 3001;
 
 // GLOBAL MIDDLEWARES:
 

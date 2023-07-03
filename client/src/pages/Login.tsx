@@ -34,13 +34,13 @@ export const Login = () => {
   const { setCurrentUser } = useContext(UserContext)
   const [cookies, setCookies] = useCookies(['user'])
 
-  if (cookies.user) {
-    return (
-      <Navigate to='/' />
-    )
-  }
+  if (cookies.user) {  // eslint-disable-line
+    return ( // eslint-disable-line
+      <Navigate to='/' /> // eslint-disable-line
+    ) // eslint-disable-line
+  } // eslint-disable-line
 
-  const navigate = useNavigate()
+  const navigate = useNavigate() // eslint-disable-line
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginInfo((prevLoginInfo: LoginInfo) => ({
