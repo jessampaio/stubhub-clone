@@ -53,14 +53,14 @@ export const Register = () => {
             <Center>
               <Stack
                 marginBottom={'20px'}>
-                <Link href='http://localhost:5173'>
+                <a href='/'>
                   <Image
                     boxSize="100px"
                     borderRadius={'10px'}
                     src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
                     alt=""
                   />
-                </Link>
+                </a>
                 <FormLabel>Create an account</FormLabel>
               </Stack>
             </Center>
@@ -105,12 +105,11 @@ export const Register = () => {
                 <FormHelperText
                   textAlign={'center'}>
                   Already have an account?
-                  <Link
-                    href='http://localhost:5173/login'
-                    fontWeight={'bold'}
+                  <a
+                    href='/login'
                   >
                     Sign in.
-                  </Link>
+                  </a>
                 </FormHelperText>
               </Stack>
             </Center>

@@ -130,14 +130,14 @@ const MainSearchBar = () => {
         </Box>
         <Flex minWidth='max-content' alignItems='center'>
           <Box width={'120px'} paddingRight={'10px'}>
-            <Link href='http://localhost:5173'>
+            <a href='/'>
               <Image
                 boxSize="100px"
                 borderRadius={'10px'}
                 src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
                 alt=""
               />
-            </Link>
+            </a>
           </Box>
           <Box width={'100%'}>
             <Select
@@ -156,16 +156,16 @@ const MainSearchBar = () => {
           </Box>
           <Box width='70px' textAlign={'center'}>
             {cookies.user
-              ? <Link href='http://localhost:5173/my-account'>
+              ? <a href='/my-account'>
                 <Avatar
                   size='md'
                   name={cookies.user.name}
                 />
-              </Link>
-              : <Link href='http://localhost:5173/login'>
+              </a>
+              : <a href='/login'>
                 <Avatar
                   size='sm' />
-              </Link>
+              </a>
             }
           </Box>
         </Flex>
@@ -180,27 +180,27 @@ const MainSearchBar = () => {
         <Center>
           <Box width={'150px'} paddingRight={'0px'}>
             <HStack>
-              <Link href='http://localhost:5173'>
+              <a href='/'>
                 <Image
                   boxSize="100px"
                   width={'250px'}
                   src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
                   alt=""
                 />
-              </Link>
+              </a>
               <Box width='100%' textAlign={'end'}>
                 {cookies.user
-                  ? <Link href='http://localhost:5173/my-account'>
+                  ? <a href='/my-account'>
                     <Avatar
                       size='md'
                       name={cookies.user.name}
                     />
-                  </Link>
-                  : <Link href='http://localhost:5173/login'>
+                  </a>
+                  : <a href='/login'>
                     <Avatar
                       size='md'
                     />
-                  </Link>
+                  </a>
                 }
               </Box>
             </HStack>

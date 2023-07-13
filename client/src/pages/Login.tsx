@@ -14,7 +14,7 @@ import {
 import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import UserContext from '../contexts/userContext'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 axios.defaults.withCredentials = true
@@ -65,6 +65,7 @@ export const Login = () => {
       })
   }
 
+
   return (
     <Container position='relative' h={'750px'}>
       <AbsoluteCenter axis='both' width={'450px'}>
@@ -72,7 +73,7 @@ export const Login = () => {
           <Center>
             <Stack marginBottom={'20px'}>
               <Center>
-                <Link href='http://localhost:5173'>
+                <a href='/login'>
                   <Image
                     cursor={'pointer'}
                     boxSize="100px"
@@ -80,7 +81,7 @@ export const Login = () => {
                     src="https://img.vggcdn.net/images/Assets/Icons/bfx/stubhub-logo-merch-purple-mweb.440b3765.svg"
                     alt='StubHub-Logo'
                   />
-                </Link>
+                </a>
               </Center>
               <FormLabel>Sign in to StubHub</FormLabel>
             </Stack>
@@ -112,7 +113,7 @@ export const Login = () => {
                 By signing in or creating an account, you acknowledge and accept our privacy policy.
               </FormHelperText>
               <FormHelperText textAlign={'center'}>
-                New to StubHub? <Link href='http://localhost:5173/register' fontWeight={'bold'}>Create an account.</Link>
+                New to StubHub? <a href='/register'>Create an account.</a>
               </FormHelperText>
             </Stack>
           </Center>
