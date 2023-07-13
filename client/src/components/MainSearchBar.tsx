@@ -68,7 +68,7 @@ const MainSearchBar = () => {
     console.log('the words', searchWords)
 
     axios
-      .post('http://localhost:3350/events/eventsandparticipants', { searchWords })
+      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/events/eventsandparticipants', { searchWords })
       .then((response) => {
         if (response) {
           console.log(response)

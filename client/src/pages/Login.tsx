@@ -52,7 +52,7 @@ export const Login = () => {
 
   const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
     axios
-      .post('http://localhost:3345/login', loginInfo, { withCredentials: true })
+      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/login', loginInfo, { withCredentials: true })
       .then(function (response) {
         if (response) {
           console.log('RES: ', response)

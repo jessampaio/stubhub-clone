@@ -36,7 +36,7 @@ const CategoryEntryForm = (props: Props) => {
 
   const getCategories = () => {
     axios
-      .get('http://localhost:3345/categories')
+      .get('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/categories')
       .then(function (response) {
         if (response.data.length) {
           const options = response.data.map((category: CategoryData) => (
@@ -65,7 +65,7 @@ const CategoryEntryForm = (props: Props) => {
   const handleAddNewCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     axios
-      .post('http://localhost:3345/categories', { categoryName })
+      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/categories', { categoryName })
       .then((response) => {
         setShowModal(false)
         props.handleStateChange('categoryId', response.data.category_id)

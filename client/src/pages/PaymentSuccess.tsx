@@ -18,7 +18,7 @@ const PaymentSuccess = () => {
 
   const completePurchase = () => {
     axios
-      .post('http://localhost:3345/purchases/complete', { ...eventAndTicket, ...cookies.user })
+      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/purchases/complete', { ...eventAndTicket, ...cookies.user })
       .then((response) => {
         console.log(response)
       })

@@ -40,7 +40,7 @@ const CreateTicketForm = () => {
 
   const getEvents = () => {
     axios
-      .get('http://localhost:3345/events')
+      .get('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/events')
       .then(function (response) {
         if (response.data.length) {
           const eventOptions = response.data.map((event: Event) => (
@@ -68,7 +68,7 @@ const CreateTicketForm = () => {
 
   const getInfoAboutEvent = (eventId: number) => {
     axios
-      .get(`http://localhost:3345/event/${eventId}`)
+      .get(`http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/${eventId}`)
       .then(function (response) {
         console.log(response.data[0])
         if (response.data[0]) {
@@ -99,7 +99,7 @@ const CreateTicketForm = () => {
     console.log('CREATING TICKET', tickets)
     event.preventDefault()
     axios
-      .post('http://localhost:3345/tickets', { eventSelected, tickets })
+      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/tickets', { eventSelected, tickets })
       .then(function (response) {
         if (response.data) {
           showToast()
@@ -126,7 +126,7 @@ const CreateTicketForm = () => {
   }
 
   const getInfoAboutSection = async (venueId: any) => {
-    const response = await axios.get(`http://localhost:3345/seats/sectionseats/${venueId}`)
+    const response = await axios.get(`http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/seats/sectionseats/${venueId}`)
     console.log(response.data)
     setSections(response.data)
   }

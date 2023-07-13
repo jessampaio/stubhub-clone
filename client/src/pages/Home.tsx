@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { Container, Grid, GridItem, Heading, SimpleGrid } from '@chakra-ui/react'
 import EventBox from '../components/EventBox'
 
-export default function Home (): any {
+export default function Home(): any {
   const events = [
     {
       category: 'sports',
@@ -26,6 +26,7 @@ export default function Home (): any {
       }}
     >
       <GridItem area="main">
+        <input type="file" />
         <Container maxW="1300px" minHeight={'70vh'}>
           {events.map((event, idx) => (
             <Fragment key={idx}>

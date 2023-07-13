@@ -9,7 +9,7 @@ const ShowEventsForParticipant = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  function buildParticipantInfo () {
+  function buildParticipantInfo() {
     return eventsInfo.map((event: any) => (
       <Container key={event.event_id} maxW="550" marginTop={'20px'} marginBottom={'20px'}>
         <Card maxW="900">
@@ -47,7 +47,7 @@ const ShowEventsForParticipant = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3345/participant/${id}`)
+      .get(`http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/participant/${id}`)
       .then(function (response) {
         if (response) {
           console.log('the response', response.data)

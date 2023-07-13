@@ -40,7 +40,7 @@ const AddNewParticipantForm = (props: Props) => {
 
   const getParticipants = () => {
     axios
-      .get('http://localhost:3345/participants')
+      .get('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/participants')
       .then(function (response) {
         if (response.data.length) {
           const options = response.data.map((participant: ParticipantData) => ({
@@ -72,7 +72,7 @@ const AddNewParticipantForm = (props: Props) => {
   const handleAddNewParticipant = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     axios
-      .post('http://localhost:3345/participants', { ...newParticipant })
+      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/participants', { ...newParticipant })
       .then((response) => {
         setShowModal(false)
         console.log('posting the thing COMPONENT', response)
