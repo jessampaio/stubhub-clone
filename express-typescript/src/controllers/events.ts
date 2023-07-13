@@ -14,9 +14,8 @@ export async function getEvents(req: Request, res: Response) {
     const values = [];
 
     const categoryMap: Record<string, any> = {
-      sports: 57,
-      concerts: 56,
-      testing1: 58,
+      sports: 1,
+      concerts: 2,
     };
 
     if (req.query.category) {
