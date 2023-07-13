@@ -43,7 +43,7 @@ const TicketCard = ({ eventId }: Props) => {
   const navigate = useNavigate()
 
   const getTicketsList = () => {
-    axios.get(`http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/tickets/${eventId}`)
+    axios.get(`http://ec2-3-82-103-251.compute-1.amazonaws.com:3001/tickets/${eventId}`)
       .then(function (response) {
         if (response) {
           console.log('GETTING TICKETS: ', response.data)
@@ -99,7 +99,7 @@ const TicketCard = ({ eventId }: Props) => {
   const paymentIntent = () => {
     console.log(eventAndTicket)
     axios
-      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/purchases', eventAndTicket)
+      .post('http://ec2-3-82-103-251.compute-1.amazonaws.com:3001/purchases', eventAndTicket)
       .then(function (response) {
         if (response) {
           console.log('payment intent', response)

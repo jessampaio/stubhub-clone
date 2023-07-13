@@ -47,7 +47,7 @@ const TicketInfoPage = () => {
   console.log(eventInformation)
 
   useEffect(() => {
-    axios.get(`http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/event/${eventId}`)
+    axios.get(`http://ec2-3-82-103-251.compute-1.amazonaws.com:3001/event/${eventId}`)
       .then(function (response) {
         if (response) {
           console.log('ticketInfoPage.tsx', response.data)

@@ -17,7 +17,7 @@ const EventBox = (props: EventBoxProps) => {
 
   useEffect(() => {
     const getEvents = () => {
-      axios.get(`http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/events?category=${props.category}`)
+      axios.get(`http://ec2-3-82-103-251.compute-1.amazonaws.com:3001/events?category=${props.category}`)
         .then(function (response) {
           if (response) {
             console.log(response)

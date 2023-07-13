@@ -40,7 +40,7 @@ const AddEventForm = () => {
   const handleCreateEvent = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     axios
-      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/events', eventInfo)
+      .post('ec2-3-82-103-251.compute-1.amazonaws.com:3001/events', eventInfo)
       .then((data) => {
         if (data) {
           showToast()

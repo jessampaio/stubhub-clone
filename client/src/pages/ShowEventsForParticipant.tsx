@@ -47,7 +47,7 @@ const ShowEventsForParticipant = () => {
 
   useEffect(() => {
     axios
-      .get(`http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/participant/${id}`)
+      .get(`http://ec2-3-82-103-251.compute-1.amazonaws.com:3001/participant/${id}`)
       .then(function (response) {
         if (response) {
           console.log('the response', response.data)

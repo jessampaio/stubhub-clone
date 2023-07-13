@@ -46,7 +46,7 @@ const VenueEntryForm = (props: Props) => {
 
   const getVenues = () => {
     axios
-      .get('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/venues')
+      .get('http://ec2-3-82-103-251.compute-1.amazonaws.com:3001/venues')
       .then(function (response) {
         if (response.data.length) {
           const options = response.data.map((venue: VenueData) => (
@@ -79,7 +79,7 @@ const VenueEntryForm = (props: Props) => {
   const handleAddNewVenue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     axios
-      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/venues', { ...newVenueInfo })
+      .post('http://ec2-3-82-103-251.compute-1.amazonaws.com:3001/venues', { ...newVenueInfo })
       .then((response) => {
         setShowModal(false)
         props.handleStateChange('venueId', response.data[0].venue_id)

@@ -37,7 +37,7 @@ export const Register = () => {
 
   const handleRegisterClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     axios
-      .post('http://ec2-54-164-122-6.compute-1.amazonaws.com:3001/users', userInfo)
+      .post('http://ec2-3-82-103-251.compute-1.amazonaws.com:3001/users', userInfo)
       .then(function (response) {
         if (response) {
           console.log(response)

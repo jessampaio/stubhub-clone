@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3001;
 // GLOBAL MIDDLEWARES:
 
 const corsOptions = {
-  origin: 'http://ec2-54-164-122-6.compute-1.amazonaws.com:3000',
+  origin: 'http://ec2-3-82-103-251.compute-1.amazonaws.com:3000',
   credentials: true,
 };
 
